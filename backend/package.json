@@ -1,0 +1,22 @@
+{
+  "name": "beers-at-als",
+  "description": "Provides a set of beers currently on tap at Al's of Hampden",
+  "version": "1.0",
+  "author": "Patrick Crager",
+  "homepage": "https://github.com/patch-e/beers-at-als",
+  "bugs": "https://github.com/patch-e/beers-at-als/issues",
+  "keywords": ["beer", "taps", "al's of hampden"],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/patch-e/beers-at-als.git"
+  },
+  "dependencies": {
+    "request": "2.40.0",
+    "cheerio": "0.17.0",
+    "clim": "1.0.0"
+  },
+  "engines": {
+    "node": ">=0.10.31"
+  },
+  "main": "beer"
+}
