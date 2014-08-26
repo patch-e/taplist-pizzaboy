@@ -12,7 +12,7 @@ var http = require('http');
 var server = http.createServer(function (req, res) {
 	var request = require('request'),
 		cheerio = require('cheerio'),
-		console = require("clim")();
+		console = require("clim")(),
 		utils = require('./utils'),
 		results = [],
 		options = {
@@ -29,12 +29,12 @@ var server = http.createServer(function (req, res) {
 			// loop over the hv_gridtables that represent beer sets
 			$('table.hv_gridtable').each(function(index, beerSet) {
 				var $beerSet = $(beerSet),
-					// result object to be added to the results array
-					result = {},
-					// get the title for this beerSet
-					title = $beerSet.find('.hv_gridheader').html().trim(),
-					// array to add beers in this set to
-					beers = [];
+						// result object to be added to the results array
+						result = {},
+						// get the title for this beerSet
+						title = $beerSet.find('.hv_gridheader').html().trim(),
+						// array to add beers in this set to
+						beers = [];
 
 				// loop over the beers in this set
 				$beerSet.find('.hv_gridbeercell').each(function(index, beer) {
@@ -43,11 +43,11 @@ var server = http.createServer(function (req, res) {
 					// get the current beer's data
 					if ($beer.find('.hv_gridbeername').length > 0) {
 						var name = $beer.find('.hv_gridbeername').html(),
-							addl = $beer.find('.hv_gridbeeraddl').html(),
-							brewery = $beer.find('.hv_gridbreweryname').html(),
-							styles = $beer.find('.hv_gridbeerstyle'),
-							style = '',
-							abv = '';
+								addl = $beer.find('.hv_gridbeeraddl').html(),
+								brewery = $beer.find('.hv_gridbreweryname').html(),
+								styles = $beer.find('.hv_gridbeerstyle'),
+								style = '',
+								abv = '';
 						// there are either one or two "style" values associated to a beer
 						// 1. the actual style
 						// 2. the ABV
