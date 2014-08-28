@@ -11,8 +11,8 @@ module.exports = {
 	// type safe trim function
 	trim: function(s) {
 		// only invoke trim() if a string was passed in
-		if (typeof s === "string") { 
-			s = s.trim(); 
+		if (typeof s === 'string') { 
+			s = s.trim().replace('\n', '').replace('\t', '');
 		}
 		return s;
 	}
