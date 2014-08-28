@@ -12,14 +12,14 @@ var http = require('http');
 var server = http.createServer(function (req, res) {
 	var request = require('request'),
 		cheerio = require('cheerio'),
-		console = require("clim")(),
+		console = require('clim')(),
 		utils = require('./utils'),
 		results = [],
 		options = {
 			url: 'http://alsofhampden.com/verify.php',
 			jar: true,
 			json: true,
-			qs: {"over21": "1", "redirect": "beerlist.php"}
+			qs: {'over21': '1', 'redirect': 'beerlist.php'}
 		};
 
 	request(options, function (error, response, html) {
@@ -38,7 +38,8 @@ var server = http.createServer(function (req, res) {
 
 				// loop over the beers in this set
 				$beerSet.find('.hv_gridbeercell').each(function(index, beer) {
-					var $beer = $(beer);
+					var $beer = $(beer),
+							beer;
 
 					// get the current beer's data
 					if ($beer.find('.hv_gridbeername').length > 0) {
@@ -60,17 +61,30 @@ var server = http.createServer(function (req, res) {
 						}
 
 						// create a beer object from the parsed data
-						var beer = {
-								name: utils.trim(name),
-								addl: utils.trim(addl),
-								brewery: utils.trim(brewery),
-								style: utils.trim(style),
-								abv: utils.trim(abv)
+						beer = {
+								'number': index + 1,
+								'name': utils.trim(name),
+								'addl': utils.trim(addl),
+								'brewery': utils.trim(brewery),
+								'style': utils.trim(style),
+								'abv': utils.trim(abv),
+								'kicked': false
 						};
-
-						// add beer object to beers array
-						beers.push(beer);
+					} else {
+						// create a "kicked" beer object for this kicked beer
+						beer = {
+								'number': index + 1,
+								'name': 'KICKED!',
+								'addl': '',
+								'brewery': '--',
+								'style': '--',
+								'abv': '--',
+								'kicked': true
+						};
 					}
+
+					// add beer object to beers array
+					beers.push(beer);					
 				});
 
 				// set the title for this beerSet
