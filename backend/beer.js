@@ -1,5 +1,7 @@
 /*
 beer.js
+Provides JSON data that represents a list of beers on tap, in firkins, 
+and in special bottles for sale at Al's of Hampden in Enola, PA
 
 Copyright (c) 2014
 
@@ -74,7 +76,7 @@ var server = http.createServer(function (req, res) {
 						};
 					} else {
 						// create a "kicked" beer object for this kicked beer
-						beer = utils.getKickedBeer(index);
+						beer = utils.getKickedBeer(index + 1);
 					}
 
 					// add beer object to beers array

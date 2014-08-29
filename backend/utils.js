@@ -1,5 +1,6 @@
 /*
 utils.js
+Module that provides utility functions to beer.js
 
 Copyright (c) 2014
 
@@ -21,7 +22,7 @@ module.exports = {
 	// returns a "kicked" beer object
 	getKickedBeer: function(i) {
 		return {
-			number: i + 1,
+			number: i,
 			name: 'KICKED!',
 			addl: '',
 			brewery: '--',
@@ -31,6 +32,8 @@ module.exports = {
 		};
 	},
 
+	// parses the "ABV" text to return just the floating point 
+	// value with two decimal places
 	parseABV: function(s) {
 		if (typeof s === 'string') { 
 			s = s.replace('ABV:', '').replace(' ', '').replace('%', '');
@@ -38,6 +41,7 @@ module.exports = {
 		return parseFloat(s).toFixed(2);
 	},
 
+	// parses the "last updated" text to remove the prefix label
 	parseLastUpdated: function(s) {
 		if (typeof s === 'string') { 
 			s = s.replace('Last Update: ', '');
