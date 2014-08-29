@@ -4,37 +4,52 @@
         <meta charset="utf-8">
         <title>Beers @ Al's</title>
         <meta name="description" content="Providing a mobile friendly beer list at Al's of Hampden!">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="icon" type="image/x-icon" href="favicon.ico" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
         <link rel="stylesheet" href="css/vendor/bootstrap-3.2.0.min.css">
         <link rel="stylesheet" href="css/main.css">
         <script src="js/vendor/angular-1.2.23.min.js"></script>
     </head>
-    <body>
-        <div ng-repeat="beerList in beersList" class="table-responsive">
-            <table class="table">
-                <caption>{{beerList.title}}</caption>
-                <thead>
-                    <tr>
-                        <th></th>
-                        <th>Name</th>
-                        <th>Brewery</th>
-                        <th>Style</th>
-                        <th>ABV</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr ng-repeat="beer in beerList.beers" ng-class="{'danger': beer.kicked}">
-                        <td>{{beer.number}}</td>
-                        <td>
-                            {{beer.name}}<br>
-                            <small>{{beer.addl}}</small>
-                        </td>
-                        <td>{{beer.brewery}}</td>
-                        <td>{{beer.style}}</td>
-                        <td>{{beer.abv}}</td>
-                    </tr>
-                </tbody>
-            </table>
+    <body class="background-loading">
+        <div id="intro" class="jumbotron">
+            <h1>Beers @ Al's</h1>
+            <div class="progress">
+              <div class="progress-bar progress-bar-striped active" style="width: 100%"></div>
+            </div>            
+        </div>
+
+        <div ng-repeat="beerList in beersList" class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">{{beerList.title}}</h3>
+            </div>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Name</th>
+                            <th>Brewery</th>
+                            <th>Style</th>
+                            <th>ABV</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="beer in beerList.beers" ng-class="{'text-danger': beer.kicked}">
+                            <td><b>{{beer.number}}</b></td>
+                            <td>
+                                <div><b>{{beer.name}}</b></div>
+                                <div><small><i>{{beer.addl}}</i></small></div>
+                            </td>
+                            <td>{{beer.brewery}}</td>
+                            <td>{{beer.style}}</td>
+                            <td>{{beer.abv}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="panel-footer">
+                <small>Last Updated: {{beerList.lastUpdated}}</small>
+            </div>
         </div>
         <script src="js/app.js"></script>
         <script src="js/services.js"></script>
