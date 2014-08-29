@@ -93,7 +93,7 @@ var server = http.createServer(function (req, res) {
 
 			// set the response values
 			res.writeHead(200, {'Content-Type': 'application/json'});
-			res.end(JSON.stringify(results));
+			res.end(JSON.stringify(results.reverse()));
 		} else {
 			// error logging
 			console.error('status code' + response.statusCode);
