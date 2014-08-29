@@ -1,14 +1,15 @@
 angular.module('BeersApp.services', []).
-  factory('beerAPIservice', function($http) {
+factory('beerAPIservice', function($http) {
 
-    var beerAPI = {};
+  var beerAPI = {};
 
-    beerAPI.getBeers = function() {
-      return $http({
-        method: 'GET',
-        url: '/nodejs/beer'
-      });
-    }
+  beerAPI.getBeers = function() {
+    return $http({
+      method: 'GET',
+      url: '/nodejs/beer'
+    });
+  }
 
-    return beerAPI;
-  });
+  return beerAPI;
+
+});
