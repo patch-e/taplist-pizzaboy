@@ -5,4 +5,4 @@ node.js / angular app providing a mobile friendly beer list at Al's of Hampden
 
 node.js app running @ http://mccrager.com/nodejs/beer
 
-angular app running @ http://mccrager.com/BeersAtAls
+angular app running @ http://mccrager.com/beer/als
