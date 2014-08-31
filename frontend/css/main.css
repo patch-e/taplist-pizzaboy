@@ -14,13 +14,34 @@
 	text-align: center;
 }
 
-table td > div {
+#view-table table th {
+	cursor: pointer;
+}
+
+#view-table table td > div {
 	max-width: 200px;
 	min-width: 100px;
 	white-space: normal;
 }
 
-@media (max-width: 768px) {
+#view-block .beerBlock {
+	margin-bottom: 20px;
+}
+
+#view-block .beerBlock > div:first-child {
+	text-align: right;
+	width: 20%;
+}
+
+#view-block .beerBlock > div:last-child {
+	width: 80%;
+}
+
+@media (max-width: 767px) {
+	#view-block .beerBlock:nth-child(odd) {
+		clear: both;
+	}
+
 	.navbar,
 	.panel:last-child {
 		border-bottom: none;
@@ -33,4 +54,28 @@ table td > div {
 		border-right: none;
 		border-radius: 0;
 	}
+}
+
+@media (min-width: 768px) {
+	#view-block .beerBlock:nth-child(3n+1) {
+		clear: both;
+	}
+}
+
+@media (min-width: 992px) {
+	#view-block .beerBlock:nth-child(3n+1) {
+		clear: none;
+	}	
+	#view-block .beerBlock:nth-child(4n+1) {
+		clear: both;
+	}
+}
+
+@media (min-width: 1200px) {
+	#view-block .beerBlock:nth-child(4n+1) {
+		clear: none;
+	}
+	#view-block .beerBlock:nth-child(6n+1) {
+		clear: both;
+	}	
 }

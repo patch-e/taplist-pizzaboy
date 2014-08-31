@@ -1,4 +1,4 @@
-<div ng-repeat="beerList in beersList" class="panel panel-primary">
+<div id="view-list" ng-repeat="beerList in beersList" class="panel panel-primary">
     <div class="panel-heading">
         <h3 class="panel-title">{{beerList.title}}</h3>
     </div>
@@ -24,7 +24,6 @@
         <li class="list-group-item" ng-hide="filteredBeers.length">
             <div>No beers match entered filter criteria.</div>
         </li>
-    </tr>  
     </ul>
     <div class="panel-footer">
         <small>Last Updated: {{beerList.lastUpdated}}</small>
