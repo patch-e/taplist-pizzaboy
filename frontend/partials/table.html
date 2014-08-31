@@ -26,7 +26,7 @@
                     </td>
                     <td><div>{{beer.brewery}}</div></td>
                     <td><div>{{beer.style}}</div></td>
-                    <td>{{beer.abv}}</td>
+                    <td>{{beer.abv | number : 2}}</td>
                 </tr>
                 <tr ng-hide="filteredBeers.length">
                     <td colspan="5">No beers match entered filter criteria.</td>

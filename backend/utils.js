@@ -32,12 +32,12 @@ module.exports = {
 		};
 	},
 
-	// parses the "ABV" text to return a floating point value to two decimal places
+	// parses the "ABV" text to return a floating point value
 	parseABV: function(s) {
 		if ( (typeof s === 'string') && (s.lastIndexOf('ABV:', 0) === 0) ) { 
 			s = s.replace('ABV:', '').replace(' ', '').replace('%', '');
 		}
-		return parseFloat(s).toFixed(2);
+		return parseFloat(s);
 	},
 
 	// parses the "last updated" text to remove the prefix label
