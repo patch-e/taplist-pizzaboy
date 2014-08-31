@@ -84,7 +84,7 @@ var server = http.createServer(function (req, res) {
 				});
 
 				// set the title for this beerTable
-				result.title = title;
+				result.title = utils.parseTitle(title);
 				// set the last updated timestamp for this beerTable
 				result.lastUpdated = utils.parseLastUpdated(lastUpdated);
 				// set the resulting beers array
@@ -94,7 +94,10 @@ var server = http.createServer(function (req, res) {
 			});
 
 			// set the response values
-			res.writeHead(200, {'Content-Type': 'application/json'});
+			res.writeHead(200, {
+					'Content-Type': 'application/json',
+					'Cache-Control': 'max-age=300'
+			});
 			res.end(JSON.stringify(results.reverse()));
 		} else {
 			// error logging

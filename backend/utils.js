@@ -32,10 +32,9 @@ module.exports = {
 		};
 	},
 
-	// parses the "ABV" text to return just the floating point 
-	// value with two decimal places
+	// parses the "ABV" text to return a floating point value to two decimal places
 	parseABV: function(s) {
-		if (typeof s === 'string') { 
+		if ( (typeof s === 'string') && (s.lastIndexOf('ABV:', 0) === 0) ) { 
 			s = s.replace('ABV:', '').replace(' ', '').replace('%', '');
 		}
 		return parseFloat(s).toFixed(2);
@@ -43,8 +42,16 @@ module.exports = {
 
 	// parses the "last updated" text to remove the prefix label
 	parseLastUpdated: function(s) {
-		if (typeof s === 'string') { 
-			s = s.replace('Last Update: ', '');
+		if ( (typeof s === 'string') && (s.lastIndexOf('Last Update:', 0) === 0) ) { 
+			s = s.replace('Last Update:', '').replace(' ', '');
+		}
+		return s;
+	},
+
+	// parses the "title" text to remove any beer prefixes
+	parseTitle: function(s) {
+		if ( (typeof s === 'string') && (s.lastIndexOf('Beers', 0) === 0) ) { 
+			s = s.replace('Beers', '').replace(' ', '');
 		}
 		return s;
 	}
