@@ -24,7 +24,7 @@ module.exports = {
 		return {
 			number: i,
 			name: 'KICKED!',
-			addl: '',
+			addl: null,
 			brewery: '--',
 			style: '--',
 			abv: '--',
