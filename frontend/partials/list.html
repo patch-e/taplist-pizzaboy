@@ -18,7 +18,7 @@
                 <div><small><i>{{beer.addl}}</i></small></div>
                 <div ng-class="{'hidden': beer.kicked}">{{beer.brewery}}</div>
                 <div ng-class="{'hidden': beer.kicked}">{{beer.style}}</div>
-                <div ng-class="{'hidden': beer.kicked}">{{beer.abv}} %</div>
+                <div ng-class="{'hidden': beer.kicked}">{{beer.abv | number : 2}} %</div>
             </div>
         </li>
         <li class="list-group-item" ng-hide="filteredBeers.length">
