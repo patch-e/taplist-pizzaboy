@@ -1,0 +1,32 @@
+<div ng-repeat="beerList in beersList" class="panel panel-primary">
+    <div class="panel-heading">
+        <h3 class="panel-title">{{beerList.title}}</h3>
+    </div>
+    <div class="panel-body">
+        <div class="input-group">
+            <span class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span>
+            <input type="text" class="form-control" ng-model="searchFilter" placeholder="Filter..."/>
+        </div>                
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item clearfix" ng-repeat="beer in filteredBeers = (beerList.beers | filter: searchFilter)" ng-class="{'text-danger': beer.kicked}">
+            <div class="pull-left">
+                <span class="label" ng-class="{'label-success': !beer.kicked, 'label-danger': beer.kicked}">{{beer.number}}</span>
+            </div>
+            <div class="pull-left" style="padding-left: 10px;">
+                <div><b>{{beer.name}}</b></div>
+                <div><small><i>{{beer.addl}}</i></small></div>
+                <div ng-class="{'hidden': beer.kicked}">{{beer.brewery}}</div>
+                <div ng-class="{'hidden': beer.kicked}">{{beer.style}}</div>
+                <div ng-class="{'hidden': beer.kicked}">{{beer.abv}} %</div>
+            </div>
+        </li>
+        <li class="list-group-item" ng-hide="filteredBeers.length">
+            <div>No beers match entered filter criteria.</div>
+        </li>
+    </tr>  
+    </ul>
+    <div class="panel-footer">
+        <small>Last Updated: {{beerList.lastUpdated}}</small>
+    </div>
+</div>

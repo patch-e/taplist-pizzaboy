@@ -21,6 +21,7 @@ config(['$routeProvider', function($routeProvider) {
   when("/", {templateUrl: "partials/table.html", controller: "beersController"}).
   when("/list", {templateUrl: "partials/list.html", controller: "beersController"}).
   when("/table", {templateUrl: "partials/table.html", controller: "beersController"}).
+  when("/block", {templateUrl: "partials/block.html", controller: "beersController"}).
   otherwise({redirectTo: '/'});
 
 }]);
