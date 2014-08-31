@@ -27,10 +27,12 @@ controller('beersController', function($scope, beerAPIservice) {
   $scope.beersList = [];
 
   // sorting functionality
+  // sort holds initial sorting values
   $scope.sort = {
     column: 'number',
     descending: false
   };
+  // updates "sort" variable onclick of table headings
   $scope.changeSorting = function(column) {
       var sort = $scope.sort;
       if (sort.column == column) {
