@@ -5,31 +5,32 @@
     <div class="panel-body">
         <div class="input-group">
             <span class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span>
-            <input type="text" class="form-control" ng-model="searchFilter" placeholder="Search..."/>
+            <input type="text" class="form-control" ng-model="searchFilter" placeholder="Filter..."/>
         </div>                
     </div>
     <div class="table-responsive">
         <table class="table">
             <thead>
                 <tr>
-                    <th></th>
-                    <th>Name</th>
-                    <th>Brewery</th>
-                    <th>Style</th>
-                    <th>ABV</th>
+                    <th ng-repeat="heading in headings" ng:click="changeSorting(heading.column)">{{heading.display}}</th>
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="beer in beerList.beers | filter: searchFilter" ng-class="{'text-danger': beer.kicked}">
-                    <td><b>{{beer.number}}</b></td>
+                <tr ng-repeat="beer in filteredBeers = (beerList.beers | filter: searchFilter | orderBy: sort.column : sort.descending)" ng-class="{'text-danger': beer.kicked}">
+                    <td>
+                        <span class="label" ng-class="{'label-success': !beer.kicked, 'label-danger': beer.kicked}">{{beer.number}}</span>
+                    </td>
                     <td>
                         <div><b>{{beer.name}}</b></div>
                         <div><small><i>{{beer.addl}}</i></small></div>
                     </td>
-                    <td>{{beer.brewery}}</td>
-                    <td>{{beer.style}}</td>
+                    <td><div>{{beer.brewery}}</div></td>
+                    <td><div>{{beer.style}}</div></td>
                     <td>{{beer.abv}}</td>
                 </tr>
+                <tr ng-hide="filteredBeers.length">
+                    <td colspan="5">No beers match entered filter criteria.</td>
+                </tr>                
             </tbody>
         </table>
     </div>
