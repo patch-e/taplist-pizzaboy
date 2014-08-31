@@ -1,11 +1,36 @@
-body {
-    padding: 20px 20px 0 20px;
-}
-
 #loading {
-    text-align: center;
+	text-align: center;
 }
 
 .background-loading {
-    background-color: #eee;
+	background-color: #eee;
+}
+
+.progress-bar {
+	width: 100%;
+}
+
+.nav-btns {
+	text-align: center;
+}
+
+table td > div {
+	max-width: 200px;
+	min-width: 100px;
+	white-space: normal;
+}
+
+@media (max-width: 768px) {
+	.navbar,
+	.panel:last-child {
+		border-bottom: none;
+		margin-bottom: 0;
+	}
+
+	.panel,
+	.panel-heading {
+		border-left: none;
+		border-right: none;
+		border-radius: 0;
+	}
 }
