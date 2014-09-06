@@ -24,20 +24,23 @@
 
 .input-clear {
 	bottom: 0;
-	color: #666;
+	color: #333;
 	cursor: pointer;
 	font-size: 14px;
 	height: 31px;
 	line-height: 33px;
 	margin: auto;
+	opacity: 0.4;
 	position: absolute;
 	right: 0;
 	text-align: center;
 	top: 0;
 	width: 31px;
 	z-index: 2;
-
-	-webkit-tap-highlight-color: rgba(102, 102, 102, 0.5);
+}
+.input-clear:hover,
+.input-clear:focus {
+	opacity: 1;
 }
 
 #view-table table th {
