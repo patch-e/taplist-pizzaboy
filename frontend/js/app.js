@@ -25,3 +25,8 @@ config(['$routeProvider', function($routeProvider) {
   otherwise({redirectTo: '/'});
 
 }]);
+
+// misc non-angular event handlers
+$('.collapse .btn').click(function() {
+    $('.collapse.in').collapse('hide');
+});

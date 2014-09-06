@@ -27,15 +27,17 @@
 	color: #666;
 	cursor: pointer;
 	font-size: 14px;
-	height: 43px;
-	line-height: 45px;
+	height: 31px;
+	line-height: 33px;
 	margin: auto;
 	position: absolute;
 	right: 0;
 	text-align: center;
 	top: 0;
-	width: 43px;
+	width: 31px;
 	z-index: 2;
+
+	-webkit-tap-highlight-color: rgba(102, 102, 102, 0.5);
 }
 
 #view-table table th {
@@ -62,6 +64,14 @@
 }
 
 @media (max-width: 767px) {
+	.btn-help:after {
+		content: "";
+	}
+
+	.btn-about:after {
+		content: "";
+	}
+
 	#view-block .beerBlock:nth-child(odd) {
 		clear: both;
 	}
