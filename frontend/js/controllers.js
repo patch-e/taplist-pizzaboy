@@ -11,6 +11,12 @@ Patrick Crager
 angular.module('BeersApp.controllers', []).
 controller('beersController', function($scope, beerAPIservice) {
 
+  // html fragments
+  $scope.templates = { 
+    helpModal: {url: 'templates/helpModal.html'},
+    aboutModal: {url: 'templates/aboutModal.html'}
+  };
+
   // list of table headings for table view
   $scope.headings = [
     {display: '#',       column: 'number'},
@@ -41,12 +47,12 @@ controller('beersController', function($scope, beerAPIservice) {
         sort.column = column;
         sort.descending = false;
       }
-  };  
+  };
 
   // fetch the beers through the getBeers() service call
   beerAPIservice.getBeers().success(function(response) {
     $scope.beersList = response;
-    
+
     // remove the background color, loading indication, and show the main content
     document.body.className = '';
     document.getElementById('loading').style.display = 'none';

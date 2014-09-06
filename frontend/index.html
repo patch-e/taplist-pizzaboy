@@ -34,24 +34,26 @@
                     </div>
                     <div class="collapse navbar-collapse" id="menu">
                         <div class="nav-btns navbar-left">
-                            <button class="btn btn-default navbar-btn" data-toggle="modal" data-target="#help-modal">
-                                <span class="glyphicon glyphicon-question-sign"></span> Help
+                            <button class="btn btn-default btn-help navbar-btn" data-toggle="modal" data-target="#help-modal">
+                                <span class="glyphicon glyphicon-question-sign"></span>
                             </button>
-                            <button href="./#/list" class="btn btn-default navbar-btn" data-toggle="modal" data-target="#about-modal">
-                                <span class="glyphicon glyphicon-info-sign"></span> About
+                            <button class="btn btn-default btn-about navbar-btn" data-toggle="modal" data-target="#about-modal">
+                                <span class="glyphicon glyphicon-info-sign"></span>
                             </button>
                         </div>
 
                         <div class="nav-btns navbar-right">
-                            <a href="./#/table" class="btn btn-default navbar-btn">
-                                <span class="glyphicon glyphicon-align-justify"></span> Table
-                            </a>
-                            <a href="./#/list" class="btn btn-default navbar-btn">
-                                <span class="glyphicon glyphicon-list"></span> List
-                            </a>
-                            <a href="./#/block" class="btn btn-default navbar-btn">
-                                <span class="glyphicon glyphicon-th"></span> Block
-                            </a>
+                            <div class="btn-group" data-toggle="buttons">
+                                <a href="./#/table" class="btn btn-default navbar-btn">
+                                    <span class="glyphicon glyphicon-align-justify"></span> Table
+                                </a>
+                                <a href="./#/list" class="btn btn-default navbar-btn">
+                                    <span class="glyphicon glyphicon-list"></span> List
+                                </a>
+                                <a href="./#/block" class="btn btn-default navbar-btn">
+                                    <span class="glyphicon glyphicon-th"></span> Block
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -64,49 +66,8 @@
             </div>
         </div>
 
-        <div class="modal fade" id="help-modal" tabindex="-1">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
-                        <h4 class="modal-title">Help</h4>
-                    </div>
-                    <div class="modal-body">
-                        <p><b>Views</b><br>Tap a viewing style of your choice. The beers will automatically layout according to your selection. Viewing styles can be bookmarked directly for your convenience.</p>
-                        <ul>
-                            <li><span class="glyphicon glyphicon-align-justify"></span> Table - the beers in tabular format.<br>Tap column headings to sort. Smaller screens can swipe the table left and right to scroll horizontally.</li>
-                            <li><span class="glyphicon glyphicon-list"></span> List - the beers in vertical list format.</li>
-                            <li><span class="glyphicon glyphicon-th"></span> Block - the beers in block flow format.<br>Larger screens can display more blocks horizontally at a time.</li>
-                        </ul>
-                        <hr>
-                        <p><b>Filtering</b><br>Enter filter criteria in any of the beer lists. All fields are immediately filtered upon as you type. For example, type IPA and any beer name or style containing "IPA" will be found.</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="modal fade" id="about-modal" tabindex="-1">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
-                        <h4 class="modal-title">About</h4>
-                    </div>
-                    <div class="modal-body">
-                        <p>Made by <a href="http://mccrager.com" target="_blank">Patrick Crager</a>, lover of beer and fan of <a href="http://www.alsofhampden.com/" target="_blank">Al's of Hampden / Pizza Boy Brewing Co.</a> in Enola, PA. If you have never had the pleasure of visiting Al's, make it a priority and use my app while you are there :)</p>
-                        <p>I made the app because Al's website wasn't mobile friendly and I was constantly not wanting to leave my table to see the tap list which isn't easily readable from every seat in the building! In other words, pure physical laziness and an excuse to build something fun.</p>
-                        <hr>
-                        <p><b>Technical Crap</b><br>The front end of this website is an AngularJS app utilizing Bootstrap and jQuery for the presentation. The back end, that provides the live up-to-date data from Al's website, is a node.js app running on IIS 7.5. The code is open source and available on <a href="https://github.com/patch-e/beers-at-als" target="_blank">github</a>.</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <div ng-include="templates.helpModal.url"></div>
+        <div ng-include="templates.aboutModal.url"></div>
 
         <script src="js/vendor/angular-1.2.23.min.js"></script>
         <script src="js/vendor/angular-route-1.2.23.min.js"></script>
