@@ -1,12 +1,14 @@
 <div id="view-list" ng-repeat="beerList in beersList" class="panel panel-primary">
-    <div class="panel-heading">
-        <h3 class="panel-title">{{beerList.title}}</h3>
+    <div class="panel-heading clearfix">
+        <h3 class="panel-title pull-left">{{beerList.title}}</h3>
+        <h3 class="panel-title pull-right">{{filteredBeers.length}}</h3>
     </div>
     <div class="panel-body">
         <div class="input-group">
-            <span class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span>
+            <span class="input-group-addon"><span class="glyphicon glyphicon-filter"></span></span>
             <input type="text" class="form-control" ng-model="searchFilter" placeholder="Filter..."/>
-        </div>                
+            <span class="input-clear glyphicon glyphicon-remove" ng-click="searchFilter = null" ng-class="{'hidden': !searchFilter}"></span>
+        </div>
     </div>
     <ul class="list-group">
         <li class="list-group-item clearfix" ng-repeat="beer in filteredBeers = (beerList.beers | filter: searchFilter)" ng-class="{'text-danger': beer.kicked}">
