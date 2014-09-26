@@ -28,5 +28,5 @@ config(['$routeProvider', function($routeProvider) {
 
 // misc non-angular event handlers
 $('.collapse .btn').click(function() {
-    $('.collapse.in').collapse('hide');
+  $('.collapse.in').collapse('hide');
 });

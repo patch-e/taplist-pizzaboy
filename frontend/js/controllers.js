@@ -48,6 +48,11 @@ controller('beersController', function($scope, beerAPIservice) {
         sort.descending = false;
       }
   };
+  // scrolls the page to the top in an animated fashion
+  $scope.scrollToTop = function() {
+    $('html, body').animate({scrollTop: 0}, 'slow');
+    return false;
+  };
 
   // fetch the beers through the getBeers() service call
   beerAPIservice.getBeers().success(function(response) {
