@@ -43,13 +43,13 @@
                     <div class="collapse navbar-collapse" id="menu">
                         <div class="nav-btns navbar-right">
                             <div class="btn-group">
-                                <a href="./#/table" class="btn btn-default navbar-btn">
+                                <a href="./#/table" class="btn btn-default navbar-btn" ng-click="collapseNav()">
                                     <span class="glyphicon glyphicon-align-justify"></span> Table
                                 </a>
-                                <a href="./#/list" class="btn btn-default navbar-btn">
+                                <a href="./#/list" class="btn btn-default navbar-btn" ng-click="collapseNav()">
                                     <span class="glyphicon glyphicon-list"></span> List
                                 </a>
-                                <a href="./#/block" class="btn btn-default navbar-btn">
+                                <a href="./#/block" class="btn btn-default navbar-btn" ng-click="collapseNav()">
                                     <span class="glyphicon glyphicon-th"></span> Block
                                 </a>
                             </div>
@@ -68,8 +68,9 @@
         <div ng-include="templates.helpModal.url"></div>
         <div ng-include="templates.aboutModal.url"></div>
 
-        <script src="js/vendor/angular-1.2.23.min.js"></script>
-        <script src="js/vendor/angular-route-1.2.23.min.js"></script>
+        <script src="js/vendor/angular-1.2.26.min.js"></script>
+        <script src="js/vendor/angular-route.min.js"></script>
+        <script src="js/vendor/angular-touch.min.js"></script>
         <script src="js/vendor/jquery-1.11.0.min.js"></script>
         <script src="js/vendor/bootstrap-3.2.0.min.js"></script>
         <script src="js/app.js"></script>

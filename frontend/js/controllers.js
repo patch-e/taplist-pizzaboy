@@ -53,6 +53,10 @@ controller('beersController', function($scope, beerAPIservice) {
     $('html, body').animate({scrollTop: 0}, 'slow');
     return false;
   };
+  // collapses the expanded navigation bar
+  $scope.collapseNav = function() {
+    $('.collapse.in').collapse('hide');
+  };
 
   // fetch the beers through the getBeers() service call
   beerAPIservice.getBeers().success(function(response) {
