@@ -26,18 +26,29 @@ controller('beersController', function($scope, beerAPIservice) {
     {display: 'ABV',     column: 'abv'}
   ];
 
-  // variable to hold current filter input
-  $scope.searchFilter = null;
-
-  // array that is populated after API call finishes
-  $scope.beersList = [];
-
   // sorting functionality
   // sort holds initial sorting values
   $scope.sort = {
     column: 'number',
     descending: false
   };
+
+  // variable to hold current filter input
+  $scope.searchFilter = null;
+
+  // array that is populated after API call finishes
+  $scope.beersList = [];
+
+  // fetch the beers through the getBeers() service call
+  beerAPIservice.getBeers().success(function(response) {
+    $scope.beersList = response;
+
+    // remove the background color, loading indication, and show the main content
+    document.body.className = '';
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('main').style.display = 'block';
+  });
+
   // updates "sort" variable onclick of table headings
   $scope.changeSorting = function(column) {
       var sort = $scope.sort;
@@ -57,15 +68,5 @@ controller('beersController', function($scope, beerAPIservice) {
   $scope.collapseNav = function() {
     $('.collapse.in').collapse('hide');
   };
-
-  // fetch the beers through the getBeers() service call
-  beerAPIservice.getBeers().success(function(response) {
-    $scope.beersList = response;
-
-    // remove the background color, loading indication, and show the main content
-    document.body.className = '';
-    document.getElementById('loading').style.display = 'none';
-    document.getElementById('main').style.display = 'block';
-  });
 
 });
