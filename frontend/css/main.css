@@ -47,6 +47,10 @@
 	cursor: pointer;
 }
 
+#view-table table th span {
+	border-bottom: dashed 1px #2780e3;
+}
+
 #view-table table td > div {
 	max-width: 200px;
 	min-width: 100px;
