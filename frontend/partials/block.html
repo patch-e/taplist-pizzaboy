@@ -11,16 +11,16 @@
     </div>
     <div class="container-fluid">
         <div class="row">
-            <div class="beerBlock col-xs-6 col-sm-4 col-md-3 col-lg-2" ng-repeat="beer in filteredBeers = (beerList.beers | filter: searchFilter)" ng-class="{'text-danger': beer.kicked}">
+            <div class="beerBlock col-xs-6 col-sm-4 col-md-3 col-lg-2" ng-repeat="beer in filteredBeers = (beerList.beers | filter: searchFilter)">
                 <div class="number pull-left">
-                    <span class="label" ng-class="{'label-success': !beer.kicked, 'label-danger': beer.kicked}">{{beer.number}}</span>
+                    <span class="label label-success">{{beer.number}}</span>
                 </div>
                 <div class="details pull-left" style="padding-left: 10px;">
                     <div><b>{{beer.name}}</b></div>
                     <div><small><i>{{beer.addl}}</i></small></div>
-                    <div ng-class="{'hidden': beer.kicked}">{{beer.brewery}}</div>
-                    <div ng-class="{'hidden': beer.kicked}">{{beer.style}}</div>
-                    <div ng-class="{'hidden': beer.kicked}">{{beer.abv | number : 2}} %</div>
+                    <div>{{beer.brewery}}</div>
+                    <div>{{beer.style}}</div>
+                    <div>{{beer.abv | number : 2}} %</div>
                 </div>
             </div>
             <div ng-hide="filteredBeers.length" style="padding: 0px 15px 10px 15px;">
@@ -29,7 +29,7 @@
         </div>
     </div>
     <div class="panel-footer">
-        <small>Last Updated: {{beerList.lastUpdated}}</small>
+        <small>&nbsp;</small>
         <a ng-click="scrollToTop()" class="pull-right top"><span class="glyphicon glyphicon-chevron-up"></span></a>
     </div>
 </div>

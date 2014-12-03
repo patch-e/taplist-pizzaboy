@@ -11,8 +11,8 @@
     "url": "https://github.com/patch-e/beers-at-als.git"
   },
   "dependencies": {
-    "request": "2.40.0",
-    "cheerio": "0.17.0",
+    "request": "2.48.0",
+    "cheerio": "0.18.0",
     "clim": "1.0.0"
   },
   "engines": {

@@ -17,9 +17,9 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="beer in filteredBeers = (beerList.beers | filter: searchFilter | orderBy: sort.column : sort.descending)" ng-class="{'text-danger': beer.kicked}">
+                <tr ng-repeat="beer in filteredBeers = (beerList.beers | filter: searchFilter | orderBy: sort.column : sort.descending)">
                     <td>
-                        <span class="label" ng-class="{'label-success': !beer.kicked, 'label-danger': beer.kicked}">{{beer.number}}</span>
+                        <span class="label label-success">{{beer.number}}</span>
                     </td>
                     <td>
                         <div><b>{{beer.name}}</b></div>
@@ -27,7 +27,7 @@
                     </td>
                     <td><div>{{beer.brewery}}</div></td>
                     <td><div>{{beer.style}}</div></td>
-                    <td><span ng-class="{'hidden': beer.kicked}">{{beer.abv | number : 2}} %</span></td>
+                    <td><span>{{beer.abv | number : 2}} %</span></td>
                 </tr>
                 <tr ng-hide="filteredBeers.length">
                     <td colspan="5">No beers match entered filter criteria.</td>
@@ -36,7 +36,7 @@
         </table>
     </div>
     <div class="panel-footer">
-        <small>Last Updated: {{beerList.lastUpdated}}</small>
+        <small>&nbsp;</small>
         <a ng-click="scrollToTop()" class="pull-right top"><span class="glyphicon glyphicon-chevron-up"></span></a>
     </div>
 </div>
