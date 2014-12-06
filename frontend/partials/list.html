@@ -12,7 +12,7 @@
     <ul class="list-group">
         <li class="list-group-item clearfix" ng-repeat="beer in filteredBeers = (beerList.beers | filter: searchFilter)">
             <div class="pull-left">
-                <span class="label label-success">{{beer.number}}</span>
+                <span class="label" ng-class="{'label-success': beer.growlerable, 'label-warning': !beer.growlerable}">{{beer.number}}</span>
             </div>
             <div class="pull-left" style="padding-left: 10px;">
                 <div><b>{{beer.name}}</b></div>
@@ -27,7 +27,7 @@
         </li>
     </ul>
     <div class="panel-footer">
-        <small>&nbsp;</small>
+        <small>Generated @ {{beerList.timestamp | date: 'medium'}}</small>
         <a ng-click="scrollToTop()" class="pull-right top"><span class="glyphicon glyphicon-chevron-up"></span></a>
     </div>
 </div>

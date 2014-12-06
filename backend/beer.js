@@ -14,7 +14,7 @@ var http = require('http');
 var server = http.createServer(function (req, res) {
 	var request = require('request'),
 			cheerio = require('cheerio'),
-			console = require('clim')(),
+			console = require('clim')('beer'),
 			utils   = require('./utils'),
 			results = [],
 			options = {
@@ -75,6 +75,8 @@ var server = http.createServer(function (req, res) {
 				result.title = utils.trim(title);
 				// set the resulting beers array
 				result.beers = beers;
+				// capture the current time this list was generated
+				result.timestamp = new Date();
 				// push the finalized result in the overall results array
 				results.push(result);
 			});
