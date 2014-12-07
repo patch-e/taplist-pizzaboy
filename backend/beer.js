@@ -95,7 +95,7 @@ var server = http.createServer(function (req, res) {
 	});
 
 	// log usage
-	console.log(req.headers['x-forwarded-for'] + '\n' + req.headers['user-agent'] + '\n\n');
+	console.log(req.headers['x-forwarded-for'] + '\n' + req.headers['user-agent'] + '\n');
 });
 
 server.listen(process.env.PORT);
