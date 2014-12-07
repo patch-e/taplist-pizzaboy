@@ -76,7 +76,7 @@ module.exports = {
 				beer.abv = this.parseABV(value);
 				break;
 			case 5:
-				beer.growlerable = (value === 'Yes' ? true : false);
+				beer.growler = (value === 'Yes' ? true : false);
 				break;
 		}
 	},
