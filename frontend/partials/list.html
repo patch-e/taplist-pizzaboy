@@ -10,7 +10,7 @@
         </div>
     </div>
     <ul class="list-group">
-        <li class="list-group-item clearfix" ng-repeat="beer in filteredBeers = (beerList.beers | filter: searchFilter)">
+        <li class="list-group-item clearfix" ng-repeat="beer in filteredBeers = (beerList.beers | filter: searchFilter | orderBy: 'number' : false)">
             <div class="pull-left">
                 <span class="label" ng-class="{'label-success': beer.growler, 'label-warning': !beer.growler}">{{beer.number}}</span>
             </div>

@@ -11,7 +11,7 @@
     </div>
     <div class="container-fluid">
         <div class="row">
-            <div class="beerBlock col-xs-6 col-sm-4 col-md-3 col-lg-2" ng-repeat="beer in filteredBeers = (beerList.beers | filter: searchFilter)">
+            <div class="beerBlock col-xs-6 col-sm-4 col-md-3 col-lg-2" ng-repeat="beer in filteredBeers = (beerList.beers | filter: searchFilter | orderBy: 'number' : false)">
                 <div class="number pull-left">
                     <span class="label" ng-class="{'label-success': beer.growler, 'label-warning': !beer.growler}">{{beer.number}}</span>
                 </div>
