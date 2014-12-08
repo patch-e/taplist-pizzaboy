@@ -68,5 +68,14 @@ controller('beersController', function($scope, beerAPIservice) {
   $scope.collapseNav = function() {
     $('.collapse.in').collapse('hide');
   };
+  // returns the appropriate CSS class for the sort direction
+  $scope.sortClass = function(column) {
+    if (column !== $scope.sort.column) { return; }
+    if (!$scope.sort.descending) {
+      return 'glyphicon-sort-by-attributes';
+    } else {
+      return 'glyphicon-sort-by-attributes-alt';
+    }
+  };
 
 });

@@ -13,7 +13,10 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th ng-repeat="heading in headings" ng:click="changeSorting(heading.column)"><span>{{heading.display}}</span></th>
+                    <th ng-repeat="heading in headings" ng:click="changeSorting(heading.column)">
+                        <span class="heading">{{heading.display}}</span>
+                        <span class="glyphicon" ng-class="sortClass(heading.column)"></span>
+                    </th>
                 </tr>
             </thead>
             <tbody>

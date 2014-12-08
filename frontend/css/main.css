@@ -47,8 +47,13 @@
 	cursor: pointer;
 }
 
-#view-table table th span {
+#view-table table th span.heading {
 	border-bottom: dashed 1px #2780e3;
+}
+
+#view-table table th span.glyphicon {
+	color: #2780e3;
+	font-size: 10px;
 }
 
 #view-table table td > div {
