@@ -1,4 +1,4 @@
-<div id="view-list" ng-repeat="beerList in beersList" class="panel panel-primary">
+<div id="view-list" ng-repeat="beerList in beersList" ng-hide="beerList.beers.length === 0" class="panel panel-primary">
     <div class="panel-heading">
         <h3 class="panel-title">{{beerList.title}}</h3>
     </div>
