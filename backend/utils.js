@@ -11,6 +11,16 @@ Patrick Crager
 module.exports = {
 	addlRegEx: /\(([^()]+)\)$/,
 
+	// type safe lowercase function
+	// returns a lowercased string
+	toLower: function(s) {
+		// only invoke toLowerCase() if a string was passed in
+		if (typeof s === 'string') { 
+			s = s.toLowerCase();
+		}
+		return s;
+	},
+
 	// type safe trim function
 	// returns a trimmed string with continous spaces replaced with a single space
 	trim: function(s) {
@@ -76,7 +86,7 @@ module.exports = {
 				beer.abv = this.parseABV(value);
 				break;
 			case 5:
-				beer.growler = (value === 'Yes' ? true : false);
+				beer.growler = (value.toUpperCase() === 'YES' ? true : false);
 				break;
 		}
 	},
@@ -105,8 +115,7 @@ module.exports = {
 
 		for (var part in dateParts) {
 			if (new RegExp('(' + part + ')').test(format)) {
-				format = format.replace(RegExp.$1, 
-																RegExp.$1.length == 1 ? dateParts[part] : ('00' + dateParts[part]).substr(('' + dateParts[part]).length));
+				format = format.replace(RegExp.$1, RegExp.$1.length == 1 ? dateParts[part] : ('00' + dateParts[part]).substr(('' + dateParts[part]).length));
 			}
 		}
 

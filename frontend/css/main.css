@@ -43,7 +43,8 @@
 	opacity: 1;
 }
 
-.panel-title {
+.panel-title,
+.capitalize {
 	text-transform: capitalize;
 }
 

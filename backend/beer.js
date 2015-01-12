@@ -73,9 +73,7 @@ var server = http.createServer(function (req, res) {
 
 				// set the title for this beerTable
 				result.title = utils.trim(title);
-				if (typeof result.title === 'string') {
-					result.title = result.title.toLowerCase();
-				}
+				result.title = utils.toLower(title);
 				// set the resulting beers array
 				result.beers = beers;
 				// capture the current time this list was generated
