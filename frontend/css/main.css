@@ -43,6 +43,10 @@
 	opacity: 1;
 }
 
+.panel-title {
+	text-transform: capitalize;
+}
+
 #view-table table th {
 	cursor: pointer;
 }

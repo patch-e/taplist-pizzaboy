@@ -18,7 +18,7 @@ var server = http.createServer(function (req, res) {
 			utils   = require('./utils'),
 			results = [],
 			options = {
-				url: 'http://www.pizzaboybrewing.com/on-tap/',
+				url: 'http://alsofhampden.com/beer.php',
 				json: true
 			};
 
@@ -26,10 +26,10 @@ var server = http.createServer(function (req, res) {
 		if (!error && response.statusCode === 200) {
 			var $ = cheerio.load(html);
 
-			var titles = $('#beer-menu-list h2');
+			var titles = $('#feature .row h2');
 
 			// loop over the tables that represent beer lists
-			$('#beer-menu-list table').each(function(tableIndex, beerTable) {
+			$('#feature .row table').each(function(tableIndex, beerTable) {
 
 				var $beerTable = $(beerTable),
 						// result object to be added to the results array
@@ -54,7 +54,7 @@ var server = http.createServer(function (req, res) {
 					};
 
 					var cellCount = $beerRow.find('td').length,
-							// hack to handle varying cell amounts for tap list vs. all others
+							// hack to handle varying cell amounts for draft beer vs. all others
 							cellIndexModifier = (cellCount === 4 ? 1 : 0);
 
 					// loop over the beer cells in this row
@@ -73,6 +73,9 @@ var server = http.createServer(function (req, res) {
 
 				// set the title for this beerTable
 				result.title = utils.trim(title);
+				if (typeof result.title === 'string') {
+					result.title = result.title.toLowerCase();
+				}
 				// set the resulting beers array
 				result.beers = beers;
 				// capture the current time this list was generated

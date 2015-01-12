@@ -23,7 +23,7 @@ module.exports = {
 
 	// parses the "ABV" text to return a floating point value
 	parseABV: function(s) {
-		if ( typeof s === 'string' ) { 
+		if (typeof s === 'string') { 
 			s = s.replace('ABV:', '').replace(' ', '').replace('%', '');
 		}
 		return parseFloat(s);
