@@ -1,45 +1,47 @@
-<div id="view-table" ng-repeat="beerList in beersList" ng-hide="beerList.beers.length === 0" class="panel panel-primary">
-    <div class="panel-heading">
-        <h3 class="panel-title">{{beerList.title}}</h3>
-    </div>
-    <div class="panel-body">
-        <div class="input-group input-group-sm">
-            <span class="input-group-addon">{{filteredBeers.length}}</span>
-            <input type="text" class="form-control" ng-model="searchFilter" placeholder="Filter..."/>
-            <span class="input-clear glyphicon glyphicon-remove" ng-click="searchFilter = null" ng-class="{'hidden': !searchFilter}"></span>
+<div id="view-table">
+    <div ng-repeat="beerList in beersList" ng-hide="beerList.beers.length === 0" class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">{{beerList.title}}</h3>
         </div>
-    </div>
-    <div class="table-responsive">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th ng-repeat="heading in headings" ng:click="changeSorting(heading.column)">
-                        <span class="heading">{{heading.display}}</span>
-                        <span class="glyphicon" ng-class="sortClass(heading.column)"></span>
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr ng-repeat="beer in filteredBeers = (beerList.beers | filter: searchFilter | orderBy: sort.column : sort.descending)">
-                    <td>
-                        <span class="label" ng-class="{'label-success': beer.growler, 'label-warning': !beer.growler}">{{beer.number}}</span>
-                    </td>
-                    <td>
-                        <div><b>{{beer.name}}</b></div>
-                        <div><small><i>{{beer.addl}}</i></small></div>
-                    </td>
-                    <td><div>{{beer.brewery}}</div></td>
-                    <td><div>{{beer.style}}</div></td>
-                    <td><span>{{beer.abv | number : 2}} %</span></td>
-                </tr>
-                <tr ng-hide="filteredBeers.length">
-                    <td colspan="5">No beers match entered filter criteria.</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-    <div class="panel-footer">
-        <small>Generated @ {{beerList.timestamp | date: 'medium'}}</small>
-        <a href="" ng-click="scrollToTop()" class="pull-right top"><span class="glyphicon glyphicon-chevron-up"></span></a>
+        <div class="panel-body">
+            <div class="input-group input-group-sm">
+                <span class="input-group-addon">{{filteredBeers.length}}</span>
+                <input type="text" class="form-control" ng-model="searchFilter" placeholder="Filter..."/>
+                <span class="input-clear glyphicon glyphicon-remove" ng-click="searchFilter = null" ng-class="{'hidden': !searchFilter}"></span>
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th ng-repeat="heading in headings" ng:click="changeSorting(heading.column)">
+                            <span class="heading">{{heading.display}}</span>
+                            <span class="glyphicon" ng-class="sortClass(heading.column)"></span>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="beer in filteredBeers = (beerList.beers | filter: searchFilter | orderBy: sort.column : sort.descending)">
+                        <td>
+                            <span class="label" ng-class="{'label-success': beer.growler, 'label-warning': !beer.growler}">{{beer.number}}</span>
+                        </td>
+                        <td>
+                            <div><b>{{beer.name}}</b></div>
+                            <div><small><i>{{beer.addl}}</i></small></div>
+                        </td>
+                        <td><div>{{beer.brewery}}</div></td>
+                        <td><div>{{beer.style}}</div></td>
+                        <td><span>{{beer.abv | number : 2}} %</span></td>
+                    </tr>
+                    <tr ng-hide="filteredBeers.length">
+                        <td colspan="5">No beers match entered filter criteria.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="panel-footer">
+            <small>Generated @ {{beerList.timestamp | date: 'medium'}}</small>
+            <a href="" ng-click="scrollToTop()" class="pull-right top"><span class="glyphicon glyphicon-chevron-up"></span></a>
+        </div>
     </div>
 </div>
