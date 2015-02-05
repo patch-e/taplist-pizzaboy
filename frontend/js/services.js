@@ -13,11 +13,23 @@ factory('beerAPIservice', function($http) {
 
   var beerAPI = {};
 
-  // getBeers provides the JSON data to BeersApp
-  beerAPI.getBeers = function() {
+  // list provides the JSON beer list
+  beerAPI.list = function() {
     return $http({
       method: 'GET',
       url: '/nodejs/beer'
+    });
+  }
+
+  // search provides the JSON beer search result
+  beerAPI.search = function(brewery, name) {
+    return $http({
+      method: 'GET',
+      url: '/nodejs/beer/search',
+      params: {
+      	brewery: brewery, 
+      	name: name
+      }
     });
   }
 

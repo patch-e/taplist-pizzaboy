@@ -9,13 +9,18 @@ Patrick Crager
 */
 
 angular.module('BeersApp.controllers', []).
-controller('beersController', function($scope, beerAPIservice) {
+
+controller('mainController', function($scope) {
 
   // html fragments
   $scope.templates = { 
     helpModal: {url: 'templates/helpModal.html'},
     aboutModal: {url: 'templates/aboutModal.html'}
   };
+
+}).
+
+controller('beersController', function($scope, beerAPIservice) {
 
   // list of table headings for table view
   $scope.headings = [
@@ -39,15 +44,20 @@ controller('beersController', function($scope, beerAPIservice) {
   // array that is populated after API call finishes
   $scope.beersList = [];
 
-  // fetch the beers through the getBeers() service call
-  beerAPIservice.getBeers().success(function(response) {
-    $scope.beersList = response;
+  // fetch the beers through the list() service call
+  beerAPIservice.list().
+    success(function(data) {
+      $scope.beersList = data;
 
-    // remove the background color, loading indication, and show the main content
-    document.body.className = '';
-    document.getElementById('loading').style.display = 'none';
-    document.getElementById('main').style.display = 'block';
-  });
+      // remove the background color, loading indication, and show the main content
+      document.body.className = '';
+      document.getElementById('loading').style.display = 'none';
+      document.getElementById('main').style.display = 'block';
+    }).
+    error(function(data) {
+      document.getElementById('loading').style.display = 'none';
+      alert('Something went wrong when getting the Al\'s beer list! Refresh and try again.');
+    });
 
   // updates "sort" variable onclick of table headings
   $scope.changeSorting = function(column) {
@@ -58,16 +68,19 @@ controller('beersController', function($scope, beerAPIservice) {
         sort.column = column;
         sort.descending = false;
       }
-  };
+  }
+
   // scrolls the page to the top in an animated fashion
   $scope.scrollToTop = function() {
     $('html, body').animate({scrollTop: 0}, 'slow');
     return false;
-  };
+  }
+
   // collapses the expanded navigation bar
   $scope.collapseNav = function() {
     $('.collapse.in').collapse('hide');
-  };
+  }
+
   // returns the appropriate CSS class for the sort direction
   $scope.sortClass = function(column) {
     if (column !== $scope.sort.column) { return; }
@@ -76,6 +89,10 @@ controller('beersController', function($scope, beerAPIservice) {
     } else {
       return 'glyphicon-sort-by-attributes-alt';
     }
-  };
+  }
+
+}).
+
+controller('searchController', function($scope, beerAPIservice) {
 
 });
