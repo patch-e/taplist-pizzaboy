@@ -66,6 +66,18 @@ module.exports = {
 		return s.replace(this.addlRegEx, '');
 	},
 
+	createBeer: function(index) {
+		return {
+			number: index + 1,
+			name: '',
+			addl: '',
+			brewery: '',
+			style: '',
+			abv: 0,
+			growler: false
+		};
+	},
+
 	// maps values to properties of the beer object depending on index
 	mapBeerValues: function(index, value, beer) {
 		switch(index) {
