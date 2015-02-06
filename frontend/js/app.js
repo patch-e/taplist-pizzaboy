@@ -12,7 +12,8 @@ angular.module('BeersApp', [
 
   'BeersApp.controllers',
   'BeersApp.services',
-  'ngRoute'
+  'ngRoute',
+  'ui.bootstrap'
 
 ]).
 config(['$routeProvider', function($routeProvider) {

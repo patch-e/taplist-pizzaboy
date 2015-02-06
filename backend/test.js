@@ -54,7 +54,6 @@ app.get('/nodejs/test/search', function (req, res) {
 		var db = mongojs('beertest', ['collection']);
 
 		// look up beer in db
-		console.log('querying db...');
 		db.collection.findOne({
 			brewery: brewery,
 			name: name
@@ -76,15 +75,11 @@ app.get('/nodejs/test/search', function (req, res) {
 				responses.sendSuccess(res, result, true);
 			} else {
 				// if not found, fetch from untappd, store in db, and write out the response
-				console.log('searching untappd...');
 				searchOptions.qs.q = encodeURIComponent(brewery + ' ' + name);
 
 				// fire off request to untappd search api
 				request(searchOptions, function (error, response, json) {
 					if (!error && response.statusCode === 200) {
-						console.log('untappd json: ' + json);
-
-						// todo traverse this better
 						if (json.response.found > 0 && json.response.beers.items.length > 0) {
 							result = json.response.beers.items[0].beer;
 
@@ -98,8 +93,12 @@ app.get('/nodejs/test/search', function (req, res) {
 								doc.fetchMethod = 'untappd';
 								responses.sendSuccess(res, doc, true);
 							});	
+						} else {
+							responses.sendError(res, {
+								desc: 'could not locate on untappd',
+								code: 404
+							});
 						}
-						
 					} else {
 						responses.sendError(res, {
 							desc: 'no response from untappd',
@@ -114,7 +113,7 @@ app.get('/nodejs/test/search', function (req, res) {
 	} else {
 		responses.sendError(res, {
 			desc: 'missing query string parameter(s)', 
-			code: 404
+			code: 500
 		});
 	}
 });

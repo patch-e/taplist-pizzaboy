@@ -19,7 +19,7 @@ factory('beerAPIservice', function($http) {
       method: 'GET',
       url: '/nodejs/beer'
     });
-  }
+  };
 
   // search provides the JSON beer search result
   beerAPI.search = function(brewery, name) {
@@ -31,7 +31,7 @@ factory('beerAPIservice', function($http) {
       	name: name
       }
     });
-  }
+  };
 
   return beerAPI;
 

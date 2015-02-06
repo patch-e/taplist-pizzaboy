@@ -9,20 +9,128 @@ Patrick Crager
 
 */
 
-var http = require('http');
+// required modules
+var http = require('http'),
+		express = require('express'),
+		request = require('request'),
+		cheerio = require('cheerio'),
+		console = require('clim')('beer'),
+		mongojs = require('mongojs'),
+		utils = require('./utils'),
+		responses = require('./responses');
 
-var server = http.createServer(function (req, res) {
-	var request = require('request'),
-			cheerio = require('cheerio'),
-			console = require('clim')('beer'),
-			utils   = require('./utils'),
-			results = [],
-			options = {
-				url: 'http://alsofhampden.com/beer.php',
-				json: true
-			};
+// request options
+var listOptions = {
+			url: 'http://alsofhampden.com/beer.php'
+		},
+		searchOptions = {
+			url: 'https://api.untappd.com/v4/search/beer',
+			json: true,
+			qs: {
+				client_id: process.env.untappdClientID,
+				client_secret: process.env.untappdClientSecret,
+				limit: 1
+			}
+		};
 
-	request(options, function (error, response, html) {
+// app bootstrap
+var app = express();
+
+/*
+ * Search for a beer by brewery + name.
+ * Action: GET
+ * Params: brewery, the name of the brewery
+ *         name, the name of the beer
+ */
+app.get('/nodejs/beer/search', function (req, res) {
+	var result = {};
+
+	if (req.query.brewery && req.query.name) {
+		// sanitize the query string input
+		var brewery = decodeURIComponent(req.query.brewery),
+				// remove any bracketed special text in the name, [NITRO], [FIRKIN], etc.
+				name = decodeURIComponent(req.query.name).replace(/ *\[[^)]*\] */g, '');
+
+		// get a hook to the database
+		var db = mongojs('beer', ['collection']);
+
+		// look up beer in db
+		db.collection.findOne({
+			brewery: brewery,
+			name: name
+		}, function(err, doc) {
+			// handle exception from query
+			if (err) {
+				responses.sendError(res, {
+					desc: 'could not communicate with database',
+					code: 500,
+					error: err
+				});
+				return;
+			}
+
+			// if we got a result from the db, write out the record
+			if (doc) {
+				result = doc;
+				result.fetchMethod = 'mongodb';
+				responses.sendSuccess(res, result, true);
+			} else {
+				// if not found, fetch from untappd, store in db, and write out the response
+				searchOptions.qs.q = encodeURIComponent(brewery + ' ' + name);
+
+				// fire off request to untappd search api
+				request(searchOptions, function (error, response, json) {
+					if (!error && response.statusCode === 200) {
+						if (json.response.found > 0 && json.response.beers.items.length > 0) {
+							result = json.response.beers.items[0].beer;
+
+							// persist to db
+							db.collection.save({
+								brewery: brewery, 
+								name: name, 
+								data: result,
+								created: Date.now()
+							}, function(err, doc) {
+								doc.fetchMethod = 'untappd';
+								responses.sendSuccess(res, doc, true);
+								// log the persisted beer
+								console.log('new beer persisted: ' + doc.brewery + ' ' + doc.name);
+							});	
+						} else {
+							responses.sendError(res, {
+								desc: 'could not locate on untappd',
+								code: 404,
+								query: searchOptions.qs.q
+							});
+						}
+					} else {
+						responses.sendError(res, {
+							desc: 'no response from untappd',
+							code: 500,
+							response: response,
+							error: error
+						});
+					}
+				});
+			}
+		});
+	} else {
+		responses.sendError(res, {
+			desc: 'missing query string parameter(s)', 
+			code: 500
+		});
+	}
+});
+
+/*
+ * Get the full list of beers.
+ * Action: GET
+ * Params: none
+ */
+app.get('/nodejs/beer', function (req, res) {
+	var results = [];
+
+	request(listOptions, function (error, response, html) {
 		if (!error && response.statusCode === 200) {
 			var $ = cheerio.load(html);
 
@@ -41,19 +149,9 @@ var server = http.createServer(function (req, res) {
 
 				// loop over the beer rows in this table
 				$beerTable.find('tbody > tr').each(function(rowIndex, beerRow) {
-					var $beerRow = $(beerRow);
-
-					var beer = {
-						number: rowIndex + 1,
-						name: '',
-						addl: '',
-						brewery: '',
-						style: '',
-						abv: 0,
-						growler: false
-					};
-
-					var cellCount = $beerRow.find('td').length,
+					var $beerRow = $(beerRow),
+							beer = utils.createBeer(rowIndex),
+							cellCount = $beerRow.find('td').length,
 							// hack to handle varying cell amounts for draft beer vs. all others
 							cellIndexModifier = (cellCount === 4 ? 1 : 0);
 
@@ -82,16 +180,14 @@ var server = http.createServer(function (req, res) {
 				results.push(result);
 			});
 
-			// set the response values
-			res.writeHead(200, {
-					'Content-Type': 'application/json',
-					'Cache-Control': 'max-age=300'
-			});
-			res.end(JSON.stringify(results.reverse()));
+			responses.sendSuccess(res, results.reverse(), true);
 		} else {
-			// error logging
-			console.error('status code' + response.statusCode);
-			console.error(error);
+			responses.sendError(res, {
+				desc: 'no response from alsofhampden',
+				code: 500,
+				response: response,
+				error: error
+			});
 		}
 	});
 
@@ -99,4 +195,5 @@ var server = http.createServer(function (req, res) {
 	console.log(req.headers['x-forwarded-for'] + '\n' + req.headers['user-agent'] + '\n');
 });
 
-server.listen(process.env.PORT);
+// app startup
+app.listen(process.env.PORT);

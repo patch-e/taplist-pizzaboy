@@ -14,7 +14,7 @@ module.exports = {
 	sendSuccess: function(res, data, cached) {
 		var headers = {
 			'Content-Type': 'application/json'
-		}
+		};
 
 		if (cached) {
 			headers['Cache-Control'] = 'max-age=300';
@@ -28,13 +28,17 @@ module.exports = {
 	sendError: function(res, error) {
 		var headers = {
 			'Content-Type': 'application/json'
-		}
+		};
 
+		// capture the current date/time
+		var timestamp = new Date();
+		error.timestamp = timestamp;
+
+		// stringify what was passed in to log and send as the response
+		var errorString = JSON.stringify(error);
 		res.writeHead(error.code, headers);
-		res.end(JSON.stringify(error));
-
-		// error logging
-		console.error(error.desc);
+		res.end(errorString);
+		console.error(errorString);
 	}
 
 };

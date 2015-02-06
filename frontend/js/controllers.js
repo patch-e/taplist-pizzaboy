@@ -20,7 +20,7 @@ controller('mainController', function($scope) {
 
 }).
 
-controller('beersController', function($scope, beerAPIservice) {
+controller('beersController', function($scope, beerAPIservice, $modal) {
 
   // list of table headings for table view
   $scope.headings = [
@@ -46,18 +46,18 @@ controller('beersController', function($scope, beerAPIservice) {
 
   // fetch the beers through the list() service call
   beerAPIservice.list().
-    success(function(data) {
-      $scope.beersList = data;
+  success(function(data) {
+    $scope.beersList = data;
 
-      // remove the background color, loading indication, and show the main content
-      document.body.className = '';
-      document.getElementById('loading').style.display = 'none';
-      document.getElementById('main').style.display = 'block';
-    }).
-    error(function(data) {
-      document.getElementById('loading').style.display = 'none';
-      alert('Something went wrong when getting the Al\'s beer list! Refresh and try again.');
-    });
+    // remove the background color, loading indication, and show the main content
+    document.body.className = '';
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('main').style.display = 'block';
+  }).
+  error(function(error) {
+    document.getElementById('loading').style.display = 'none';
+    alert('Something went wrong when getting the Al\'s beer list!\n\nRefresh and try again.');
+  });
 
   // updates "sort" variable onclick of table headings
   $scope.changeSorting = function(column) {
@@ -68,18 +68,18 @@ controller('beersController', function($scope, beerAPIservice) {
         sort.column = column;
         sort.descending = false;
       }
-  }
+  };
 
   // scrolls the page to the top in an animated fashion
   $scope.scrollToTop = function() {
     $('html, body').animate({scrollTop: 0}, 'slow');
     return false;
-  }
+  };
 
   // collapses the expanded navigation bar
   $scope.collapseNav = function() {
     $('.collapse.in').collapse('hide');
-  }
+  };
 
   // returns the appropriate CSS class for the sort direction
   $scope.sortClass = function(column) {
@@ -89,10 +89,47 @@ controller('beersController', function($scope, beerAPIservice) {
     } else {
       return 'glyphicon-sort-by-attributes-alt';
     }
-  }
+  };
+
+  // calls the search API and opens a modal window upon success
+  $scope.search = function(beer) {
+    beerAPIservice.search(beer.brewery, beer.name).
+    success(function(data) {
+      var modalInstance = $modal.open({
+        templateUrl: 'templates/searchResultModal.html',
+        controller: 'searchResultController',
+        resolve: { beer: function() { return data; } }
+      });
+    }).
+    error(function(error) {
+      if (error.code === 404) {
+        alert('I couldn\'t locate this beer on untappd.\n\nSorry!');
+        return;
+      }
+      alert('Something went wrong when looking up this beer!\n\nPlease try again.');
+    });
+  };
 
 }).
 
-controller('searchController', function($scope, beerAPIservice) {
+controller('searchResultController', function($scope, $modalInstance, beer) {
+
+  $scope.beer = beer;
+
+  // close the modal
+  $scope.close = function () {
+    $modalInstance.dismiss();
+  };
+
+  // try to launch untappd to the beer's page if installed
+  // otherwise launch the default browser to the beer on untappd's website
+  $scope.checkin = function(bid) {
+    document.location = 'untappd:///?beer=' + bid;
+    setTimeout(function() {
+      if (!/(iPhone|Android|IEMobile)/.test(navigator.userAgent)) {
+        window.open('http://untappd.com/beer/' + bid);
+      }
+    }, 500);
+  };
 
 });

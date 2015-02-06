@@ -1,0 +1,14 @@
+<div class="modal-header">
+    <h3 class="modal-title">{{beer.name}}</h3>
+</div>
+<div class="modal-body">
+    <img class="beerLabel" ng-src="{{beer.data.beer_label}}">
+    <p><strong>Style:</strong> {{beer.data.beer_style ? beer.data.beer_style : 'n/a'}}</p>
+    <p><strong>ABV:</strong> {{beer.data.beer_abv | number : 2}} {{beer.data.beer_abv > 0 ? '%' : 'n/a'}}</p>
+    <p><strong>Description:</strong> {{beer.data.beer_description ? beer.data.beer_description : 'n/a'}}<p>
+    <small><em>data provided by <a href="https://untappd.com" target="_blank">untappd.com</a></em></small>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-untappd" ng-click="checkin(beer.data.bid)">Check-In <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></button>
+    <button class="btn btn-default" ng-click="close()">Close</button>
+</div>
