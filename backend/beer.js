@@ -192,7 +192,7 @@ app.get('/nodejs/beer', function (req, res) {
 	});
 
 	// log usage
-	console.log(req.headers['x-forwarded-for'] + '\n' + req.headers['user-agent'] + '\n');
+	console.log(req.headers['x-forwarded-for'] + '\n' + req.headers['user-agent']);
 });
 
 // app startup
