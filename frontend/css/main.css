@@ -113,8 +113,7 @@
 		clear: both;
 	}
 
-	.navbar,
-	.panel:last-child {
+	.navbar {
 		border-bottom: none;
 		margin-bottom: 0;
 	}

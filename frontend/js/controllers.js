@@ -103,10 +103,10 @@ controller('beersController', function($scope, beerAPIservice, $modal) {
     }).
     error(function(error) {
       if (error.code === 404) {
-        alert('I couldn\'t locate this beer on untappd.\n\nSorry!');
+        alert('I couldn\'t locate this beer on untappd.\nSorry!');
         return;
       }
-      alert('Something went wrong when looking up this beer!\n\nPlease try again.');
+      alert('Something went wrong when looking up this beer!\nPlease try again.');
     });
   };
 
