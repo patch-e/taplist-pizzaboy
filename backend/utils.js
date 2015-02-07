@@ -63,6 +63,9 @@ module.exports = {
 
 	// parses the name text to remove "additional" text in parens
 	parseName: function(s) {
+		// found this ugliness of an escaped backslash followed by an escaped quote on a beer name
+		// ex: Mean Cup O\'Stout - this fixes that
+		s = s.replace('\\\'', '\'');
 		return s.replace(this.addlRegEx, '');
 	},
 
