@@ -103,7 +103,7 @@ controller('beersController', function($scope, beerAPIservice, $modal) {
     }).
     error(function(error) {
       if (error.code === 404) {
-        alert('I couldn\'t locate this beer on untappd.\nSorry!');
+        alert('This beer couldn\'t be located on untappd.\nSorry!');
         return;
       }
       alert('Something went wrong when looking up this beer!\nPlease try again.');
@@ -121,15 +121,15 @@ controller('searchResultController', function($scope, $modalInstance, beer) {
     $modalInstance.dismiss();
   };
 
-  // try to launch untappd to the beer's page if installed
+  // try to launch untappd to the beer's page if on a mobile phone
   // otherwise launch the default browser to the beer on untappd's website
   $scope.checkin = function(bid) {
-    document.location = 'untappd:///?beer=' + bid;
-    setTimeout(function() {
-      if (!/(iPhone|Android|IEMobile)/.test(navigator.userAgent)) {
-        window.open('http://untappd.com/beer/' + bid);
-      }
-    }, 500);
+    var isMobile = /(iPhone|Android|IEMobile)/.test(navigator.userAgent);
+    if (isMobile) {
+      document.location = 'untappd:///?beer=' + bid;
+    } else {
+      window.open('http://untappd.com/beer/' + bid);
+    }
   };
 
 });
