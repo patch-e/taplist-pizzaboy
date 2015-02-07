@@ -28,6 +28,11 @@
 	font-weight: bold;
 }
 
+.btn-inline {
+	margin-top: -4px;
+	padding: 0 5px;
+}
+
 .input-clear {
 	bottom: 0;
 	color: #333;
