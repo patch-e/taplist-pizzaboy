@@ -34,7 +34,7 @@ controller('beersController', function($scope, beerAPIservice, $modal) {
   // sorting functionality
   // sort holds initial sorting values
   $scope.sort = {
-    column: 'number',
+    column: 'brewery',
     descending: false
   };
 
