@@ -38,7 +38,7 @@ module.exports = {
 		var errorString = JSON.stringify(error);
 		res.writeHead(error.code, headers);
 		res.end(errorString);
-		console.error(errorString);
+		console.error(errorString + '\n');
 	}
 
 };

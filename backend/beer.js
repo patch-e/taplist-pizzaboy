@@ -48,8 +48,11 @@ app.get('/nodejs/beer/search', function (req, res) {
 	if (req.query.brewery && req.query.name) {
 		// sanitize the query string input
 		var brewery = decodeURIComponent(req.query.brewery),
-				// remove any bracketed special text in the name, [NITRO], [FIRKIN], etc.
-				name = decodeURIComponent(req.query.name).replace(/ *\[[^)]*\] */g, '');
+				name = decodeURIComponent(req.query.name),
+				// replace forward slashes with a space, common with collab beers
+				brewery = brewery.replace('/', ' '),
+				// remove any bracketed special text in the name, [NITRO], [FIRKIN], [SOUR] etc.
+				name = name.replace(/ *\[[^)]*\] */g, '');
 
 		// get a hook to the database
 		var db = mongojs('beer', ['collection']);
@@ -192,7 +195,7 @@ app.get('/nodejs/beer', function (req, res) {
 	});
 
 	// log usage
-	console.log(req.headers['x-forwarded-for'] + '\n' + req.headers['user-agent']);
+	console.log(req.headers['x-forwarded-for'] + '\n' + req.headers['user-agent'] + '\n');
 });
 
 // app startup
