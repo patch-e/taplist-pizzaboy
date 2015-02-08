@@ -51,8 +51,12 @@ app.get('/nodejs/beer/search', function (req, res) {
 				name = decodeURIComponent(req.query.name),
 				// replace forward slashes with a space, common with collab beers
 				brewery = brewery.replace('/', ' '),
+				// brewery fixes on a case-by-case basis
+				brewery = brewery.replace('OSKARBLUES', 'OSKAR BLUES'),
 				// remove any bracketed special text in the name, [NITRO], [FIRKIN], [SOUR] etc.
-				name = name.replace(/ *\[[^)]*\] */g, '');
+				name = name.replace(/ *\[[^)]*\] */g, ''),
+				// name fixes on a case-by-case basis
+				name = name.replace('POMEGRANATE/ROSE-HIP SOUR ALE', 'POMEGRANATE/ROSE-HIP SOUR');
 
 		// get a hook to the database
 		var db = mongojs('beer', ['collection']);
