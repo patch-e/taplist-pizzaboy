@@ -2,11 +2,17 @@
 <html ng-app="BeersApp" ng-controller="mainController">
     <head>
         <meta charset="utf-8">
-        <title>Beers @ Al's</title>
-
-        <meta name="description" content="Providing a mobile friendly beer list at Al's of Hampden!">
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
+        <title>Beers @ Al's</title>
+        <meta name="description" content="Providing a mobile-friendly beer list at Al's of Hampden! Allows quick Untappd check-in capability any beer on the live up-to-date list.">
+        <meta property="og:url" content="http://mccrager.com/beer/als/">
+        <meta property="og:title" content="Beers @ Al's">
+        <meta property="og:description" content="Providing a mobile-friendly beer list at Al's of Hampden! Allows quick Untappd check-in capability any beer on the live up-to-date list.">
+        <meta property="og:image" content="http://mccrager.com/beer/als/img/android-chrome-192x192.png">
+        <meta property="og:image:type" content="image/png">
+
+        <link rel="canonical" href="http://mccrager.com/beer/als/" />
         <link rel="stylesheet" href="css/vendor/bootstrap-3.2.0.min.css">
         <link rel="stylesheet" href="css/main.css">
 
@@ -80,7 +86,6 @@
             <div class="container">
                 <div class="row">
                     <ng-view></ng-view>
-                    <p class="col-xs-12"><small><em>data provided by <a href="https://alsofhampden.com" target="_blank">alsofhampden.com</a></em></small></p>
                 </div>
             </div>
         </div>
