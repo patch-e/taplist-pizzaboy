@@ -28,6 +28,15 @@
 	font-weight: bold;
 }
 
+.btn-untappd:hover, 
+.btn-untappd:focus, 
+.btn-untappd:active, 
+.btn-untappd.active,
+.open > .dropdown-toggle.btn-untappd {
+	background-color: #e6b800;
+	border-color: #e6b800;
+}
+
 .btn-inline {
 	margin-top: -4px;
 	padding: 0 5px;

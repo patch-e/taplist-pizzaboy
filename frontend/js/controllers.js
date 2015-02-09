@@ -93,6 +93,8 @@ controller('beersController', function($scope, beerAPIservice, $modal) {
 
   // calls the search API and opens a modal window upon success
   $scope.search = function(beer) {
+    document.getElementById('overlay').style.display = 'block';
+
     beerAPIservice.search(beer.brewery, beer.name).
     success(function(data) {
       var modalInstance = $modal.open({
@@ -100,13 +102,17 @@ controller('beersController', function($scope, beerAPIservice, $modal) {
         controller: 'searchResultController',
         resolve: { beer: function() { return data; } }
       });
+      setTimeout(function() {
+        document.getElementById('overlay').style.display = 'none';
+      }, 250);
     }).
     error(function(error) {
       if (error.code === 404) {
         alert('Beer couldn\'t be found on Untappd.\nSorry!');
-        return;
+      } else {
+        alert('Something went wrong when looking up this beer!\nPlease try again.');
       }
-      alert('Something went wrong when looking up this beer!\nPlease try again.');
+      document.getElementById('overlay').style.display = 'none';
     });
   };
 
