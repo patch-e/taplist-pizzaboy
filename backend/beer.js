@@ -56,7 +56,9 @@ app.get('/nodejs/beer/search', function (req, res) {
 				// remove any bracketed special text in the name, [NITRO], [FIRKIN], [SOUR] etc.
 				name = name.replace(/ *\[[^)]*\] */g, ''),
 				// name fixes on a case-by-case basis
-				name = name.replace('POMEGRANATE/ROSE-HIP SOUR ALE', 'POMEGRANATE/ROSE-HIP SOUR');
+				name = name.replace('POMEGRANATE/ROSE-HIP SOUR ALE', 'POMEGRANATE/ROSE-HIP SOUR'),
+				name = name.replace('2014', ''),
+				name = name.replace('2015', '');
 
 		// get a hook to the database
 		var db = mongojs('beer', ['collection']);
