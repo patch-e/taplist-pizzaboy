@@ -14,14 +14,14 @@
             <table class="table table-hover">
                 <thead>
                     <tr>
-                        <th ng-repeat="heading in headings" ng:click="changeSorting(heading.column)">
+                        <th ng-repeat="heading in headings" ng:click="changeSorting(beerList.sort, heading.column)">
                             <span class="heading">{{heading.display}}</span>
-                            <span class="glyphicon" ng-class="sortClass(heading.column)"></span>
+                            <span class="glyphicon" ng-class="sortClass(beerList.sort, heading.column)"></span>
                         </th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr class="beerSearch" ng-repeat="beer in filteredBeers = (beerList.beers | filter: searchFilter | orderBy: sort.column : sort.descending)" ng-click="search(beer)">
+                    <tr class="beerSearch" ng-repeat="beer in filteredBeers = (beerList.beers | filter: searchFilter | orderBy: beerList.sort.column : beerList.sort.descending)" ng-click="search(beer)">
                         <td>
                             <span class="label" ng-class="{'label-success': beer.growler, 'label-warning': !beer.growler}">{{beer.number}}</span>
                         </td>

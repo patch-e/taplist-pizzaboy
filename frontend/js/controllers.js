@@ -31,13 +31,6 @@ controller('beersController', function($scope, beerAPIservice, $modal) {
     {display: 'ABV',     column: 'abv'}
   ];
 
-  // sorting functionality
-  // sort holds initial sorting values
-  $scope.sort = {
-    column: 'brewery',
-    descending: false
-  };
-
   // variable to hold current filter input
   $scope.searchFilter = null;
 
@@ -47,6 +40,13 @@ controller('beersController', function($scope, beerAPIservice, $modal) {
   // fetch the beers through the list() service call
   beerAPIservice.list().
   success(function(data) {
+    // sort holds initial sorting values for each list
+    angular.forEach(data, function(beerList, index) {
+      beerList.sort = {
+        column: 'brewery',
+        descending: false
+      }
+    });
     $scope.beersList = data;
 
     // remove the background color, loading indication, and show the main content
@@ -60,8 +60,7 @@ controller('beersController', function($scope, beerAPIservice, $modal) {
   });
 
   // updates "sort" variable onclick of table headings
-  $scope.changeSorting = function(column) {
-      var sort = $scope.sort;
+  $scope.changeSorting = function(sort, column) {
       if (sort.column == column) {
         sort.descending = !sort.descending;
       } else {
@@ -82,9 +81,9 @@ controller('beersController', function($scope, beerAPIservice, $modal) {
   };
 
   // returns the appropriate CSS class for the sort direction
-  $scope.sortClass = function(column) {
-    if (column !== $scope.sort.column) { return; }
-    if (!$scope.sort.descending) {
+  $scope.sortClass = function(sort, column) {
+    if (column !== sort.column) { return; }
+    if (!sort.descending) {
       return 'glyphicon-sort-by-attributes';
     } else {
       return 'glyphicon-sort-by-attributes-alt';
