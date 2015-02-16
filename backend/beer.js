@@ -50,8 +50,8 @@ app.get('/nodejs/beer/search', function (req, res) {
 		// sanitize the query string input
 		var beer = {
 			brewery: decodeURIComponent(req.query.brewery),
-			name: decodeURIComponent(req.query.name),
-		}
+			name: decodeURIComponent(req.query.name)
+		};
 		// apply conversions to the beer input
 		converter.handle(beer);
 
@@ -60,8 +60,8 @@ app.get('/nodejs/beer/search', function (req, res) {
 
 		// look up beer in db
 		db.collection.findOne({
-			brewery: utils.trim(brewery),
-			name: utils.trim(name)
+			brewery: utils.trim(beer.brewery),
+			name: utils.trim(beer.name)
 		}, function(err, doc) {
 			// handle exception from query
 			if (err) {
@@ -80,7 +80,7 @@ app.get('/nodejs/beer/search', function (req, res) {
 				responses.sendSuccess(res, result, true);
 			} else {
 				// if not found, fetch from untappd, store in db, and write out the response
-				searchOptions.qs.q = encodeURIComponent(brewery + ' ' + name);
+				searchOptions.qs.q = encodeURIComponent(beer.brewery + ' ' + beer.name);
 
 				// fire off request to untappd search api
 				request(searchOptions, function (error, response, json) {
@@ -90,8 +90,8 @@ app.get('/nodejs/beer/search', function (req, res) {
 
 							// persist to db
 							db.collection.save({
-								brewery: brewery, 
-								name: name, 
+								brewery: beer.brewery, 
+								name: beer.name, 
 								data: result,
 								created: Date.now()
 							}, function(err, doc) {
