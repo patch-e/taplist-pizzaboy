@@ -65,8 +65,8 @@ app.get('/nodejs/beer/search', function (req, res) {
 
 		// look up beer in db
 		db.collection.findOne({
-			brewery: brewery,
-			name: name
+			brewery: utils.trim(brewery),
+			name: utils.trim(name)
 		}, function(err, doc) {
 			// handle exception from query
 			if (err) {

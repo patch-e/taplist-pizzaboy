@@ -22,7 +22,7 @@ module.exports = {
 	},
 
 	// type safe trim function
-	// returns a trimmed string with continous spaces replaced with a single space
+	// returns a trimmed string with continuous spaces replaced with a single space
 	trim: function(s) {
 		// only invoke trim() if a string was passed in
 		if (typeof s === 'string') { 
