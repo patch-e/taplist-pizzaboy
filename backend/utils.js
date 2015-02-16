@@ -9,6 +9,7 @@ Patrick Crager
 */
 
 module.exports = {
+	
 	addlRegEx: /\(([^()]+)\)$/,
 
 	// type safe lowercase function
@@ -107,8 +108,8 @@ module.exports = {
 	},
 
 	formatDate: function(date, format) {
-	  var dateParts = {
-	  	// month (zero based)
+		var dateParts = {
+			// month (zero based)
 			'M+' : date.getMonth() + 1,
 			// day
 			'd+' : date.getDate(),
@@ -136,4 +137,5 @@ module.exports = {
 
 		return format;
 	}
+
 };

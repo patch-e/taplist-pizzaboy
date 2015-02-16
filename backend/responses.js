@@ -10,6 +10,14 @@ Patrick Crager
 
 module.exports = {
 
+	exceptions: {
+		alsError: 'no response from alsofhampden',
+		queryError: 'missing query string parameter(s)',
+		databaseError: 'could not communicate with database',
+		untappdError: 'no response from untappd',
+		untappdSearchError: 'could not locate on untappd'
+	},
+
 	// send successful JSON response
 	sendSuccess: function(res, data, cached) {
 		var headers = {

@@ -17,7 +17,8 @@ var http = require('http'),
 		console = require('clim')('beer'),
 		mongojs = require('mongojs'),
 		utils = require('./utils'),
-		responses = require('./responses');
+		responses = require('./responses'),
+		converter = require('./converter');
 
 // request options
 var listOptions = {
@@ -47,18 +48,12 @@ app.get('/nodejs/beer/search', function (req, res) {
 
 	if (req.query.brewery && req.query.name) {
 		// sanitize the query string input
-		var brewery = decodeURIComponent(req.query.brewery),
-				name = decodeURIComponent(req.query.name),
-				// replace forward slashes with a space, common with collab beers
-				brewery = brewery.replace('/', ' '),
-				// brewery fixes on a case-by-case basis
-				brewery = brewery.replace('OSKARBLUES', 'OSKAR BLUES'),
-				// remove any bracketed special text in the name, [NITRO], [FIRKIN], [SOUR] etc.
-				name = name.replace(/ *\[[^)]*\] */g, ''),
-				// name fixes on a case-by-case basis
-				name = name.replace('POMEGRANATE/ROSE-HIP SOUR ALE', 'POMEGRANATE/ROSE-HIP SOUR'),
-				name = name.replace('2014', ''),
-				name = name.replace('2015', '');
+		var beer = {
+			brewery: decodeURIComponent(req.query.brewery),
+			name: decodeURIComponent(req.query.name),
+		}
+		// apply conversions to the beer input
+		converter.handle(beer);
 
 		// get a hook to the database
 		var db = mongojs('beer', ['collection']);
@@ -71,7 +66,7 @@ app.get('/nodejs/beer/search', function (req, res) {
 			// handle exception from query
 			if (err) {
 				responses.sendError(res, {
-					desc: 'could not communicate with database',
+					desc: responses.exceptions.databaseError,
 					code: 500,
 					error: err
 				});
@@ -107,14 +102,14 @@ app.get('/nodejs/beer/search', function (req, res) {
 							});	
 						} else {
 							responses.sendError(res, {
-								desc: 'could not locate on untappd',
+								desc: response.exceptions.untappdSearchError,
 								code: 404,
 								query: searchOptions.qs.q
 							});
 						}
 					} else {
 						responses.sendError(res, {
-							desc: 'no response from untappd',
+							desc: responses.exceptions.untappdError,
 							code: 500,
 							response: response,
 							error: error
@@ -125,7 +120,7 @@ app.get('/nodejs/beer/search', function (req, res) {
 		});
 	} else {
 		responses.sendError(res, {
-			desc: 'missing query string parameter(s)', 
+			desc: responses.exceptions.queryError,
 			code: 500
 		});
 	}
@@ -192,7 +187,7 @@ app.get('/nodejs/beer', function (req, res) {
 			responses.sendSuccess(res, results.reverse(), true);
 		} else {
 			responses.sendError(res, {
-				desc: 'no response from alsofhampden',
+				desc: responses.exceptions.alsError,
 				code: 500,
 				response: response,
 				error: error
