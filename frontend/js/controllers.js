@@ -96,14 +96,14 @@ controller('beersController', function($scope, beerAPIservice, $modal) {
 
     beerAPIservice.search(beer.brewery, beer.name).
     success(function(data) {
-      var modalInstance = $modal.open({
+      var modal = $modal.open({
         templateUrl: 'templates/searchResultModal.html',
         controller: 'searchResultController',
         resolve: { beer: function() { return data; } }
       });
-      setTimeout(function() {
+      modal.result.finally(function() {
         document.getElementById('overlay').style.display = 'none';
-      }, 250);
+      });
     }).
     error(function(error) {
       if (error.code === 404) {
