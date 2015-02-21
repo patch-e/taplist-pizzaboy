@@ -39,20 +39,26 @@ gulp.task('scripts', function() {
         pipe(concat('beersapp.js')).
         pipe(gulp.dest('release/js')).
         pipe(rename('beersapp.min.js')).
-        pipe(uglify({mangle: false})).
+        pipe(uglify({
+            mangle: false
+        })).
         pipe(gulp.dest('release/js'));
 });
 
 // concat & minify css task
 gulp.task('css', function() {
     return gulp.src([
+            'css/vendor/SourceSansPro.css',
             'css/vendor/bootstrap-3.2.0.min.css',
             'css/main.css'
         ]).
         pipe(concat('beersapp.css')).
         pipe(gulp.dest('release/css')).
         pipe(rename('beersapp.min.css')).
-        pipe(minifyCSS({keepSpecialComments: 0})).
+        pipe(minifyCSS({
+            keepSpecialComments: 0,
+            processImport: false
+        })).
         pipe(gulp.dest('release/css'));
 });
 
