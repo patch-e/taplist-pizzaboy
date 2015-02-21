@@ -3,9 +3,13 @@
   "version": "1.2.0",
   "description": "Providing a mobile-friendly beer list at Al's of Hampden!",
   "author": "Patrick Crager",
-  "homepage": "https://github.com/patch-e/beers-at-als",  
+  "homepage": "https://github.com/patch-e/beers-at-als",
   "bugs": "https://github.com/patch-e/beers-at-als/issues",
-  "keywords": ["beer", "taps", "al's of hampden"],
+  "keywords": [
+    "beer",
+    "taps",
+    "al's of hampden"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/patch-e/beers-at-als.git"
