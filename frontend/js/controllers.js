@@ -99,7 +99,9 @@ controller('beersController', function($scope, beerAPIservice, $modal) {
       var modal = $modal.open({
         templateUrl: 'templates/searchResultModal.html',
         controller: 'searchResultController',
-        resolve: { beer: function() { return data; } }
+        resolve: { 
+          beer: function() { return data; } 
+        }
       });
       modal.result.finally(function() {
         document.getElementById('overlay').style.display = 'none';

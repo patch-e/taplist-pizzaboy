@@ -5,7 +5,11 @@
   "author": "Patrick Crager",
   "homepage": "https://github.com/patch-e/beers-at-als",
   "bugs": "https://github.com/patch-e/beers-at-als/issues",
-  "keywords": ["beer", "taps", "al's of hampden"],
+  "keywords": [
+    "beer",
+    "tap list",
+    "untappd"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/patch-e/beers-at-als.git"
