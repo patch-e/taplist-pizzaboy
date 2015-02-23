@@ -54,14 +54,16 @@ app.get('/nodejs/beer/search', function (req, res) {
 		};
 		// apply conversions to the beer input
 		converter.handle(beer);
+		beer.brewery = utils.trim(beer.brewery);
+		beer.name = utils.trim(beer.name);
 
 		// get a hook to the database
 		var db = mongojs('beer', ['collection']);
 
 		// look up beer in db
 		db.collection.findOne({
-			brewery: utils.trim(beer.brewery),
-			name: utils.trim(beer.name)
+			brewery: beer.brewery,
+			name: beer.name
 		}, function(err, doc) {
 			// handle exception from query
 			if (err) {
