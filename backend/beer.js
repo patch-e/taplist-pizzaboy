@@ -104,7 +104,7 @@ app.get('/nodejs/beer/search', function (req, res) {
 							});	
 						} else {
 							responses.sendError(res, {
-								desc: response.exceptions.untappdSearchError,
+								desc: responses.exceptions.untappdSearchError,
 								code: 404,
 								query: searchOptions.qs.q
 							});
