@@ -9,7 +9,7 @@ Patrick Crager
 */
 
 angular.module('BeersApp.services', []).
-factory('beerAPIservice', function($http) {
+factory('$beerAPIservice', function($http) {
 
   var beerAPI = {};
 
@@ -27,7 +27,7 @@ factory('beerAPIservice', function($http) {
       method: 'GET',
       url: '/nodejs/beer/search',
       params: {
-      	brewery: brewery, 
+      	brewery: brewery,
       	name: name
       }
     });
