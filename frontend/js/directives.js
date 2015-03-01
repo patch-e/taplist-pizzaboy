@@ -10,7 +10,7 @@ Patrick Crager
 
 angular.module('BeersApp.directives', []).
 
-directive('topScroller', function($timeout) {
+directive('topScroller', function() {
 
   return {
     restrict: 'E',
