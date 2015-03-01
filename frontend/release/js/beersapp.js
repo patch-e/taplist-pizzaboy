@@ -273,6 +273,7 @@ angular.module('BeersApp', [
 
   'BeersApp.controllers',
   'BeersApp.services',
+  'BeersApp.directives',
   'ngRoute',
   'ui.bootstrap'
 
@@ -281,7 +282,7 @@ config(['$routeProvider', function($routeProvider) {
 
   $routeProvider.
   when('/table', {templateUrl: 'partials/table.html', controller: 'beersController'}).
-  when('/block', {templateUrl: 'partials/block.html', controller: 'beersController'}).  
+  when('/block', {templateUrl: 'partials/block.html', controller: 'beersController'}).
   when('/list', {templateUrl: 'partials/list.html', controller: 'beersController'}).
   otherwise({redirectTo: '/table'});
 
@@ -298,7 +299,7 @@ Patrick Crager
 */
 
 angular.module('BeersApp.services', []).
-factory('beerAPIservice', function($http) {
+factory('$beerAPIservice', function($http) {
 
   var beerAPI = {};
 
@@ -316,7 +317,7 @@ factory('beerAPIservice', function($http) {
       method: 'GET',
       url: '/nodejs/beer/search',
       params: {
-      	brewery: brewery, 
+      	brewery: brewery,
       	name: name
       }
     });
@@ -341,14 +342,14 @@ angular.module('BeersApp.controllers', []).
 controller('mainController', function($scope) {
 
   // html fragments
-  $scope.templates = { 
+  $scope.templates = {
     helpModal: {url: 'templates/helpModal.html'},
     aboutModal: {url: 'templates/aboutModal.html'}
   };
 
 }).
 
-controller('beersController', function($scope, beerAPIservice, $modal) {
+controller('beersController', function($scope, $beerAPIservice, $modal) {
 
   // list of table headings for table view
   $scope.headings = [
@@ -366,7 +367,7 @@ controller('beersController', function($scope, beerAPIservice, $modal) {
   $scope.beersList = [];
 
   // fetch the beers through the list() service call
-  beerAPIservice.list().
+  $beerAPIservice.list().
   success(function(data) {
     // sort holds initial sorting values for each list
     angular.forEach(data, function(beerList, index) {
@@ -397,12 +398,6 @@ controller('beersController', function($scope, beerAPIservice, $modal) {
       }
   };
 
-  // scrolls the page to the top in an animated fashion
-  $scope.scrollToTop = function() {
-    $('html, body').animate({scrollTop: 0}, 'slow');
-    return false;
-  };
-
   // collapses the expanded navigation bar
   $scope.collapseNav = function() {
     $('.collapse.in').collapse('hide');
@@ -422,13 +417,13 @@ controller('beersController', function($scope, beerAPIservice, $modal) {
   $scope.search = function(beer) {
     document.getElementById('overlay').style.display = 'block';
 
-    beerAPIservice.search(beer.brewery, beer.name).
+    $beerAPIservice.search(beer.brewery, beer.name).
     success(function(data) {
       var modal = $modal.open({
         templateUrl: 'templates/searchResultModal.html',
         controller: 'searchResultController',
-        resolve: { 
-          beer: function() { return data; } 
+        resolve: {
+          beer: function() { return data; }
         }
       });
       modal.result.finally(function() {
@@ -464,6 +459,33 @@ controller('searchResultController', function($scope, $modalInstance, beer) {
       document.location = 'untappd:///?beer=' + bid;
     } else {
       window.open('http://untappd.com/beer/' + bid);
+    }
+  };
+
+});
+
+/*
+directives.js
+Directives module for the angular BeersApp
+
+Copyright (c) 2015
+
+Patrick Crager
+
+*/
+
+angular.module('BeersApp.directives', []).
+
+directive('topScroller', function($timeout) {
+
+  return {
+    restrict: 'E',
+    template: '<a href="" class="pull-right top"><span class="glyphicon glyphicon-chevron-up"></span></a>',
+    link: function(scope, element, attrs) {
+      element.on('click', function() {
+        $('html, body').animate({scrollTop: 0}, 'slow');
+        return false;
+      });
     }
   };
 

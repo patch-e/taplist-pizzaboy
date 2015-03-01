@@ -69,12 +69,6 @@ controller('beersController', function($scope, $beerAPIservice, $modal) {
       }
   };
 
-  // scrolls the page to the top in an animated fashion
-  $scope.scrollToTop = function() {
-    $('html, body').animate({scrollTop: 0}, 'slow');
-    return false;
-  };
-
   // collapses the expanded navigation bar
   $scope.collapseNav = function() {
     $('.collapse.in').collapse('hide');

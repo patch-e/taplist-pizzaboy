@@ -34,7 +34,8 @@ gulp.task('scripts', function() {
             'js/vendor/ui-bootstrap-custom-tpls-0.12.0.min.js',
             'js/app.js',
             'js/services.js',
-            'js/controllers.js'
+            'js/controllers.js',
+            'js/directives.js'
         ]).
         pipe(concat('beersapp.js')).
         pipe(gulp.dest('release/js')).
