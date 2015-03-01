@@ -21,7 +21,7 @@
                         <div><small><i>{{beer.addl}}</i></small></div>
                         <div>{{beer.brewery}}</div>
                         <div>{{beer.style}}</div>
-                        <div>{{beer.abv | number : 2}} %</div>
+                        <div ng-hide="!beer.abv">{{beer.abv | number : 2}} %</div>
                     </div>
                 </div>
                 <div ng-hide="filteredBeers.length" style="padding: 0px 15px 10px 15px;">

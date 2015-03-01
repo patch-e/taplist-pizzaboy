@@ -31,7 +31,7 @@
                         </td>
                         <td><div>{{beer.brewery}}</div></td>
                         <td><div>{{beer.style}}</div></td>
-                        <td><span>{{beer.abv | number : 2}} {{beer.abv ? '%' : ''}}</span></td>
+                        <td><span>{{beer.abv | number : 2}} {{beer.abv ? '%' : 'n/a'}}</span></td>
                     </tr>
                     <tr ng-hide="filteredBeers.length">
                         <td colspan="5">No beers match entered filter criteria.</td>

@@ -20,7 +20,7 @@
                     <div><small><i>{{beer.addl}}</i></small></div>
                     <div>{{beer.brewery}}</div>
                     <div>{{beer.style}}</div>
-                    <div>{{beer.abv | number : 2}} %</div>
+                    <div ng-hide="!beer.abv">{{beer.abv | number : 2}} %</div>
                 </div>
             </li>
             <li class="list-group-item" ng-hide="filteredBeers.length">
