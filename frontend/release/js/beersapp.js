@@ -301,26 +301,28 @@ Patrick Crager
 angular.module('BeersApp.services', []).
 factory('$beerAPIservice', function($http) {
 
-  var beerAPI = {};
+  var beerAPI = {
 
-  // list provides the JSON beer list
-  beerAPI.list = function() {
-    return $http({
-      method: 'GET',
-      url: '/nodejs/beer'
-    });
-  };
+    // list provides the JSON beer list
+    list: function() {
+      return $http({
+        method: 'GET',
+        url: '/nodejs/beer'
+      });
+    },
 
-  // search provides the JSON beer search result
-  beerAPI.search = function(brewery, name) {
-    return $http({
-      method: 'GET',
-      url: '/nodejs/beer/search',
-      params: {
-      	brewery: brewery,
-      	name: name
-      }
-    });
+    // search provides the JSON beer search result
+    search: function(brewery, name) {
+      return $http({
+        method: 'GET',
+        url: '/nodejs/beer/search',
+        params: {
+          brewery: brewery,
+          name: name
+        }
+      });
+    }
+
   };
 
   return beerAPI;
@@ -476,17 +478,28 @@ Patrick Crager
 
 angular.module('BeersApp.directives', []).
 
-directive('topScroller', function() {
+directive('footerTopscroller', function() {
 
   return {
-    restrict: 'E',
-    template: '<a href="" class="pull-right top"><span class="glyphicon glyphicon-chevron-up"></span></a>',
+    restrict: 'A',
+    template: '<span class="glyphicon glyphicon-chevron-up"></span>',
     link: function(scope, element, attrs) {
+      element.attr('href', '');
+      element.addClass('pull-right top');
       element.on('click', function() {
         $('html, body').animate({scrollTop: 0}, 'slow');
         return false;
       });
     }
+  };
+
+}).
+
+directive('footerTimestamp', function() {
+
+  return {
+    restrict: 'A',
+    template: 'Generated @ {{beerList.timestamp | date: \'medium\'}}'
   };
 
 });
