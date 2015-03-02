@@ -11,8 +11,7 @@ Patrick Crager
 angular.module('BeersApp.services', []).
 factory('$beerAPIservice', function($http) {
 
-  var beerAPI = {
-
+  return {
     // list provides the JSON beer list
     list: function() {
       return $http({
@@ -32,9 +31,6 @@ factory('$beerAPIservice', function($http) {
         }
       });
     }
-
   };
-
-  return beerAPI;
 
 });

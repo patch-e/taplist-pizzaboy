@@ -41,14 +41,25 @@ directive('noResults', function() {
 
 directive('modalHelp', function() {
   return {
-    restrict: 'E',
+    restrict: 'A',
     templateUrl: 'templates/helpModal.html'
   };
 }).
 
 directive('modalAbout', function() {
   return {
-    restrict: 'E',
+    restrict: 'A',
     templateUrl: 'templates/aboutModal.html'
+  };
+}).
+
+directive('overlay', function() {
+  return {
+    restrict: 'A',
+    link: function(scope, element, attrs) {
+      element.attr('id', 'overlay');
+      element.addClass('modal-backdrop fade in');
+      element.css('display', 'none');
+    }
   };
 });
