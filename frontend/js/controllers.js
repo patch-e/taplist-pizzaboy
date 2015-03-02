@@ -10,15 +10,7 @@ Patrick Crager
 
 angular.module('BeersApp.controllers', []).
 
-controller('mainController', function($scope) {
-
-  // html fragments
-  $scope.templates = {
-    helpModal: {url: 'templates/helpModal.html'},
-    aboutModal: {url: 'templates/aboutModal.html'}
-  };
-
-}).
+controller('mainController', function($scope) {}).
 
 controller('beersController', function($scope, $beerAPIservice, $modal) {
 
