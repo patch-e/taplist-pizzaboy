@@ -30,6 +30,7 @@ controller('beersController', function($scope, $beerAPIservice, $modal) {
   $scope.beersList = [];
 
   // fetch the beers through the list() service call
+  document.getElementById('attribution').style.display = 'none';
   $beerAPIservice.list().
   success(function(data) {
     // sort holds initial sorting values for each list
@@ -44,7 +45,8 @@ controller('beersController', function($scope, $beerAPIservice, $modal) {
     // remove the background color, loading indication, and show the main content
     document.body.className = '';
     document.getElementById('loading').style.display = 'none';
-    document.getElementById('main').style.display = 'block';
+    document.getElementById('main').style.display = 'inherit';
+    document.getElementById('attribution').style.display = 'inherit';
   }).
   error(function(error) {
     document.getElementById('loading').style.display = 'none';
@@ -78,7 +80,7 @@ controller('beersController', function($scope, $beerAPIservice, $modal) {
 
   // calls the search API and opens a modal window upon success
   $scope.search = function(beer) {
-    document.getElementById('overlay').style.display = 'block';
+    document.getElementById('overlay').style.display = 'inherit';
 
     $beerAPIservice.search(beer.brewery, beer.name).
     success(function(data) {
