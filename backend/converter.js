@@ -12,8 +12,9 @@ module.exports = {
 
 	handle: function(beer) {
 		beer.brewery = beer.brewery.
-			// replace forward slashes with a space, common with collab beers
-			replace('/', ' ').
+			// only consider the string to the left of a forward slash,
+			// common with collab beers that untappd doesn't really support 
+			replace(/(\/).+$/g, '').
 			// additional brewery fixes on a case-by-case basis
 			replace('OSKARBLUES', 'OSKAR BLUES');
 
