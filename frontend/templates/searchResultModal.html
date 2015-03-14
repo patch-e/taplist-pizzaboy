@@ -7,7 +7,8 @@
     <img class="beerLabel" ng-src="{{beer.data.beer_label}}">
     <p><strong>Style:</strong> {{beer.data.beer_style ? beer.data.beer_style : 'n/a'}}</p>
     <p><strong>ABV:</strong> <span ng-hide="{{beer.data.beer_abv === 0}}">{{beer.data.beer_abv | number : 2}}</span> {{beer.data.beer_abv > 0 ? '%' : 'n/a'}}</p>
-    <p><strong>IBU:</strong> <span ng-hide="{{beer.data.beer_ibu === 0}}">{{beer.data.beer_ibu}}</span> {{beer.data.beer_ibu > 0 ? '' : 'n/a'}}</p>
+    <p><strong>IBU:</strong> <span ng-hide="{{beer.data.beer_ibu === 0}}">{{beer.data.beer_ibu | number}}</span> {{beer.data.beer_ibu > 0 ? '' : 'n/a'}}</p>
+    <p><strong>Checkins:</strong> <span ng-hide="{{beer.data.checkin_count === 0}}">{{beer.data.checkin_count | number}}</span> {{beer.data.checkin_count > 0 ? '' : 'n/a'}}</p>    
     <p><strong>Description:</strong> {{beer.data.beer_description ? beer.data.beer_description : 'n/a'}}<p>
     <small><em>data provided by <a href="https://untappd.com" target="_blank">untappd.com</a></em></small>
 </div>
