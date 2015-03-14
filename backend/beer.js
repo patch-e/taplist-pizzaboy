@@ -89,6 +89,8 @@ app.get('/nodejs/beer/search', function (req, res) {
 					if (!error && response.statusCode === 200) {
 						if (json.response.found > 0 && json.response.beers.items.length > 0) {
 							result = json.response.beers.items[0].beer;
+							result.checkin_count = json.response.beers.items[0].checkin_count;
+							result.brewery = json.response.beers.items[0].brewery;
 
 							// persist to db
 							db.collection.save({
