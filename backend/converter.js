@@ -16,7 +16,8 @@ module.exports = {
 			// common with collab beers that untappd doesn't really support 
 			replace(/(\/).+$/g, '').
 			// additional brewery fixes on a case-by-case basis
-			replace('OSKARBLUES', 'OSKAR BLUES');
+			replace('OSKARBLUES', 'OSKAR BLUES').
+			replace('THE RAVEN', 'BALTIMORE-WASHINGTON BEER WORKS');
 
 		beer.name = beer.name.
 			// remove any bracketed special text in the name, [NITRO], [FIRKIN], [SOUR] etc.
