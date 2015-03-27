@@ -337,7 +337,14 @@ Patrick Crager
 
 angular.module('BeersApp.controllers', []).
 
-controller('mainController', function($scope) {}).
+controller('mainController', function($scope) {
+  
+  // collapses the expanded navigation bar
+  $scope.collapseNav = function() {
+    $('.collapse.in').collapse('hide');
+  };
+
+}).
 
 controller('beersController', function($scope, $beerAPIservice, $modal) {
 
@@ -388,11 +395,6 @@ controller('beersController', function($scope, $beerAPIservice, $modal) {
         sort.column = column;
         sort.descending = false;
       }
-  };
-
-  // collapses the expanded navigation bar
-  $scope.collapseNav = function() {
-    $('.collapse.in').collapse('hide');
   };
 
   // returns the appropriate CSS class for the sort direction
