@@ -13,7 +13,7 @@
         <ul class="list-group">
             <li class="list-group-item clearfix beerSearch" ng-repeat="beer in filteredBeers = (beerList.beers | filter: searchFilter | orderBy: 'number' : false)" ng-click="search(beer)">
                 <div class="pull-left">
-                    <span class="label" ng-class="{'label-success': beer.growler, 'label-warning': !beer.growler}">{{beer.number}}</span>
+                    <span class="label" ng-class="{'label-success': beer.growler, 'label-warning': !beer.growler}">{{prependBeerNumber(beer.number, beerList.title)}}</span>
                 </div>
                 <div class="pull-left" style="padding-left: 10px;">
                     <div><b>{{beer.name}}</b></div>
