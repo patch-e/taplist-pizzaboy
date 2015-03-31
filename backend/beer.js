@@ -97,7 +97,7 @@ app.get('/nodejs/beer/search', function (req, res) {
 								brewery: beer.brewery, 
 								name: beer.name, 
 								data: result,
-								created: Date.now()
+								created: new Date()
 							}, function(err, doc) {
 								doc.fetchMethod = 'untappd';
 								responses.sendSuccess(res, doc, true);
