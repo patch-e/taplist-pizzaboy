@@ -61,7 +61,7 @@ controller('beersController', function($scope, $beerAPIservice, $modal) {
 
   // enhances the numbering of "special" beer lists depending on title of list: cask, bottles, etc.
   $scope.prependBeerNumber = function(number, title) {
-      var prepend = ''
+      var prepend = '';
 
       if (title.indexOf('cask') > -1) { 
         // F is for firkin/cask!
