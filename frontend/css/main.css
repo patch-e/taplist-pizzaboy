@@ -1,13 +1,28 @@
+a { 
+	color: #cc6600;
+}
+
+a:focus, 
+a:hover {
+	color: #ff9933;
+}
+
+.jumbotron {
+	background-color: inherit;
+}
+
 #loading {
 	text-align: center;
 }
 
-.background-loading {
-	background-color: #e6e6e6;
+.progress-bar {
+	background-color: #ffc415;
+	width: 100%;
 }
 
-.progress-bar {
-	width: 100%;
+.close {
+	font-size: 28px;
+	line-height: inherit;
 }
 
 .nav-btns {
@@ -24,15 +39,14 @@
 
 .btn-untappd {
 	background-color: #ffcc00;
-	color: #fff;
+	color: #ffffff;
 	font-weight: bold;
 }
 
 .btn-untappd:hover, 
 .btn-untappd:focus, 
 .btn-untappd:active, 
-.btn-untappd.active,
-.open > .dropdown-toggle.btn-untappd {
+.btn-untappd.active {
 	background-color: #e6b800;
 	border-color: #e6b800;
 }
@@ -58,12 +72,30 @@
 	width: 31px;
 	z-index: 2;
 }
+
 .input-clear:hover,
 .input-clear:focus {
 	opacity: 1;
 }
 
-.panel-title,
+.label-warning {
+	background-color: #ff9933;
+}
+
+.panel-primary {
+	border-color: #ffc415;
+}
+
+.panel-primary > .panel-heading {
+	background-color: #ffc415;
+	border-color: #ffc415;
+}
+
+.panel-title {
+	font-weight: 400;
+	text-transform: capitalize;
+}
+
 .capitalize {
 	text-transform: capitalize;
 }
@@ -73,11 +105,11 @@
 }
 
 #view-table table th span.heading {
-	border-bottom: dashed 1px #2780e3;
+	border-bottom: dashed 1px #cc6600;
 }
 
 #view-table table th span.glyphicon {
-	color: #2780e3;
+	color: #cc6600;
 	font-size: 10px;
 }
 
@@ -112,6 +144,23 @@
 
 .beerSearch {
 	cursor: pointer;
+}
+
+a.topScroller {
+	color: #333;
+	opacity: 0.4;
+}
+
+a.topScroller:focus,
+a.topScroller:hover {
+	opacity: 1;
+}
+
+.appicon {
+	display: block;
+	height: auto;
+	margin: 0 auto;
+	width: 90px;
 }
 
 @media (max-width: 767px) {

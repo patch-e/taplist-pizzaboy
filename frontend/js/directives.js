@@ -16,7 +16,7 @@ directive('footerTopscroller', function() {
     template: '<span class="glyphicon glyphicon-chevron-up"></span>',
     link: function(scope, element, attrs) {
       element.attr('href', '');
-      element.addClass('pull-right top');
+      element.addClass('pull-right top topScroller');
       element.on('click', function() {
         $('html, body').animate({scrollTop: 0}, 'slow');
         return false;

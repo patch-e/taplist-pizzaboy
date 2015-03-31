@@ -376,8 +376,7 @@ controller('beersController', function($scope, $beerAPIservice, $modal) {
     });
     $scope.beersList = data;
 
-    // remove the background color, loading indication, and show the main content
-    document.body.className = '';
+    // remove the loading indication and show the main content
     document.getElementById('loading').style.display = 'none';
     document.getElementById('main').style.display = 'inherit';
     document.getElementById('attribution').style.display = 'inherit';
@@ -386,6 +385,22 @@ controller('beersController', function($scope, $beerAPIservice, $modal) {
     document.getElementById('loading').style.display = 'none';
     alert('Something went wrong when getting the Al\'s beer list!\n\nRefresh and try again.');
   });
+
+  // enhances the numbering of "special" beer lists depending on title of list: cask, bottles, etc.
+  $scope.prependBeerNumber = function(number, title) {
+      var prepend = ''
+
+      if (title.indexOf('cask') > -1) { 
+        // F is for firkin/cask!
+        prepend = 'F'; 
+      }
+      if (title.indexOf('bottle') > -1) { 
+        // B is for bottle!
+        prepend = 'B'; 
+      }
+
+      return prepend + number;
+  };
 
   // updates "sort" variable onclick of table headings
   $scope.changeSorting = function(sort, column) {
@@ -400,6 +415,7 @@ controller('beersController', function($scope, $beerAPIservice, $modal) {
   // returns the appropriate CSS class for the sort direction
   $scope.sortClass = function(sort, column) {
     if (column !== sort.column) { return; }
+
     if (!sort.descending) {
       return 'glyphicon-sort-by-attributes';
     } else {
@@ -430,6 +446,7 @@ controller('beersController', function($scope, $beerAPIservice, $modal) {
       } else {
         alert('Something went wrong when looking up this beer!\nPlease try again.');
       }
+
       document.getElementById('overlay').style.display = 'none';
     });
   };
@@ -449,6 +466,7 @@ controller('searchResultController', function($scope, $modalInstance, beer) {
   // otherwise launch the default browser to the beer on untappd's website
   $scope.checkin = function(bid) {
     var isMobile = /(iPhone|Android|IEMobile)/.test(navigator.userAgent);
+
     if (isMobile) {
       document.location = 'untappd:///?beer=' + bid;
     } else {
@@ -476,7 +494,7 @@ directive('footerTopscroller', function() {
     template: '<span class="glyphicon glyphicon-chevron-up"></span>',
     link: function(scope, element, attrs) {
       element.attr('href', '');
-      element.addClass('pull-right top');
+      element.addClass('pull-right top topScroller');
       element.on('click', function() {
         $('html, body').animate({scrollTop: 0}, 'slow');
         return false;
