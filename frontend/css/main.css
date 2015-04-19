@@ -1,8 +1,8 @@
-a { 
+a {
 	color: #cc6600;
 }
 
-a:focus, 
+a:focus,
 a:hover {
 	color: #ff9933;
 }
@@ -16,7 +16,7 @@ a:hover {
 }
 
 .progress-bar {
-	background-color: #ffc415;
+	background-color: #c60;
 	width: 100%;
 }
 
@@ -43,9 +43,9 @@ a:hover {
 	font-weight: bold;
 }
 
-.btn-untappd:hover, 
-.btn-untappd:focus, 
-.btn-untappd:active, 
+.btn-untappd:hover,
+.btn-untappd:focus,
+.btn-untappd:active,
 .btn-untappd.active {
 	background-color: #e6b800;
 	border-color: #e6b800;
@@ -198,7 +198,7 @@ a.topScroller:hover {
 @media (min-width: 992px) {
 	#view-block .beerBlock:nth-child(3n+1) {
 		clear: none;
-	}	
+	}
 	#view-block .beerBlock:nth-child(4n+1) {
 		clear: both;
 	}
@@ -210,5 +210,5 @@ a.topScroller:hover {
 	}
 	#view-block .beerBlock:nth-child(6n+1) {
 		clear: both;
-	}	
+	}
 }
