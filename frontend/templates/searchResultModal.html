@@ -2,7 +2,6 @@
     <button type="button" class="close" ng-click="close()"><span>&times;</span></button>
     <h3 class="modal-title">{{beer.name}}</h3>
     <h4 class="modal-title">{{beer.brewery}}</h3>
-    <span class="label ng-binding label-success" ng-class="{'label-success': beer.growler, 'label-warning': !beer.growler}">54</span>
 </div>
 <div class="modal-body">
     <img class="beerLabel" ng-src="{{beer.data.beer_label}}">
