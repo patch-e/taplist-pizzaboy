@@ -9,14 +9,15 @@ Patrick Crager
 */
 
 module.exports = {
-	
+
 	addlRegEx: /\(([^()]+)\)$/,
+	nitroLabel: '[NITRO]',
 
 	// type safe lowercase function
 	// returns a lowercased string
 	toLower: function(s) {
 		// only invoke toLowerCase() if a string was passed in
-		if (typeof s === 'string') { 
+		if (typeof s === 'string') {
 			s = s.toLowerCase();
 		}
 		return s;
@@ -26,7 +27,7 @@ module.exports = {
 	// returns a trimmed string with continuous spaces replaced with a single space
 	trim: function(s) {
 		// only invoke trim() if a string was passed in
-		if (typeof s === 'string') { 
+		if (typeof s === 'string') {
 			s = s.trim().replace('\n', '').replace('\t', '').replace(/\s+/g,' ');
 		}
 		return s;
@@ -34,7 +35,7 @@ module.exports = {
 
 	// parses the "ABV" text to return a floating point value
 	parseABV: function(s) {
-		if (typeof s === 'string') { 
+		if (typeof s === 'string') {
 			s = s.replace('ABV:', '').replace(' ', '').replace('%', '');
 		}
 		return parseFloat(s);
@@ -42,7 +43,7 @@ module.exports = {
 
 	// parses the "last updated" text to remove the prefix label
 	parseLastUpdated: function(s) {
-		if ( (typeof s === 'string') && (s.lastIndexOf('Last Update:', 0) === 0) ) { 
+		if ( (typeof s === 'string') && (s.lastIndexOf('Last Update:', 0) === 0) ) {
 			s = s.replace('Last Update:', '').replace(' ', '');
 		}
 		return s;
@@ -50,7 +51,7 @@ module.exports = {
 
 	// parses the "title" text to remove any beer prefixes
 	parseTitle: function(s) {
-		if ( (typeof s === 'string') && (s.lastIndexOf('Beers', 0) === 0) ) { 
+		if ( (typeof s === 'string') && (s.lastIndexOf('Beers', 0) === 0) ) {
 			s = s.replace('Beers', '').replace(' ', '');
 		}
 		return s;
@@ -63,11 +64,23 @@ module.exports = {
 	},
 
 	// parses the name text to remove "additional" text in parens
+	// also performs additional fixes for bad escaping and undesireable placement of labels
 	parseName: function(s) {
+		// remove the "additional" text
+		s = s.replace(this.addlRegEx, '');
+
 		// found this ugliness of an escaped backslash followed by an escaped quote on a beer name
-		// ex: Mean Cup O\'Stout - this fixes that
+		// ex: Mean Cup O\\\'Stout - this fixes that to Mean Cup O\'Stout
 		s = s.replace('\\\'', '\'');
-		return s.replace(this.addlRegEx, '');
+
+		// moves any prefixed nitro label to the end of the string
+		if (s.lastIndexOf(this.nitroLabel) > -1) {
+			s = s.replace(this.nitroLabel, '');
+			s = s + ' ' + this.nitroLabel;
+			s = this.trim(s);
+		}
+
+		return s;
 	},
 
 	createBeer: function(index) {
