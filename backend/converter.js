@@ -12,6 +12,7 @@ module.exports = {
 
 	handle: function(beer) {
 		beer.brewery = beer.brewery.
+			replace('PIZZA BOY/ TROEGS/ ABC', 'TROEGS/PIZZA BOY/ABC').
 			// only consider the string to the left of a forward slash,
 			// common with collab beers that untappd doesn't really support
 			replace(/(\/).+$/g, '').
@@ -31,7 +32,8 @@ module.exports = {
 			replace('2016', '').
 			replace('8OZ', '').
 			replace('SUNSHINE-WITH', 'SUNSHINE - WITH').
-			replace('BROWN(TOASTED', 'BROWN (TOASTED');
+			replace('(TOASTEDPECANS)HOPTEST#1', '(TOASTED PECANS)').
+			replace('HELLNATION-HOPTEST#1', 'HELLNATION');
 	}
 
 };
