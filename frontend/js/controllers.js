@@ -10,8 +10,20 @@ Patrick Crager
 
 angular.module('BeersApp.controllers', []).
 
-controller('mainController', function($scope) {
-  
+controller('mainController', function($scope, $cookies) {
+
+  var clientID = 'B2DA1064B03A353A75E9B035879ECA2CA3E9C3E6';
+  var callbackURL = 'http://mccrager.com/nodejs/beer/login';
+
+  $scope.loginURL  = 'https://untappd.com/oauth/authenticate/?client_id=';
+  $scope.loginURL += clientID;
+  $scope.loginURL += '&response_type=code&redirect_url=';
+  $scope.loginURL += encodeURI(callbackURL);
+
+  $scope.logoutURL  = '/nodejs/beer/logout';
+
+  $scope.isAuthenticated = !!(($cookies.untappdToken || '').length);
+
   // collapses the expanded navigation bar
   $scope.collapseNav = function() {
     $('.collapse.in').collapse('hide');
@@ -63,13 +75,13 @@ controller('beersController', function($scope, $beerAPIservice, $modal) {
   $scope.prependBeerNumber = function(number, title) {
       var prepend = '';
 
-      if (title.indexOf('cask') > -1) { 
+      if (title.indexOf('cask') > -1) {
         // F is for firkin/cask!
-        prepend = 'F'; 
+        prepend = 'F';
       }
-      if (title.indexOf('bottle') > -1) { 
+      if (title.indexOf('bottle') > -1) {
         // B is for bottle!
-        prepend = 'B'; 
+        prepend = 'B';
       }
 
       return prepend + number;
@@ -126,7 +138,9 @@ controller('beersController', function($scope, $beerAPIservice, $modal) {
 
 }).
 
-controller('searchResultController', function($scope, $modalInstance, beer) {
+controller('searchResultController', function($scope, $cookies, $modalInstance, beer) {
+
+  $scope.isAuthenticated = !!(($cookies.untappdToken || '').length);
 
   $scope.beer = beer;
 

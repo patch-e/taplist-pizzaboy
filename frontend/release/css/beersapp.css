@@ -31,7 +31,10 @@ a:hover {
 	font-size: 28px;
 	line-height: inherit;
 }
-
+.navbar-btn {
+	padding-left: 12px;
+	padding-right: 12px;
+}
 .nav-btns {
 	text-align: center;
 }
@@ -42,6 +45,14 @@ a:hover {
 
 .btn-about:after {
 	content: " About";
+}
+
+.btn-login:after {
+	content: " Login";
+
+}
+.authenticated .btn-login:after {
+	content: " Logout";
 }
 
 .btn-untappd {
@@ -171,12 +182,10 @@ a.topScroller:hover {
 }
 
 @media (max-width: 767px) {
-	.btn-help:after {
-		content: "";
-	}
-
-	.btn-about:after {
-		content: "";
+	.btn-help:after,
+	.btn-about:after,
+	.btn-login:after {
+		content: "" !important;
 	}
 
 	#view-block .beerBlock:nth-child(odd) {

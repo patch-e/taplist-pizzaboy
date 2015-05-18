@@ -29,6 +29,7 @@ gulp.task('scripts', function() {
             'js/vendor/angular-1.2.26.min.js',
             'js/vendor/angular-route.min.js',
             'js/vendor/angular-touch.min.js',
+            'js/vendor/angular-cookies.min.js',
             'js/vendor/jquery-1.11.0.min.js',
             'js/vendor/bootstrap-3.2.0.min.js',
             'js/vendor/ui-bootstrap-custom-tpls-0.12.0.min.js',

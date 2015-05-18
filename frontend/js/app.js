@@ -10,10 +10,11 @@ Patrick Crager
 
 angular.module('BeersApp', [
 
-  'BeersApp.controllers',
   'BeersApp.services',
   'BeersApp.directives',
+  'BeersApp.controllers',
   'ngRoute',
+  'ngCookies',
   'ui.bootstrap'
 
 ]).

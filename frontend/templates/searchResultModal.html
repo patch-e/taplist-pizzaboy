@@ -1,14 +1,26 @@
 <div class="modal-header">
     <button type="button" class="close" ng-click="close()"><span>&times;</span></button>
-    <h3 class="modal-title">{{beer.name}}</h3>
-    <h4 class="modal-title">{{beer.brewery}}</h3>
+    <h3 class="modal-title">{{beer.data.beer_name}}</h3>
+    <h4 class="modal-title" ng-hide="beer.data.brewery.contact.url.length">
+      {{beer.data.brewery.brewery_name}}
+    </h4>
+    <h4 class="modal-title" ng-hide="!beer.data.brewery.contact.url.length">
+      <a target="_blank" href="{{beer.data.brewery.contact.url}}">{{beer.data.brewery.brewery_name}}</a>
+    </h4>
+    <h4 class="modal-title" ng-hide="!beer.data.brewery.location.brewery_city.length && !beer.data.brewery.location.brewery_state.length">
+      {{beer.data.brewery.location.brewery_city}}, {{beer.data.brewery.location.brewery_state}}
+    </h4>
 </div>
 <div class="modal-body">
     <img class="beerLabel" ng-src="{{beer.data.beer_label}}">
     <p><strong>Style:</strong> {{beer.data.beer_style ? beer.data.beer_style : 'n/a'}}</p>
     <p><strong>ABV:</strong> <span ng-hide="{{beer.data.beer_abv === 0}}">{{beer.data.beer_abv | number : 2}}</span> {{beer.data.beer_abv > 0 ? '%' : 'n/a'}}</p>
     <p><strong>IBU:</strong> <span ng-hide="{{beer.data.beer_ibu === 0}}">{{beer.data.beer_ibu | number}}</span> {{beer.data.beer_ibu > 0 ? '' : 'n/a'}}</p>
-    <p><strong>Checkins:</strong> <span ng-hide="{{beer.data.checkin_count === 0}}">{{beer.data.checkin_count | number}}</span> {{beer.data.checkin_count > 0 ? '' : 'n/a'}}</p>
+    <p><strong>My Checkins:</strong>
+      <span ng-hide="{{!isAuthenticated}}">{{beer.data.your_count | number}}</span>
+      <span ng-hide="{{isAuthenticated}}">n/a</span>
+    </p>
+    <p><strong>Global Checkins:</strong> <span ng-hide="{{beer.data.checkin_count === 0}}">{{beer.data.checkin_count | number}}</span> {{beer.data.checkin_count > 0 ? '' : 'n/a'}}</p>
     <p><strong>Description:</strong> {{beer.data.beer_description ? beer.data.beer_description : 'n/a'}}<p>
     <small><em>data provided by <a href="https://untappd.com" target="_blank">untappd.com</a></em></small>
 </div>

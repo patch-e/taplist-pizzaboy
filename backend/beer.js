@@ -1,6 +1,6 @@
 /*
 beer.js
-Provides JSON data that represents a list of beers on tap, in firkins, 
+Provides JSON data that represents a list of beers on tap, in firkins,
 and in special bottles for sale at Al's of Hampden in Enola, PA
 
 Copyright (c) 2014
@@ -10,8 +10,8 @@ Patrick Crager
 */
 
 // required modules
-var http = require('http'),
-		express = require('express'),
+var express = require('express'),
+		cookieParser = require('cookie-parser'),
 		request = require('request'),
 		cheerio = require('cheerio'),
 		console = require('clim')('beer'),
@@ -24,7 +24,18 @@ var http = require('http'),
 var listOptions = {
 			url: 'http://alsofhampden.com/beer.php'
 		},
-		searchOptions = {
+		loginOptions = {
+			url: 'https://untappd.com/oauth/authorize',
+			json: true,
+			qs: {
+				client_id: process.env.untappdClientID,
+				client_secret: process.env.untappdClientSecret,
+				response_type: 'code',
+				redirect_url: 'http://mccrager.com/nodejs/beer/login',
+				code: null
+			}
+		},
+		anonSearchOptions = {
 			url: 'https://api.untappd.com/v4/search/beer',
 			json: true,
 			qs: {
@@ -32,10 +43,185 @@ var listOptions = {
 				client_secret: process.env.untappdClientSecret,
 				limit: 1
 			}
+		},
+		authSearchOptions = {
+			url: 'https://api.untappd.com/v4/search/beer',
+			json: true,
+			qs: {
+				access_token: null,
+				limit: 1
+			}
 		};
+
+function untappdSearch(res, beer, token) {
+	var result = {},
+	    requestOptions,
+	    db = mongojs('beer', ['collection']);
+
+	// set access_token if token found in cookie to do authenticated search
+	// otherwise use client id/secret for anon search
+	if (token) {
+		requestOptions = authSearchOptions;
+		requestOptions.qs.access_token = token;
+	} else {
+		requestOptions = anonSearchOptions;
+	}
+
+	// if not found, fetch from untappd, store in db, and write out the response
+	requestOptions.qs.q = encodeURIComponent(beer.brewery + ' ' + beer.name);
+
+	// fire off request to untappd search api
+	request(requestOptions, function (error, response, json) {
+		if (!error && response.statusCode === 200) {
+			if (json.response.found > 0 && json.response.beers.items.length > 0) {
+				result = json.response.beers.items[0].beer;
+				result.brewery = json.response.beers.items[0].brewery;
+				result.checkin_count = json.response.beers.items[0].checkin_count;
+				result.have_had = json.response.beers.items[0].have_had;
+				result.your_count = json.response.beers.items[0].your_count;
+
+				var beerRecord = {
+					brewery: beer.brewery,
+					name: beer.name,
+					data: result,
+					created: new Date(),
+					fetchMethod: 'untappd'
+				};
+
+				if (token) {
+					responses.sendSuccess(res, beerRecord, true);
+				} else {
+					// persist to db
+					db.collection.save(beerRecord, function(err, doc) {
+						// handle exception from save
+						if (err) {
+							responses.sendError(res, {
+								desc: responses.exceptions.databaseError,
+								code: 500,
+								error: err
+							});
+							return;
+						}
+
+						responses.sendSuccess(res, doc, true);
+						// log the persisted beer
+						console.log('new beer persisted: ' + doc.brewery + ' ' + doc.name);
+					});
+				}
+			} else {
+				responses.sendError(res, {
+					desc: responses.exceptions.untappdSearchError,
+					code: 404,
+					query: requestOptions.qs.q
+				});
+			}
+		} else {
+			responses.sendError(res, {
+				desc: responses.exceptions.untappdError,
+				code: 500,
+				response: response,
+				error: error
+			});
+		}
+
+		// unset the access_token
+		authSearchOptions.qs.access_token = '';
+	});
+}
+
+function databaseSearch(res, beer) {
+	var result = {},
+	    db = mongojs('beer', ['collection']);
+
+	// look up beer in db
+	db.collection.findOne({
+		brewery: beer.brewery,
+		name: beer.name
+	}, function(err, doc) {
+		// handle exception from query
+		if (err) {
+			responses.sendError(res, {
+				desc: responses.exceptions.databaseError,
+				code: 500,
+				error: err
+			});
+			return;
+		}
+
+		// if we got a result from the db, write out the record
+		// otherwise do an anon untappd search
+		if (doc) {
+			result = doc;
+			result.fetchMethod = 'mongodb';
+			responses.sendSuccess(res, result, true);
+		} else {
+			untappdSearch(res, beer);
+		}
+	});
+}
 
 // app bootstrap
 var app = express();
+app.use(cookieParser());
+
+/*
+ * Process OAuth login callback from untappd.
+ * Action: GET
+ * Params: code, the unique code value to be sent to untappd to validate the OAuth communication.
+ */
+app.get('/nodejs/beer/login', function (req, res) {
+
+	// handle callback and get unique code from untappd
+	var code = req.query.code;
+
+	// if we didn't get a code bail out
+	if (!code) {
+		responses.sendError(res, {
+			desc: responses.exceptions.untappdLoginError,
+			code: 500,
+			request: request
+		});
+		return;
+	}
+
+	// add the code to the login options
+	loginOptions.qs.code = code;
+
+	// fire off request to untappd login api with unique code
+	request(loginOptions, function (error, response, json) {
+		if (!error && response.statusCode === 200 &&
+			   json.meta.http_code === 200 && json.response.access_token) {
+			// get response and set json cookie with token
+			res.cookie('untappdToken', json.response.access_token);
+			// redirect to main page
+			responses.sendRedirect(res, {
+				location: '/beer/alstest'
+			});
+		} else {
+			responses.sendError(res, {
+				desc: responses.exceptions.untappdError,
+				code: 500,
+				response: response,
+				error: error
+			});
+		}
+
+		// unset the unique code
+		loginOptions.qs.code = '';
+	});
+});
+
+/*
+ * Process Logout by clearing the untappdToken cookie.
+ * Action: GET
+ * Params: none.
+ */
+app.get('/nodejs/beer/logout', function (req, res) {
+	res.clearCookie('untappdToken');
+	responses.sendRedirect(res, {
+		location: '/beer/alstest'
+	});
+});
 
 /*
  * Search for a beer by brewery + name.
@@ -44,8 +230,6 @@ var app = express();
  *         name, the name of the beer
  */
 app.get('/nodejs/beer/search', function (req, res) {
-	var result = {};
-
 	if (req.query.brewery && req.query.name) {
 		// sanitize the query string input
 		var beer = {
@@ -57,71 +241,15 @@ app.get('/nodejs/beer/search', function (req, res) {
 		beer.brewery = utils.trim(beer.brewery);
 		beer.name = utils.trim(beer.name);
 
-		// get a hook to the database
-		var db = mongojs('beer', ['collection']);
-
-		// look up beer in db
-		db.collection.findOne({
-			brewery: beer.brewery,
-			name: beer.name
-		}, function(err, doc) {
-			// handle exception from query
-			if (err) {
-				responses.sendError(res, {
-					desc: responses.exceptions.databaseError,
-					code: 500,
-					error: err
-				});
-				return;
-			}
-
-			// if we got a result from the db, write out the record
-			if (doc) {
-				result = doc;
-				result.fetchMethod = 'mongodb';
-				responses.sendSuccess(res, result, true);
-			} else {
-				// if not found, fetch from untappd, store in db, and write out the response
-				searchOptions.qs.q = encodeURIComponent(beer.brewery + ' ' + beer.name);
-
-				// fire off request to untappd search api
-				request(searchOptions, function (error, response, json) {
-					if (!error && response.statusCode === 200) {
-						if (json.response.found > 0 && json.response.beers.items.length > 0) {
-							result = json.response.beers.items[0].beer;
-							result.checkin_count = json.response.beers.items[0].checkin_count;
-							result.brewery = json.response.beers.items[0].brewery;
-
-							// persist to db
-							db.collection.save({
-								brewery: beer.brewery, 
-								name: beer.name, 
-								data: result,
-								created: new Date()
-							}, function(err, doc) {
-								doc.fetchMethod = 'untappd';
-								responses.sendSuccess(res, doc, true);
-								// log the persisted beer
-								console.log('new beer persisted: ' + doc.brewery + ' ' + doc.name);
-							});	
-						} else {
-							responses.sendError(res, {
-								desc: responses.exceptions.untappdSearchError,
-								code: 404,
-								query: searchOptions.qs.q
-							});
-						}
-					} else {
-						responses.sendError(res, {
-							desc: responses.exceptions.untappdError,
-							code: 500,
-							response: response,
-							error: error
-						});
-					}
-				});
-			}
-		});
+		// check for token in cookie
+		// always do an untappd search if logged in
+		// otherwise check local db cache before doing anon untappd search
+		var token = req.cookies.untappdToken;
+		if (token) {
+			untappdSearch(res, beer, token);
+		} else {
+			databaseSearch(res, beer);
+		}
 	} else {
 		responses.sendError(res, {
 			desc: responses.exceptions.queryError,
@@ -166,8 +294,8 @@ app.get('/nodejs/beer', function (req, res) {
 					// loop over the beer cells in this row
 					$beerRow.find('td').each(function(cellIndex, beerCell) {
 						var $beerCell = $(beerCell),
-								cellIndex = $beerCell.index() + cellIndexModifier;
 								cellValue = utils.trim($beerCell.text());
+								cellIndex = $beerCell.index() + cellIndexModifier;
 
 						// populates the passed in beer object by mapping cell text to beer properties
 						utils.mapBeerValues(cellIndex, cellValue, beer);

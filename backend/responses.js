@@ -15,6 +15,7 @@ module.exports = {
 		queryError: 'missing query string parameter(s)',
 		databaseError: 'could not communicate with database',
 		untappdError: 'no response from untappd',
+		untappdLoginError: 'could not process untappd login',
 		untappdSearchError: 'could not locate on untappd'
 	},
 
@@ -47,6 +48,12 @@ module.exports = {
 		res.writeHead(error.code, headers);
 		res.end(errorString);
 		console.error(errorString + '\n');
+	},
+
+	// send redirect response via location header
+	sendRedirect: function(res, data) {
+		res.location(data.location);
+		res.status(302).end();
 	}
 
 };
