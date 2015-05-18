@@ -22,7 +22,7 @@
     </p>
     <p><strong>Global Checkins:</strong> <span ng-hide="{{beer.data.checkin_count === 0}}">{{beer.data.checkin_count | number}}</span> {{beer.data.checkin_count > 0 ? '' : 'n/a'}}</p>
     <p><strong>Description:</strong> {{beer.data.beer_description ? beer.data.beer_description : 'n/a'}}<p>
-    <small><em>data provided by <a href="https://untappd.com" target="_blank">untappd.com</a></em></small>
+    <small><em>data provided by <a href="https://untappd.com" target="_blank">untappd.com</a> and can be cached for up to 24 hours</em></small>
 </div>
 <div class="modal-footer">
     <button class="btn btn-untappd" ng-click="checkin(beer.data.bid)">Check-In <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></button>
