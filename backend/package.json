@@ -1,6 +1,6 @@
 {
   "name": "beers-at-als-backend",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "description": "Provides a set of beers currently on tap at Al's of Hampden.",
   "author": "Patrick Crager",
   "homepage": "https://github.com/patch-e/beers-at-als",
