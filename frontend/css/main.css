@@ -44,7 +44,11 @@ a:hover {
 	content: " Login";
 
 }
+.authenticated .btn-login {
+	color: #ffc415;
+}
 .authenticated .btn-login:after {
+	color: #ffc415;
 	content: " Logout";
 }
 
