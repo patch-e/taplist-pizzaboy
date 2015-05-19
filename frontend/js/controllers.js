@@ -126,8 +126,16 @@ controller('beersController', function($scope, $beerAPIservice, $modal) {
       });
     }).
     error(function(error) {
+      var errorType;
+      if (error.response) {
+          errorType = error.response.body.meta.error_type;
+      }
+
       if (error.code === 404) {
         alert('Beer couldn\'t be found on Untappd.\nSorry!');
+      } else if (errorType && errorType === 'invalid_token') {
+        alert('Your login token has expired, you will now be logged out.');
+        window.location.replace('/nodejs/beer/logout');
       } else {
         alert('Something went wrong when looking up this beer!\nPlease try again.');
       }
