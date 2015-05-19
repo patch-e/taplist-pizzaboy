@@ -23,6 +23,7 @@ module.exports = {
 		beer.name = beer.name.
 			// remove any bracketed special text in the name, [NITRO], [FIRKIN], [SOUR] etc.
 			replace(/ *\[[^)]*\] */g, '').
+			replace('WEST SHORE IPA -DOUBLE', 'WEST SHORE IPA DOUBLE').
 			// remove special hyphen'd text sometimes added to the end as a special notice, ex. BEERNAME -LAST KEG!!
 			replace(/ (-).+$/g, '').
 			// additional name fixes on a case-by-case basis
@@ -31,7 +32,8 @@ module.exports = {
 			replace('2015', '').
 			replace('2016', '').
 			replace('8OZ', '').
-			replace('SUNSHINE-WITH', 'SUNSHINE - WITH').
+			replace('WEST SHORE IPA -DOUBLE', 'WEST SHORE IPA DOUBLE').
+			replace('SUNSHINE-WITH', 'SUNSHINE WITH').
 			replace('(TOASTEDPECANS)HOPTEST#1', '(TOASTED PECANS)').
 			replace('HELLNATION-HOPTEST#1', 'HELLNATION');
 	}
