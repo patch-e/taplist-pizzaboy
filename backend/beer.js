@@ -195,7 +195,7 @@ app.get('/nodejs/beer/login', function (req, res) {
 			res.cookie('untappdToken', json.response.access_token);
 			// redirect to main page
 			responses.sendRedirect(res, {
-				location: '/beer/alstest'
+				location: '/beer/als'
 			});
 		} else {
 			responses.sendError(res, {
@@ -219,7 +219,7 @@ app.get('/nodejs/beer/login', function (req, res) {
 app.get('/nodejs/beer/logout', function (req, res) {
 	res.clearCookie('untappdToken');
 	responses.sendRedirect(res, {
-		location: '/beer/alstest'
+		location: '/beer/als'
 	});
 });
 
