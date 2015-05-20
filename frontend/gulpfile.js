@@ -33,6 +33,7 @@ gulp.task('scripts', function() {
             'js/vendor/jquery-1.11.0.min.js',
             'js/vendor/bootstrap-3.2.0.min.js',
             'js/vendor/ui-bootstrap-custom-tpls-0.12.0.min.js',
+            'js/vendor/star-rating.min.js',
             'js/app.js',
             'js/services.js',
             'js/controllers.js',
@@ -52,6 +53,7 @@ gulp.task('css', function() {
     return gulp.src([
             'css/vendor/SourceSansPro.css',
             'css/vendor/bootstrap-3.2.0.min.css',
+            'css/vendor/star-rating.min.css',
             'css/main.css'
         ]).
         pipe(concat('beersapp.css')).

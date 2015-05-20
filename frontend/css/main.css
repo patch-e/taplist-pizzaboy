@@ -151,6 +151,22 @@ a:hover {
 	width: 80%;
 }
 
+.rating-disabled {
+	cursor: initial;
+}
+
+.rating-xs {
+	font-size: 1.75em;
+}
+
+.rating-container {
+	color: rgba(51, 51, 51, 0.4);
+}
+
+.rating-container .rating-stars {
+	color: #ffcc00;
+}
+
 .beerLabel {
 	float: right;
 	margin: 0 0 5px 10px;

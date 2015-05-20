@@ -17,12 +17,14 @@
     <p><strong>ABV:</strong> <span ng-hide="{{beer.data.beer_abv === 0}}">{{beer.data.beer_abv | number : 2}}</span> {{beer.data.beer_abv > 0 ? '%' : 'n/a'}}</p>
     <p><strong>IBU:</strong> <span ng-hide="{{beer.data.beer_ibu === 0}}">{{beer.data.beer_ibu | number}}</span> {{beer.data.beer_ibu > 0 ? '' : 'n/a'}}</p>
     <p><strong>My Rating:</strong>
-      <span ng-hide="{{!isAuthenticated}}">{{beer.data.auth_rating | number}}</span>
-      <span ng-hide="{{isAuthenticated}}">n/a</span>
+      <span ng-show="{{!isAuthenticated}}">n/a</span>
+      <span ng-show="{{isAuthenticated && beer.data.your_count === 0}}">n/a</span>
+      <span ng-show="{{isAuthenticated && beer.data.your_count > 0}}">{{beer.data.auth_rating | number}}</span>
+      <div  ng-show="{{isAuthenticated && beer.data.your_count > 0}}"><input beer-rating value="{{beer.data.auth_rating | number}}"></div>
     </p>
     <p><strong>My Checkins:</strong>
-      <span ng-hide="{{!isAuthenticated}}">{{beer.data.your_count | number}}</span>
-      <span ng-hide="{{isAuthenticated}}">n/a</span>
+      <span ng-show="{{!isAuthenticated}}">n/a</span>
+      <span ng-show="{{isAuthenticated}}">{{beer.data.your_count | number}}</span>
     </p>
     <p><strong>Global Checkins:</strong> <span ng-hide="{{beer.data.checkin_count === 0}}">{{beer.data.checkin_count | number}}</span> {{beer.data.checkin_count > 0 ? '' : 'n/a'}}</p>
     <p><strong>Description:</strong> {{beer.data.beer_description ? beer.data.beer_description : 'n/a'}}<p>
