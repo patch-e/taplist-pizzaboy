@@ -193,6 +193,7 @@ app.get('/nodejs/beer/login', function (req, res) {
 			   json.meta.http_code === 200 && json.response.access_token) {
 			// get response and set json cookie with token
 			res.cookie('untappdToken', json.response.access_token);
+			console.log('a user has logged in!' + '\n');
 			// redirect to main page
 			responses.sendRedirect(res, {
 				location: '/beer/als'
@@ -218,6 +219,7 @@ app.get('/nodejs/beer/login', function (req, res) {
  */
 app.get('/nodejs/beer/logout', function (req, res) {
 	res.clearCookie('untappdToken');
+	console.log('a user has logged out!' + '\n');
 	responses.sendRedirect(res, {
 		location: '/beer/als'
 	});
