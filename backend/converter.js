@@ -32,7 +32,6 @@ module.exports = {
 			replace('2015', '').
 			replace('2016', '').
 			replace('8OZ', '').
-			replace('WEST SHORE IPA -DOUBLE', 'WEST SHORE IPA DOUBLE').
 			replace('SUNSHINE-WITH', 'SUNSHINE WITH').
 			replace('(TOASTEDPECANS)HOPTEST#1', '(TOASTED PECANS)').
 			replace('HELLNATION-HOPTEST#1', 'HELLNATION');

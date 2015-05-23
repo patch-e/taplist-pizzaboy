@@ -12,6 +12,8 @@ module.exports = {
 
 	addlRegEx: /\(([^()]+)\)$/,
 	nitroLabel: '[NITRO]',
+	firkinLabel: '[FIRKIN]',
+	sourLabel: '[SOUR]',
 
 	// type safe lowercase function
 	// returns a lowercased string
@@ -73,10 +75,21 @@ module.exports = {
 		// ex: Mean Cup O\\\'Stout - this fixes that to Mean Cup O\'Stout
 		s = s.replace('\\\'', '\'');
 
-		// moves any prefixed nitro label to the end of the string
+		// moves any prefixed label to the end of the string
 		if (s.lastIndexOf(this.nitroLabel) > -1) {
 			s = s.replace(this.nitroLabel, '');
 			s = s + ' ' + this.nitroLabel;
+			s = this.trim(s);
+		}
+		if (s.lastIndexOf(this.firkinLabel) > -1) {
+			s = s.replace(this.firkinLabel + '-', '');
+			s = s.replace(this.firkinLabel, '');
+			s = s + ' ' + this.firkinLabel;
+			s = this.trim(s);
+		}
+		if (s.lastIndexOf(this.sourLabel) > -1) {
+			s = s.replace(this.sourLabel, '');
+			//s = s + ' ' + this.sourLabel;
 			s = this.trim(s);
 		}
 
