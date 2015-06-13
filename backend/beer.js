@@ -191,8 +191,8 @@ app.get('/nodejs/beer/login', function (req, res) {
 	request(loginOptions, function (error, response, json) {
 		if (!error && response.statusCode === 200 &&
 			   json.meta.http_code === 200 && json.response.access_token) {
-			// get response and set json cookie with token
-			res.cookie('untappdToken', json.response.access_token);
+			// get response and set json cookie with token (expires in 30 days)
+			res.cookie('untappdToken', json.response.access_token, {maxAge: 30*24*60*60*1000});
 			console.log('a user has logged in!' + '\n');
 			// redirect to main page
 			responses.sendRedirect(res, {
