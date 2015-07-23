@@ -35,7 +35,8 @@ module.exports = {
 			replace('SUNSHINE-WITH', 'SUNSHINE WITH').
 			replace('(TOASTEDPECANS)HOPTEST#1', '(TOASTED PECANS)').
 			replace('HELLNATION-HOPTEST#1', 'HELLNATION').
-			replace('MADRA ALTA', 'MADRA ALLTA');
+			replace('MADRA ALTA', 'MADRA ALLTA').
+			replace('YULESMITH', 'YULESMITH (SUMMER)');
 	}
 
 };
