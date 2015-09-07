@@ -32,6 +32,7 @@ module.exports = {
 			replace('2015', '').
 			replace('2016', '').
 			replace('8OZ', '').
+			replace("DALE'S IPA", "DALE'S").
 			replace(' (STEPHENSON BDAY)', '').
 			replace('SUNSHINE-WITH', 'SUNSHINE WITH').
 			replace('(TOASTEDPECANS)HOPTEST#1', '(TOASTED PECANS)').
