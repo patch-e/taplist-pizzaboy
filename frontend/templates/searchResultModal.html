@@ -20,7 +20,7 @@
       <span data-ng-show="{{!isAuthenticated}}">n/a</span>
       <span data-ng-show="{{isAuthenticated && beer.data.your_count === 0}}">n/a</span>
       <span data-ng-show="{{isAuthenticated && beer.data.your_count > 0}}">{{beer.data.auth_rating | number}}</span>
-      <div  data-ng-show="{{isAuthenticated && beer.data.your_count > 0}}"><input beer-rating value="{{beer.data.auth_rating | number}}"></div>
+      <div  data-ng-show="{{isAuthenticated && beer.data.your_count > 0}}"><input data-beer-rating value="{{beer.data.auth_rating | number}}"></div>
     </p>
     <p><strong>My Checkins:</strong>
       <span data-ng-show="{{!isAuthenticated}}">n/a</span>
