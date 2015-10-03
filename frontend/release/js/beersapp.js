@@ -585,7 +585,7 @@ function($scope, BeerDataFactory, $modal) {
     BeerDataFactory.search(beer.brewery, beer.name).
     success(function(data) {
       var modal = $modal.open({
-        templateUrl: 'templates/searchResultModal.html',
+        templateUrl: 'templates/modalSearchResult.html',
         controller: 'SearchResultController',
         resolve: {
           beer: function() { return data; }
@@ -680,8 +680,8 @@ function($scope, $cookies, $modalInstance, AppConfig, beer) {
 }]);
 
 /*
-directives.js
-Directives module for the angular BeersApp
+ba.directives.module.js
+Module injection point for directive modules used by BeersApp.
 
 Copyright (c) 2015
 
@@ -689,63 +689,21 @@ Patrick Crager
 
 */
 
-angular.module('beersApp.directives', []).
+angular.module('beersApp.directives', []);
 
-directive('footerTopscroller', function() {
-  return {
-    restrict: 'A',
-    template: '<span class="glyphicon glyphicon-chevron-up"></span>',
-    link: function(scope, element, attrs) {
-      element.attr('href', '');
-      element.addClass('pull-right top topScroller');
-      element.on('click', function() {
-        $('html, body').animate({scrollTop: 0}, 'slow');
-        return false;
-      });
-    }
-  };
-}).
+/*
+ba.directives.BeerRating.js
+Provides a directive for the jQuery Star Rating plugin.
 
-directive('footerTimestamp', function() {
-  return {
-    restrict: 'A',
-    template: 'Generated @ {{beerList.timestamp | date: \'medium\'}}'
-  };
-}).
+Copyright (c) 2015
 
-directive('noResults', function() {
-  return {
-    restrict: 'A',
-    template: 'No beers match entered filter criteria.'
-  };
-}).
+Patrick Crager
 
-directive('modalHelp', function() {
-  return {
-    restrict: 'A',
-    templateUrl: 'templates/helpModal.html'
-  };
-}).
+*/
 
-directive('modalAbout', function() {
-  return {
-    restrict: 'A',
-    templateUrl: 'templates/aboutModal.html'
-  };
-}).
+angular.module('beersApp.directives')
+.directive('beerRating', function() {
 
-directive('overlay', function() {
-  return {
-    restrict: 'A',
-    link: function(scope, element, attrs) {
-      element.attr('id', 'overlay');
-      element.addClass('modal-backdrop fade in');
-      element.css('display', 'none');
-    }
-  };
-}).
-
-directive('beerRating', function() {
   return {
     restrict: 'A',
     link: function(scope, element, attrs) {
@@ -765,4 +723,137 @@ directive('beerRating', function() {
       $(element).rating('update', attrs.value);
     }
   };
+
+});
+
+/*
+ba.directives.FooterTimeStamp.js
+Provides formatted timestamp text.
+
+Copyright (c) 2015
+
+Patrick Crager
+
+*/
+
+angular.module('beersApp.directives')
+.directive('footerTimestamp', function() {
+
+  return {
+    restrict: 'A',
+    template: 'Generated @ {{beerList.timestamp | date: \'medium\'}}'
+  };
+
+});
+
+/*
+ba.directives.FooterTopScroller.js
+Provides a button that animates scrolling to the top of the page.
+
+Copyright (c) 2015
+
+Patrick Crager
+
+*/
+
+angular.module('beersApp.directives')
+.directive('footerTopscroller', function() {
+
+  return {
+    restrict: 'A',
+    template: '<span class="glyphicon glyphicon-chevron-up"></span>',
+    link: function(scope, element, attrs) {
+      element.attr('href', '');
+      element.addClass('pull-right top topScroller');
+      element.on('click', function() {
+        $('html, body').animate({scrollTop: 0}, 'slow');
+        return false;
+      });
+    }
+  };
+
+});
+
+/*
+ba.directives.ModalAbout.js
+Helper directive to the about modal template.
+
+Copyright (c) 2015
+
+Patrick Crager
+
+*/
+
+angular.module('beersApp.directives')
+.directive('modalAbout', function() {
+
+  return {
+    restrict: 'A',
+    templateUrl: 'templates/modalAbout.html'
+  };
+
+});
+
+/*
+ba.directives.ModalHelp.js
+Helper directive to the help modal template.
+
+Copyright (c) 2015
+
+Patrick Crager
+
+*/
+
+angular.module('beersApp.directives')
+.directive('modalHelp', function() {
+
+  return {
+    restrict: 'A',
+    templateUrl: 'templates/modalHelp.html'
+  };
+
+});
+
+/*
+ba.directives.NoResults.js
+Provides formatted "no results" text.
+
+Copyright (c) 2015
+
+Patrick Crager
+
+*/
+
+angular.module('beersApp.directives')
+.directive('noResults', function() {
+
+  return {
+    restrict: 'A',
+    template: 'No beers match entered filter criteria.'
+  };
+
+});
+
+/*
+ba.directives.Overlay.js
+Provides a full page loading overlay.
+
+Copyright (c) 2015
+
+Patrick Crager
+
+*/
+
+angular.module('beersApp.directives')
+.directive('overlay', function() {
+
+  return {
+    restrict: 'A',
+    link: function(scope, element, attrs) {
+      element.attr('id', 'overlay');
+      element.addClass('modal-backdrop fade in');
+      element.css('display', 'none');
+    }
+  };
+
 });

@@ -92,7 +92,7 @@ function($scope, BeerDataFactory, $modal) {
     BeerDataFactory.search(beer.brewery, beer.name).
     success(function(data) {
       var modal = $modal.open({
-        templateUrl: 'templates/searchResultModal.html',
+        templateUrl: 'templates/modalSearchResult.html',
         controller: 'SearchResultController',
         resolve: {
           beer: function() { return data; }
