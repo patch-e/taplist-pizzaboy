@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app="BeersApp" ng-controller="mainController">
+<html data-ng-app="beersApp" data-ng-controller="MainController">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -35,7 +35,7 @@
         <meta name="msapplication-config" content="img/browserconfig.xml">
         <meta name="theme-color" content="#ffffff">
     </head>
-    <body ng-class="{'authenticated': isAuthenticated}">
+    <body data-ng-class="{'authenticated': isAuthenticated}">
         <div id="loading" class="jumbotron">
             <div class="container">
                 <h1>Beers @ Al's</h1>
@@ -70,13 +70,13 @@
                     <div class="collapse navbar-collapse" id="menu">
                         <div class="nav-btns navbar-right">
                             <div class="btn-group">
-                                <a href="./#/table" class="btn btn-default navbar-btn" ng-click="collapseNav()">
+                                <a href="./#/table" class="btn btn-default navbar-btn" data-ng-click="collapseNav()">
                                     <span class="glyphicon glyphicon-align-justify"></span> Table
                                 </a>
-                                <a href="./#/list" class="btn btn-default navbar-btn" ng-click="collapseNav()">
+                                <a href="./#/list" class="btn btn-default navbar-btn" data-ng-click="collapseNav()">
                                     <span class="glyphicon glyphicon-list"></span> List
                                 </a>
-                                <a href="./#/block" class="btn btn-default navbar-btn" ng-click="collapseNav()">
+                                <a href="./#/block" class="btn btn-default navbar-btn" data-ng-click="collapseNav()">
                                     <span class="glyphicon glyphicon-th"></span> Block
                                 </a>
                             </div>

@@ -18,26 +18,33 @@ var gulp = require('gulp'),
 
 // lint task
 gulp.task('lint', function() {
-    return gulp.src('js/*.js').
-        pipe(jshint()).
-        pipe(jshint.reporter('default'));
+    return gulp.src([
+      'js/controllers/**/*.js',
+      'js/data/**/*.js',
+      'js/directives/**/*.js',
+      'js/shared/**/*.js',
+      'js/*.js',
+    ]).
+    pipe(jshint()).
+    pipe(jshint.reporter('default'));
 });
 
 // concat & minify js task
 gulp.task('scripts', function() {
     return gulp.src([
-            'js/vendor/angular-1.2.26.min.js',
+            'js/vendor/angular.min.js',
             'js/vendor/angular-route.min.js',
             'js/vendor/angular-touch.min.js',
             'js/vendor/angular-cookies.min.js',
             'js/vendor/jquery-1.11.0.min.js',
             'js/vendor/bootstrap-3.2.0.min.js',
-            'js/vendor/ui-bootstrap-custom-tpls-0.12.0.min.js',
+            'js/vendor/ui-bootstrap-0.12.0.min.js',
             'js/vendor/star-rating.min.js',
             'js/app.js',
-            'js/services.js',
-            'js/controllers.js',
-            'js/directives.js'
+            'js/shared/**/*.js',
+            'js/data/**/*.js',
+            'js/controllers/**/*.js',
+            'js/directives/**/*.js'
         ]).
         pipe(concat('beersapp.js')).
         pipe(gulp.dest('release/js')).
@@ -51,9 +58,7 @@ gulp.task('scripts', function() {
 // concat & minify css task
 gulp.task('css', function() {
     return gulp.src([
-            'css/vendor/SourceSansPro.css',
-            'css/vendor/bootstrap-3.2.0.min.css',
-            'css/vendor/star-rating.min.css',
+            'css/vendor/**/*',
             'css/main.css'
         ]).
         pipe(concat('beersapp.css')).

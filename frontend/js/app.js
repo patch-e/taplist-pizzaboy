@@ -1,29 +1,36 @@
 /*
-app.js
-Main app module for the angular BeersApp
+BeersApp.js
+- Bootstraps the AngularJS BeersApp.
+- Configures routes.
 
-Copyright (c) 2014
+Copyright (c) 2015
 
 Patrick Crager
 
 */
 
-angular.module('BeersApp', [
-
-  'BeersApp.services',
-  'BeersApp.directives',
-  'BeersApp.controllers',
+angular.module('beersApp', [
   'ngRoute',
-  'ngCookies',
-  'ui.bootstrap'
+  'beersApp.shared',
+  'beersApp.controllers'
+])
+.config(['$routeProvider', function($routeProvider) {
 
-]).
-config(['$routeProvider', function($routeProvider) {
-
-  $routeProvider.
-  when('/table', {templateUrl: 'partials/table.html', controller: 'beersController'}).
-  when('/block', {templateUrl: 'partials/block.html', controller: 'beersController'}).
-  when('/list', {templateUrl: 'partials/list.html', controller: 'beersController'}).
-  otherwise({redirectTo: '/table'});
+  $routeProvider
+    .when('/table', {
+      templateUrl: 'partials/table.html',
+      controller: 'BeerController'
+    })
+    .when('/block', {
+      templateUrl: 'partials/block.html',
+      controller: 'BeerController'
+    })
+    .when('/list', {
+      templateUrl: 'partials/list.html',
+      controller: 'BeerController'
+    })
+    .otherwise({
+      redirectTo: '/table'
+    });
 
 }]);

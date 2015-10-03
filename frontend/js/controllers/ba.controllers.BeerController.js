@@ -1,37 +1,16 @@
 /*
-controllers.js
-Controller module for the angular BeersApp
+ba.controllers.BeerController.js
+Controller used for displaying beer data in BeersApp.
 
-Copyright (c) 2014
+Copyright (c) 2015
 
 Patrick Crager
 
 */
 
-angular.module('BeersApp.controllers', []).
-
-controller('mainController', function($scope, $cookies) {
-
-  var clientID = 'B2DA1064B03A353A75E9B035879ECA2CA3E9C3E6';
-  var callbackURL = 'http://mccrager.com/nodejs/beer/login';
-
-  $scope.loginURL  = 'https://untappd.com/oauth/authenticate/?client_id=';
-  $scope.loginURL += clientID;
-  $scope.loginURL += '&response_type=code&redirect_url=';
-  $scope.loginURL += encodeURI(callbackURL);
-
-  $scope.logoutURL  = '/nodejs/beer/logout';
-
-  $scope.isAuthenticated = !!(($cookies.untappdToken || '').length);
-
-  // collapses the expanded navigation bar
-  $scope.collapseNav = function() {
-    $('.collapse.in').collapse('hide');
-  };
-
-}).
-
-controller('beersController', function($scope, $beerAPIservice, $modal) {
+angular.module('beersApp.controllers')
+.controller('BeerController', ['$scope', 'BeerDataFactory', '$modal',
+function($scope, BeerDataFactory, $modal) {
 
   // list of table headings for table view
   $scope.headings = [
@@ -41,16 +20,14 @@ controller('beersController', function($scope, $beerAPIservice, $modal) {
     {display: 'Style',   column: 'style'},
     {display: 'ABV',     column: 'abv'}
   ];
-
   // variable to hold current filter input
-  $scope.searchFilter = null;
-
+  $scope.searchFilter = '';
   // array that is populated after API call finishes
   $scope.beersList = [];
 
   // fetch the beers through the list() service call
   document.getElementById('attribution').style.display = 'none';
-  $beerAPIservice.list().
+  BeerDataFactory.list().
   success(function(data) {
     // sort holds initial sorting values for each list
     angular.forEach(data, function(beerList, index) {
@@ -112,11 +89,11 @@ controller('beersController', function($scope, $beerAPIservice, $modal) {
   $scope.search = function(beer) {
     document.getElementById('overlay').style.display = 'inherit';
 
-    $beerAPIservice.search(beer.brewery, beer.name).
+    BeerDataFactory.search(beer.brewery, beer.name).
     success(function(data) {
       var modal = $modal.open({
         templateUrl: 'templates/searchResultModal.html',
-        controller: 'searchResultController',
+        controller: 'SearchResultController',
         resolve: {
           beer: function() { return data; }
         }
@@ -144,29 +121,4 @@ controller('beersController', function($scope, $beerAPIservice, $modal) {
     });
   };
 
-}).
-
-controller('searchResultController', function($scope, $cookies, $modalInstance, beer) {
-
-  $scope.isAuthenticated = !!(($cookies.untappdToken || '').length);
-
-  $scope.beer = beer;
-
-  // close the modal
-  $scope.close = function () {
-    $modalInstance.dismiss();
-  };
-
-  // try to launch untappd to the beer's page if on a mobile phone
-  // otherwise launch the default browser to the beer on untappd's website
-  $scope.checkin = function(bid) {
-    var isMobile = /(iPhone|Android|IEMobile)/.test(navigator.userAgent);
-
-    if (isMobile) {
-      document.location = 'untappd:///?beer=' + bid;
-    } else {
-      window.open('http://untappd.com/beer/' + bid);
-    }
-  };
-
-});
+}]);

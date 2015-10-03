@@ -8,7 +8,7 @@ Patrick Crager
 
 */
 
-angular.module('BeersApp.directives', []).
+angular.module('beersApp.directives', []).
 
 directive('footerTopscroller', function() {
   return {

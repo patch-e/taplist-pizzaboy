@@ -1,29 +1,29 @@
 <div id="view-table">
-    <div ng-repeat="beerList in beersList" ng-hide="beerList.beers.length === 0" class="panel panel-primary">
+    <div data-ng-repeat="beerList in beersList" data-ng-hide="beerList.beers.length === 0" class="panel panel-primary">
         <div class="panel-heading">
             <h3 class="panel-title">{{beerList.title}}</h3>
         </div>
         <div class="panel-body">
             <div class="input-group input-group-sm">
                 <span class="input-group-addon">{{filteredBeers.length}}</span>
-                <input type="text" class="form-control" ng-model="searchFilter" placeholder="Filter..."/>
-                <span class="input-clear glyphicon glyphicon-remove" ng-click="searchFilter = null" ng-class="{'hidden': !searchFilter}"></span>
+                <input type="text" class="form-control" data-ng-model="searchFilter" placeholder="Filter..."/>
+                <span class="input-clear glyphicon glyphicon-remove" data-ng-click="searchFilter = ''" data-ng-class="{'hidden': !searchFilter}"></span>
             </div>
         </div>
         <div class="table-responsive">
             <table class="table table-hover">
                 <thead>
                     <tr>
-                        <th ng-repeat="heading in headings" ng-click="changeSorting(beerList.sort, heading.column)">
+                        <th data-ng-repeat="heading in headings" data-ng-click="changeSorting(beerList.sort, heading.column)">
                             <span class="heading">{{heading.display}}</span>
-                            <span class="glyphicon" ng-class="sortClass(beerList.sort, heading.column)"></span>
+                            <span class="glyphicon" data-ng-class="sortClass(beerList.sort, heading.column)"></span>
                         </th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr class="beerSearch" ng-repeat="beer in filteredBeers = (beerList.beers | filter: searchFilter | orderBy: beerList.sort.column : beerList.sort.descending)" ng-click="search(beer)">
+                    <tr class="beerSearch" data-ng-repeat="beer in filteredBeers = (beerList.beers | filter: searchFilter | orderBy: beerList.sort.column : beerList.sort.descending)" data-ng-click="search(beer)">
                         <td>
-                            <span class="label" ng-class="{'label-success': beer.growler, 'label-warning': !beer.growler}">{{prependBeerNumber(beer.number, beerList.title)}}</span>
+                            <span class="label" data-ng-class="{'label-success': beer.growler, 'label-warning': !beer.growler}">{{prependBeerNumber(beer.number, beerList.title)}}</span>
                         </td>
                         <td>
                             <div><b>{{beer.name}}</b></div>
@@ -33,7 +33,7 @@
                         <td><div>{{beer.style}}</div></td>
                         <td><span>{{beer.abv | number : 2}} {{beer.abv ? '%' : 'n/a'}}</span></td>
                     </tr>
-                    <tr ng-hide="filteredBeers.length">
+                    <tr data-ng-hide="filteredBeers.length">
                         <td colspan="5" no-results></td>
                     </tr>
                 </tbody>
