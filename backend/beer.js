@@ -67,7 +67,7 @@ function untappdSearch(res, beer, token) {
 		requestOptions = anonSearchOptions;
 	}
 
-	// if not found, fetch from untappd, store in db, and write out the response
+	// fetch from untappd, store in db if not authenticated, and write out the response
 	requestOptions.qs.q = encodeURIComponent(beer.brewery + ' ' + beer.name);
 
 	// fire off request to untappd search api
@@ -79,6 +79,9 @@ function untappdSearch(res, beer, token) {
 				result.checkin_count = json.response.beers.items[0].checkin_count;
 				result.have_had = json.response.beers.items[0].have_had;
 				result.your_count = json.response.beers.items[0].your_count;
+				if (result.brewery.contact.url.indexOf('http') != 0) {
+					result.brewery.contact.url = 'http://' + result.brewery.contact.url;
+				}
 
 				var beerRecord = {
 					brewery: beer.brewery,
