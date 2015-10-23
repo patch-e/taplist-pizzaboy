@@ -33,10 +33,7 @@ module.exports = {
 			replace('8OZ', '').
 			replace('MELONOUS IPA', 'MELONOUS').
 			replace("DALE'S IPA", "DALE'S").
-			replace(' (STEPHENSON BDAY)', '').
-			replace('SUNSHINE-WITH', 'SUNSHINE WITH').
-			replace('(TOASTEDPECANS)HOPTEST#1', '(TOASTED PECANS)').
-			replace('HELLNATION-HOPTEST#1', 'HELLNATION').
+			replace("GINGER APPLES CIDER", "GINGER APPLES").
 			replace('MADRA ALTA', 'MADRA ALLTA').
 			replace('BLOSSOM HONEY LAGER', 'BLOSSOM HONEY').
 			replace('BRAAAAINS', 'BRAAAIINS').
