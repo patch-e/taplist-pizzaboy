@@ -382,15 +382,18 @@ angular.module('beersApp', [
   $routeProvider
     .when('/table', {
       templateUrl: 'partials/table.html',
-      controller: 'BeerController'
+      controller: 'BeerController',
+      controllerAs: 'vm'
     })
     .when('/block', {
       templateUrl: 'partials/block.html',
-      controller: 'BeerController'
+      controller: 'BeerController',
+      controllerAs: 'vm'
     })
     .when('/list', {
       templateUrl: 'partials/list.html',
-      controller: 'BeerController'
+      controller: 'BeerController',
+      controllerAs: 'vm'
     })
     .otherwise({
       redirectTo: '/table'
@@ -502,21 +505,22 @@ Patrick Crager
 */
 
 angular.module('beersApp.controllers')
-.controller('BeerController', ['$scope', 'BeerDataFactory', '$modal',
-function($scope, BeerDataFactory, $modal) {
+.controller('BeerController', ['BeerDataFactory', '$modal',
+function(BeerDataFactory, $modal) {
+
+  // controller as
+  var vm = this;
 
   // list of table headings for table view
-  $scope.headings = [
+  vm.headings = [
     {display: '#',       column: 'number'},
     {display: 'Name',    column: 'name'},
     {display: 'Brewery', column: 'brewery'},
     {display: 'Style',   column: 'style'},
     {display: 'ABV',     column: 'abv'}
   ];
-  // variable to hold current filter input
-  $scope.searchFilter = '';
   // array that is populated after API call finishes
-  $scope.beersList = [];
+  vm.beersList = [];
 
   // fetch the beers through the list() service call
   document.getElementById('attribution').style.display = 'none';
@@ -529,7 +533,7 @@ function($scope, BeerDataFactory, $modal) {
         descending: false
       };
     });
-    $scope.beersList = data;
+    vm.beersList = data;
 
     // remove the loading indication and show the main content
     document.getElementById('loading').style.display = 'none';
@@ -542,7 +546,7 @@ function($scope, BeerDataFactory, $modal) {
   });
 
   // enhances the numbering of "special" beer lists depending on title of list: cask, bottles, etc.
-  $scope.prependBeerNumber = function(number, title) {
+  vm.prependBeerNumber = function(number, title) {
       var prepend = '';
 
       if (title.indexOf('cask') > -1) {
@@ -558,7 +562,7 @@ function($scope, BeerDataFactory, $modal) {
   };
 
   // updates "sort" variable onclick of table headings
-  $scope.changeSorting = function(sort, column) {
+  vm.changeSorting = function(sort, column) {
       if (sort.column == column) {
         sort.descending = !sort.descending;
       } else {
@@ -568,7 +572,7 @@ function($scope, BeerDataFactory, $modal) {
   };
 
   // returns the appropriate CSS class for the sort direction
-  $scope.sortClass = function(sort, column) {
+  vm.sortClass = function(sort, column) {
     if (column !== sort.column) { return; }
 
     if (!sort.descending) {
@@ -579,7 +583,7 @@ function($scope, BeerDataFactory, $modal) {
   };
 
   // calls the search API and opens a modal window upon success
-  $scope.search = function(beer) {
+  vm.search = function(beer) {
     document.getElementById('overlay').style.display = 'inherit';
 
     BeerDataFactory.search(beer.brewery, beer.name).
@@ -587,6 +591,7 @@ function($scope, BeerDataFactory, $modal) {
       var modal = $modal.open({
         templateUrl: 'templates/modalSearchResult.html',
         controller: 'SearchResultController',
+        controllerAs: 'vm',
         resolve: {
           beer: function() { return data; }
         }
@@ -627,17 +632,20 @@ Patrick Crager
 */
 
 angular.module('beersApp.controllers')
-.controller('MainController', ['$scope', '$cookies', 'AppConfig',
-function($scope, $cookies, AppConfig) {
+.controller('MainController', ['$cookies', 'AppConfig',
+function($cookies, AppConfig) {
 
-  $scope.loginURL = AppConfig.BA_UNTAPPD_LOGIN_URL;
-  $scope.loginURL = $scope.loginURL.replace('{0}', AppConfig.BA_UNTAPPD_CLIENTID);
-  $scope.loginURL = $scope.loginURL.replace('{1}', encodeURI(AppConfig.BA_UNTAPPD_CALLBACK_URL));
-  $scope.logoutURL = AppConfig.BA_LOGOUT_URL;
-  $scope.isAuthenticated = !!(($cookies.get('untappdToken') || '').length);
+  // controller as
+  var vm = this;
+
+  vm.loginURL = AppConfig.BA_UNTAPPD_LOGIN_URL;
+  vm.loginURL = vm.loginURL.replace('{0}', AppConfig.BA_UNTAPPD_CLIENTID);
+  vm.loginURL = vm.loginURL.replace('{1}', encodeURI(AppConfig.BA_UNTAPPD_CALLBACK_URL));
+  vm.logoutURL = AppConfig.BA_LOGOUT_URL;
+  vm.isAuthenticated = !!(($cookies.get('untappdToken') || '').length);
 
   // collapses the expanded navigation bar
-  $scope.collapseNav = function() {
+  vm.collapseNav = function() {
     $('.collapse.in').collapse('hide');
   };
 
@@ -654,20 +662,23 @@ Patrick Crager
 */
 
 angular.module('beersApp.controllers')
-.controller('SearchResultController', ['$scope', '$cookies', '$modalInstance', 'AppConfig', 'beer',
-function($scope, $cookies, $modalInstance, AppConfig, beer) {
+.controller('SearchResultController', ['$cookies', '$modalInstance', 'AppConfig', 'beer',
+function($cookies, $modalInstance, AppConfig, beer) {
 
-  $scope.isAuthenticated = !!(($cookies.get('untappdToken') || '').length);
-  $scope.beer = beer;
+  // controller as
+  var vm = this;
+
+  vm.isAuthenticated = !!(($cookies.get('untappdToken') || '').length);
+  vm.beer = beer;
 
   // close the modal
-  $scope.close = function () {
+  vm.close = function () {
     $modalInstance.dismiss();
   };
 
   // try to launch untappd to the beer's page if on a mobile phone
   // otherwise launch the default browser to the beer on untappd's website
-  $scope.checkin = function(bid) {
+  vm.checkin = function(bid) {
     var isMobile = /(iPhone|Android|IEMobile)/.test(navigator.userAgent);
 
     if (isMobile) {

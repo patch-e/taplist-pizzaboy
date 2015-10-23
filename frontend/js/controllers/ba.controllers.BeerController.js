@@ -9,21 +9,22 @@ Patrick Crager
 */
 
 angular.module('beersApp.controllers')
-.controller('BeerController', ['$scope', 'BeerDataFactory', '$modal',
-function($scope, BeerDataFactory, $modal) {
+.controller('BeerController', ['BeerDataFactory', '$modal',
+function(BeerDataFactory, $modal) {
+
+  // controller as
+  var vm = this;
 
   // list of table headings for table view
-  $scope.headings = [
+  vm.headings = [
     {display: '#',       column: 'number'},
     {display: 'Name',    column: 'name'},
     {display: 'Brewery', column: 'brewery'},
     {display: 'Style',   column: 'style'},
     {display: 'ABV',     column: 'abv'}
   ];
-  // variable to hold current filter input
-  $scope.searchFilter = '';
   // array that is populated after API call finishes
-  $scope.beersList = [];
+  vm.beersList = [];
 
   // fetch the beers through the list() service call
   document.getElementById('attribution').style.display = 'none';
@@ -36,7 +37,7 @@ function($scope, BeerDataFactory, $modal) {
         descending: false
       };
     });
-    $scope.beersList = data;
+    vm.beersList = data;
 
     // remove the loading indication and show the main content
     document.getElementById('loading').style.display = 'none';
@@ -49,7 +50,7 @@ function($scope, BeerDataFactory, $modal) {
   });
 
   // enhances the numbering of "special" beer lists depending on title of list: cask, bottles, etc.
-  $scope.prependBeerNumber = function(number, title) {
+  vm.prependBeerNumber = function(number, title) {
       var prepend = '';
 
       if (title.indexOf('cask') > -1) {
@@ -65,7 +66,7 @@ function($scope, BeerDataFactory, $modal) {
   };
 
   // updates "sort" variable onclick of table headings
-  $scope.changeSorting = function(sort, column) {
+  vm.changeSorting = function(sort, column) {
       if (sort.column == column) {
         sort.descending = !sort.descending;
       } else {
@@ -75,7 +76,7 @@ function($scope, BeerDataFactory, $modal) {
   };
 
   // returns the appropriate CSS class for the sort direction
-  $scope.sortClass = function(sort, column) {
+  vm.sortClass = function(sort, column) {
     if (column !== sort.column) { return; }
 
     if (!sort.descending) {
@@ -86,7 +87,7 @@ function($scope, BeerDataFactory, $modal) {
   };
 
   // calls the search API and opens a modal window upon success
-  $scope.search = function(beer) {
+  vm.search = function(beer) {
     document.getElementById('overlay').style.display = 'inherit';
 
     BeerDataFactory.search(beer.brewery, beer.name).
@@ -94,6 +95,7 @@ function($scope, BeerDataFactory, $modal) {
       var modal = $modal.open({
         templateUrl: 'templates/modalSearchResult.html',
         controller: 'SearchResultController',
+        controllerAs: 'vm',
         resolve: {
           beer: function() { return data; }
         }

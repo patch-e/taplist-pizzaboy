@@ -19,15 +19,18 @@ angular.module('beersApp', [
   $routeProvider
     .when('/table', {
       templateUrl: 'partials/table.html',
-      controller: 'BeerController'
+      controller: 'BeerController',
+      controllerAs: 'vm'
     })
     .when('/block', {
       templateUrl: 'partials/block.html',
-      controller: 'BeerController'
+      controller: 'BeerController',
+      controllerAs: 'vm'
     })
     .when('/list', {
       templateUrl: 'partials/list.html',
-      controller: 'BeerController'
+      controller: 'BeerController',
+      controllerAs: 'vm'
     })
     .otherwise({
       redirectTo: '/table'

@@ -1,36 +1,36 @@
 <div class="modal-header">
-    <button type="button" class="close" data-ng-click="close()"><span>&times;</span></button>
-    <h3 class="modal-title">{{beer.data.beer_name}}</h3>
-    <h4 class="modal-title" data-ng-hide="beer.data.brewery.contact.url.length">
-      {{beer.data.brewery.brewery_name}}
+    <button type="button" class="close" data-ng-click="vm.close()"><span>&times;</span></button>
+    <h3 class="modal-title">{{vm.beer.data.beer_name}}</h3>
+    <h4 class="modal-title" data-ng-hide="vm.beer.data.brewery.contact.url.length">
+      {{vm.beer.data.brewery.brewery_name}}
     </h4>
-    <h4 class="modal-title" data-ng-hide="!beer.data.brewery.contact.url.length">
-      <a target="_blank" href="{{beer.data.brewery.contact.url}}">{{beer.data.brewery.brewery_name}}</a>
+    <h4 class="modal-title" data-ng-hide="!vm.beer.data.brewery.contact.url.length">
+      <a target="_blank" href="{{vm.beer.data.brewery.contact.url}}">{{vm.beer.data.brewery.brewery_name}}</a>
     </h4>
-    <h4 class="modal-title" data-ng-hide="!beer.data.brewery.location.brewery_city.length && !beer.data.brewery.location.brewery_state.length">
-      {{beer.data.brewery.location.brewery_city}}, {{beer.data.brewery.location.brewery_state}}
+    <h4 class="modal-title" data-ng-hide="!vm.beer.data.brewery.location.brewery_city.length && !vm.beer.data.brewery.location.brewery_state.length">
+      {{vm.beer.data.brewery.location.brewery_city}}, {{vm.beer.data.brewery.location.brewery_state}}
     </h4>
 </div>
 <div class="modal-body">
-    <img class="beerLabel" data-ng-src="{{beer.data.beer_label}}">
-    <p><strong>Style:</strong> {{beer.data.beer_style ? beer.data.beer_style : 'n/a'}}</p>
-    <p><strong>ABV:</strong> <span data-ng-hide="{{beer.data.beer_abv === 0}}">{{beer.data.beer_abv | number : 2}}</span> {{beer.data.beer_abv > 0 ? '%' : 'n/a'}}</p>
-    <p><strong>IBU:</strong> <span data-ng-hide="{{beer.data.beer_ibu === 0}}">{{beer.data.beer_ibu | number}}</span> {{beer.data.beer_ibu > 0 ? '' : 'n/a'}}</p>
+    <img class="beerLabel" data-ng-src="{{vm.beer.data.beer_label}}">
+    <p><strong>Style:</strong> {{vm.beer.data.beer_style ? vm.beer.data.beer_style : 'n/a'}}</p>
+    <p><strong>ABV:</strong> <span data-ng-hide="{{vm.beer.data.beer_abv === 0}}">{{vm.beer.data.beer_abv | number : 2}}</span> {{vm.beer.data.beer_abv > 0 ? '%' : 'n/a'}}</p>
+    <p><strong>IBU:</strong> <span data-ng-hide="{{vm.beer.data.beer_ibu === 0}}">{{vm.beer.data.beer_ibu | number}}</span> {{vm.beer.data.beer_ibu > 0 ? '' : 'n/a'}}</p>
     <p><strong>My Rating:</strong>
-      <span data-ng-show="{{!isAuthenticated}}">n/a</span>
-      <span data-ng-show="{{isAuthenticated && beer.data.your_count === 0}}">n/a</span>
-      <span data-ng-show="{{isAuthenticated && beer.data.your_count > 0}}">{{beer.data.auth_rating | number}}</span>
-      <div  data-ng-show="{{isAuthenticated && beer.data.your_count > 0}}"><input data-beer-rating value="{{beer.data.auth_rating | number}}"></div>
+      <span data-ng-show="{{!vm.isAuthenticated}}">n/a</span>
+      <span data-ng-show="{{vm.isAuthenticated && vm.beer.data.your_count === 0}}">n/a</span>
+      <span data-ng-show="{{vm.isAuthenticated && vm.beer.data.your_count > 0}}">{{vm.beer.data.auth_rating | number}}</span>
+      <div  data-ng-show="{{vm.isAuthenticated && vm.beer.data.your_count > 0}}"><input data-beer-rating value="{{vm.beer.data.auth_rating | number}}"></div>
     </p>
     <p><strong>My Checkins:</strong>
-      <span data-ng-show="{{!isAuthenticated}}">n/a</span>
-      <span data-ng-show="{{isAuthenticated}}">{{beer.data.your_count | number}}</span>
+      <span data-ng-show="{{!vm.isAuthenticated}}">n/a</span>
+      <span data-ng-show="{{vm.isAuthenticated}}">{{vm.beer.data.your_count | number}}</span>
     </p>
-    <p><strong>Global Checkins:</strong> <span data-ng-hide="{{beer.data.checkin_count === 0}}">{{beer.data.checkin_count | number}}</span> {{beer.data.checkin_count > 0 ? '' : 'n/a'}}</p>
-    <p><strong>Description:</strong> {{beer.data.beer_description ? beer.data.beer_description : 'n/a'}}<p>
+    <p><strong>Global Checkins:</strong> <span data-ng-hide="{{vm.beer.data.checkin_count === 0}}">{{vm.beer.data.checkin_count | number}}</span> {{vm.beer.data.checkin_count > 0 ? '' : 'n/a'}}</p>
+    <p><strong>Description:</strong> {{vm.beer.data.beer_description ? vm.beer.data.beer_description : 'n/a'}}<p>
     <small><em>data provided by <a href="https://untappd.com" target="_blank">untappd.com</a> and can be cached for up to 24 hours</em></small>
 </div>
 <div class="modal-footer">
-    <button class="btn btn-untappd" data-ng-click="checkin(beer.data.bid)">Check-In <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></button>
-    <button class="btn btn-default" data-ng-click="close()">Close</button>
+    <button class="btn btn-untappd" data-ng-click="vm.checkin(vm.beer.data.bid)">Check-In <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></button>
+    <button class="btn btn-default" data-ng-click="vm.close()">Close</button>
 </div>

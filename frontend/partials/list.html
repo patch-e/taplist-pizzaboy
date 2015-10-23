@@ -1,5 +1,5 @@
 <div id="view-list">
-    <div data-ng-repeat="beerList in beersList" data-ng-hide="beerList.beers.length === 0" class="panel panel-primary">
+    <div data-ng-repeat="beerList in vm.beersList" data-ng-hide="beerList.beers.length === 0" class="panel panel-primary">
         <div class="panel-heading">
             <h3 class="panel-title">{{beerList.title}}</h3>
         </div>
@@ -7,13 +7,13 @@
             <div class="input-group input-group-sm">
                 <span class="input-group-addon">{{filteredBeers.length}}</span>
                 <input type="text" class="form-control" data-ng-model="searchFilter" placeholder="Filter..."/>
-                <span class="input-clear glyphicon glyphicon-remove" data-ng-click="searchFilter = null" data-ng-class="{'hidden': !searchFilter}"></span>
+                <span class="input-clear glyphicon glyphicon-remove" data-ng-click="searchFilter = ''" data-ng-class="{'hidden': !searchFilter}"></span>
             </div>
         </div>
         <ul class="list-group">
-            <li class="list-group-item clearfix beerSearch" data-ng-repeat="beer in filteredBeers = (beerList.beers | filter: searchFilter | orderBy: 'number' : false)" data-ng-click="search(beer)">
+            <li class="list-group-item clearfix beerSearch" data-ng-repeat="beer in filteredBeers = (beerList.beers | filter: searchFilter | orderBy: 'number' : false)" data-ng-click="vm.search(beer)">
                 <div class="pull-left">
-                    <span class="label" data-ng-class="{'label-success': beer.growler, 'label-warning': !beer.growler}">{{prependBeerNumber(beer.number, beerList.title)}}</span>
+                    <span class="label" data-ng-class="{'label-success': beer.growler, 'label-warning': !beer.growler}">{{vm.prependBeerNumber(beer.number, beerList.title)}}</span>
                 </div>
                 <div class="pull-left" style="padding-left: 10px;">
                     <div><b>{{beer.name}}</b></div>

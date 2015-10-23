@@ -1,5 +1,5 @@
 <div id="view-table">
-    <div data-ng-repeat="beerList in beersList" data-ng-hide="beerList.beers.length === 0" class="panel panel-primary">
+    <div data-ng-repeat="beerList in vm.beersList" data-ng-hide="beerList.beers.length === 0" class="panel panel-primary">
         <div class="panel-heading">
             <h3 class="panel-title">{{beerList.title}}</h3>
         </div>
@@ -14,16 +14,16 @@
             <table class="table table-hover">
                 <thead>
                     <tr>
-                        <th data-ng-repeat="heading in headings" data-ng-click="changeSorting(beerList.sort, heading.column)">
+                        <th data-ng-repeat="heading in vm.headings" data-ng-click="vm.changeSorting(beerList.sort, heading.column)">
                             <span class="heading">{{heading.display}}</span>
-                            <span class="glyphicon" data-ng-class="sortClass(beerList.sort, heading.column)"></span>
+                            <span class="glyphicon" data-ng-class="vm.sortClass(beerList.sort, heading.column)"></span>
                         </th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr class="beerSearch" data-ng-repeat="beer in filteredBeers = (beerList.beers | filter: searchFilter | orderBy: beerList.sort.column : beerList.sort.descending)" data-ng-click="search(beer)">
+                    <tr class="beerSearch" data-ng-repeat="beer in filteredBeers = (beerList.beers | filter: searchFilter | orderBy: beerList.sort.column : beerList.sort.descending)" data-ng-click="vm.search(beer)">
                         <td>
-                            <span class="label" data-ng-class="{'label-success': beer.growler, 'label-warning': !beer.growler}">{{prependBeerNumber(beer.number, beerList.title)}}</span>
+                            <span class="label" data-ng-class="{'label-success': beer.growler, 'label-warning': !beer.growler}">{{vm.prependBeerNumber(beer.number, beerList.title)}}</span>
                         </td>
                         <td>
                             <div><b>{{beer.name}}</b></div>
