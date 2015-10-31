@@ -177,13 +177,13 @@ a:hover {
 	cursor: pointer;
 }
 
-a.topScroller {
+a.topscroller {
 	color: #333;
 	opacity: 0.4;
 }
 
-a.topScroller:focus,
-a.topScroller:hover {
+a.topscroller:focus,
+a.topscroller:hover {
 	opacity: 1;
 }
 
