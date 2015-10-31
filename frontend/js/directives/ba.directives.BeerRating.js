@@ -7,28 +7,32 @@ Copyright (c) 2015
 Patrick Crager
 
 */
+(function() { 'use strict';
 
-angular.module('beersApp.directives')
-.directive('beerRating', function() {
+  angular.module('beersApp.directives').directive('beerRating', BeerRating);
 
-  return {
-    restrict: 'A',
-    link: function(scope, element, attrs) {
-      var options = {
-        'type': 'number',
-        'class': 'rating',
-        'readonly': true,
-        'min': 0,
-        'max': 5,
-        'step': 0.25,
-        'size': 'xs',
-        'showCaption': false,
-        'showClear': false
-      };
+  function BeerRating() {
+    var directive = {
+      restrict: 'A',
+      link: function(scope, element, attrs) {
+        var options = {
+          'type': 'number',
+          'class': 'rating',
+          'readonly': true,
+          'min': 0,
+          'max': 5,
+          'step': 0.25,
+          'size': 'xs',
+          'showCaption': false,
+          'showClear': false
+        };
 
-      $(element).rating(options);
-      $(element).rating('update', attrs.value);
-    }
-  };
+        $(element).rating(options);
+        $(element).rating('update', attrs.value);
+      }
+    };
 
-});
+    return directive;
+  }
+
+})();

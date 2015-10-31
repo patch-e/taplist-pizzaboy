@@ -7,5 +7,8 @@ Copyright (c) 2015
 Patrick Crager
 
 */
+(function() { 'use strict';
 
-angular.module('beersApp.directives', []);
+  angular.module('beersApp.directives', []);
+
+})();

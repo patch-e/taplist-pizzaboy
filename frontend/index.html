@@ -87,7 +87,7 @@
 
             <div class="container">
                 <div class="row">
-                    <ng-view></ng-view>
+                    <data-ng-view></data-ng-view>
                     <p id="attribution" class="col-xs-12" style="display: none;">
                       <small><em>data provided by <a href="http://alsofhampden.com" target="_blank">alsofhampden.com</a></em></small>
                     </p>
@@ -95,9 +95,9 @@
             </div>
         </div>
 
-        <div data-overlay></div>
-        <div data-modal-help></div>
-        <div data-modal-about></div>
+        <data-overlay></data-overlay>
+        <data-ng-include src="'templates/modalHelp.html'"></data-ng-include>
+        <data-ng-include src="'templates/modalAbout.html'"></data-ng-include>
 
         <script src="release/js/beersapp.min.js"></script>
         <script>

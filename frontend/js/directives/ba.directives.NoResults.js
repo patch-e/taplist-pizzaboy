@@ -7,13 +7,18 @@ Copyright (c) 2015
 Patrick Crager
 
 */
+(function() { 'use strict';
 
-angular.module('beersApp.directives')
-.directive('noResults', function() {
+  angular.module('beersApp.directives')
+  .directive('noResults', ['Messages', NoResults]);
 
-  return {
-    restrict: 'A',
-    template: 'No beers match entered filter criteria.'
-  };
+  function NoResults(Messages) {
+    var directive = {
+      restrict: 'EA',
+      template: Messages.BA_NO_RESULTS
+    };
 
-});
+    return directive;
+  }
+
+})();

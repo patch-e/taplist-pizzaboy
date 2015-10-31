@@ -7,21 +7,26 @@ Copyright (c) 2015
 Patrick Crager
 
 */
+(function() { 'use strict';
 
-angular.module('beersApp.directives')
-.directive('footerTopscroller', function() {
+  angular.module('beersApp.directives').directive('footerTopscroller', FooterTopscroller);
 
-  return {
-    restrict: 'A',
-    template: '<span class="glyphicon glyphicon-chevron-up"></span>',
-    link: function(scope, element, attrs) {
-      element.attr('href', '');
-      element.addClass('pull-right top topScroller');
-      element.on('click', function() {
-        $('html, body').animate({scrollTop: 0}, 'slow');
-        return false;
-      });
-    }
-  };
+  function FooterTopscroller() {
+    var directive = {
+      restrict: 'E',
+      replace: true,
+      template: '<a><span class="glyphicon glyphicon-chevron-up"></span></a>',
+      link: function(scope, element, attrs) {
+        element.attr('href', '');
+        element.addClass('pull-right top topscroller');
+        element.on('click', function() {
+          $('html, body').animate({scrollTop: 0}, 'slow');
+          return false;
+        });
+      }
+    };
 
-});
+    return directive;
+  }
+
+})();

@@ -7,10 +7,13 @@ Copyright (c) 2015
 Patrick Crager
 
 */
+(function() { 'use strict';
 
-angular.module('beersApp.controllers', [
-  'beersApp.data',
-  'beersApp.directives',
-  'ngCookies',
-  'ui.bootstrap'
-]);
+  angular.module('beersApp.controllers', [
+    'beersApp.data',
+    'beersApp.directives',
+    'ngCookies',
+    'ui.bootstrap'
+  ]);
+
+})();

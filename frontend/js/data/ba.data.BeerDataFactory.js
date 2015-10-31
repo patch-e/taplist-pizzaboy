@@ -7,11 +7,13 @@ Copyright (c) 2015
 Patrick Crager
 
 */
+(function() { 'use strict';
 
-angular.module('beersApp.data')
-.factory('BeerDataFactory', ['$http', function($http) {
+  angular.module('beersApp.data')
+  .factory('BeerDataFactory', ['$http', BeerDataFactory]);
 
-    return {
+  function BeerDataFactory($http) {
+    var factory = {
       list: list,
       search: search
     };
@@ -22,8 +24,14 @@ angular.module('beersApp.data')
 
     function search(b, n) {
       return $http.get('/nodejs/beer/search', {
-        params: { brewery: b, name: n }
+        params: {
+          brewery: b,
+          name: n
+        }
       });
     }
 
-}]);
+    return factory;
+  }
+
+})();
