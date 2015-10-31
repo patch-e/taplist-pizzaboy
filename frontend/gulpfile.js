@@ -7,6 +7,7 @@ Copyright (c) 2015
 Patrick Crager
 
 */
+'use strict';
 
 // required modules
 var gulp = require('gulp'),
@@ -32,14 +33,14 @@ gulp.task('lint', function() {
 // concat & minify js task
 gulp.task('scripts', function() {
     return gulp.src([
+            'js/vendor/jquery-1.11.0.min.js',
+            'js/vendor/bootstrap-3.2.0.min.js',
+            'js/vendor/star-rating.min.js',
             'js/vendor/angular.min.js',
             'js/vendor/angular-route.min.js',
             'js/vendor/angular-touch.min.js',
             'js/vendor/angular-cookies.min.js',
-            'js/vendor/jquery-1.11.0.min.js',
-            'js/vendor/bootstrap-3.2.0.min.js',
             'js/vendor/ui-bootstrap-0.12.0.min.js',
-            'js/vendor/star-rating.min.js',
             'js/app.js',
             'js/shared/**/*.js',
             'js/data/**/*.js',
@@ -49,9 +50,7 @@ gulp.task('scripts', function() {
         pipe(concat('beersapp.js')).
         pipe(gulp.dest('release/js')).
         pipe(rename('beersapp.min.js')).
-        pipe(uglify({
-            mangle: false
-        })).
+        pipe(uglify()).
         pipe(gulp.dest('release/js'));
 });
 
