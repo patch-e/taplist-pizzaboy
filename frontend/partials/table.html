@@ -34,13 +34,13 @@
                         <td><span>{{beer.abv | number : 2}} {{beer.abv ? '%' : 'n/a'}}</span></td>
                     </tr>
                     <tr data-ng-hide="filteredBeers.length">
-                        <td colspan="5" data-no-results></td>
+                        <td colspan="5" data-no-results>{{beerList.timestamp | date: 'medium\}}</td>
                     </tr>
                 </tbody>
             </table>
         </div>
         <div class="panel-footer">
-            <small data-footer-timestamp></small>
+            <data-footer-timestamp>{{beerList.timestamp | date: 'medium'}}</data-footer-timestamp>
             <data-footer-topscroller></data-footer-topscroller>
         </div>
     </div>

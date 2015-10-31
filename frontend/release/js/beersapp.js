@@ -798,8 +798,8 @@ Patrick Crager
           'showClear': false
         };
 
-        $(element).rating(options);
-        $(element).rating('update', attrs.value);
+        element.rating(options);
+        element.rating('update', attrs.value);
       }
     };
 
@@ -823,8 +823,10 @@ Patrick Crager
 
   function FooterTimestamp() {
     var directive = {
-      restrict: 'A',
-      template: 'Generated @ {{beerList.timestamp | date: \'medium\'}}'
+      restrict: 'E',
+      replace: true,
+      transclude: true,
+      template: '<small>Generated @ <data-ng-transclude></data-ng-transclude></small>'
     };
 
     return directive;
@@ -849,10 +851,10 @@ Patrick Crager
     var directive = {
       restrict: 'E',
       replace: true,
-      template: '<a><span class="glyphicon glyphicon-chevron-up"></span></a>',
+      template: '<a href="#" class="pull-right top topscroller">' +
+                  '<span class="glyphicon glyphicon-chevron-up"></span>' +
+                '</a>',
       link: function(scope, element, attrs) {
-        element.attr('href', '');
-        element.addClass('pull-right top topscroller');
         element.on('click', function() {
           $('html, body').animate({scrollTop: 0}, 'slow');
           return false;
@@ -883,6 +885,39 @@ Patrick Crager
     var directive = {
       restrict: 'EA',
       template: Messages.BA_NO_RESULTS
+    };
+
+    return directive;
+  }
+
+})();
+
+/*
+ba.directives.Overlay.js
+Provides a full page loading overlay.
+
+Copyright (c) 2015
+
+Patrick Crager
+
+*/
+(function() { 'use strict';
+
+  angular.module('beersApp.directives').controller('OverlayController', OverlayController);
+
+  function OverlayController() {
+    // controller as
+    var vm  = this;
+
+    var directive = {
+      restrict: 'E',
+      replace: true,
+      template: '<div></div>',
+      link: function(scope, element, attrs) {
+        element.attr('id', 'overlay');
+        element.addClass('modal-backdrop fade in');
+        element.css('display', 'none');
+      }
     };
 
     return directive;

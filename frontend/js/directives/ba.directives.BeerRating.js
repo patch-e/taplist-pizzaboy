@@ -27,8 +27,8 @@ Patrick Crager
           'showClear': false
         };
 
-        $(element).rating(options);
-        $(element).rating('update', attrs.value);
+        element.rating(options);
+        element.rating('update', attrs.value);
       }
     };
 

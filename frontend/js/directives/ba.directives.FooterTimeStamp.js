@@ -13,8 +13,10 @@ Patrick Crager
 
   function FooterTimestamp() {
     var directive = {
-      restrict: 'A',
-      template: 'Generated @ {{beerList.timestamp | date: \'medium\'}}'
+      restrict: 'E',
+      replace: true,
+      transclude: true,
+      template: '<small>Generated @ <data-ng-transclude></data-ng-transclude></small>'
     };
 
     return directive;
