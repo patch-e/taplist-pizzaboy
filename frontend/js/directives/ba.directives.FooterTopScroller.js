@@ -15,10 +15,10 @@ Patrick Crager
     var directive = {
       restrict: 'E',
       replace: true,
-      template: '<a href="#" class="pull-right top topscroller">' +
-                  '<span class="glyphicon glyphicon-chevron-up"></span>' +
-                '</a>',
+      template: '<a><span class="glyphicon glyphicon-chevron-up"></span></a>',
       link: function(scope, element, attrs) {
+        element.attr('href', '#');
+        element.addClass('pull-right top topscroller');
         element.on('click', function() {
           $('html, body').animate({scrollTop: 0}, 'slow');
           return false;

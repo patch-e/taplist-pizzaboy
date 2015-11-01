@@ -9,17 +9,18 @@ Patrick Crager
 */
 (function() { 'use strict';
 
-  angular.module('beersApp.directives').directive('overlay', Overlay);
+  angular.module('beersApp.directives').directive('loadingOverlay', LoadingOverlay);
 
-  function Overlay() {
+  function LoadingOverlay() {
     var directive = {
+      scope: {
+        isShowing: '@'
+      },
       restrict: 'E',
       replace: true,
       template: '<div></div>',
       link: function(scope, element, attrs) {
-        element.attr('id', 'overlay');
         element.addClass('modal-backdrop fade in');
-        element.css('display', 'none');
       }
     };
 

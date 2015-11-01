@@ -26,6 +26,8 @@ Patrick Crager
     ];
     // array that is populated after API call finishes
     vm.beersList = [];
+    vm.isSearching = false;
+    vm.isLoading = false;
 
     // vm functions
     vm.prependBeerNumber = prependBeerNumber;
@@ -99,7 +101,7 @@ Patrick Crager
 
     // calls the search API and opens a modal window upon success
     function search(beer) {
-      document.getElementById('overlay').style.display = 'inherit';
+      vm.isSearching = true;
 
       BeerDataFactory.search(beer.brewery, beer.name)
         .success(function(data) {
@@ -112,7 +114,7 @@ Patrick Crager
             }
           });
           modal.result.finally(function() {
-            document.getElementById('overlay').style.display = 'none';
+            vm.isSearching = false;
           });
         })
         .error(function(error) {
@@ -130,7 +132,7 @@ Patrick Crager
             alert(Messages.BA_UNTAPPD_SEARCH_ERROR);
           }
 
-          document.getElementById('overlay').style.display = 'none';
+          vm.isSearching = false;
         });
     }
   }

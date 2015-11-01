@@ -563,6 +563,8 @@ Patrick Crager
     ];
     // array that is populated after API call finishes
     vm.beersList = [];
+    vm.isSearching = false;
+    vm.isLoading = false;
 
     // vm functions
     vm.prependBeerNumber = prependBeerNumber;
@@ -636,7 +638,7 @@ Patrick Crager
 
     // calls the search API and opens a modal window upon success
     function search(beer) {
-      document.getElementById('overlay').style.display = 'inherit';
+      vm.isSearching = true;
 
       BeerDataFactory.search(beer.brewery, beer.name)
         .success(function(data) {
@@ -649,7 +651,7 @@ Patrick Crager
             }
           });
           modal.result.finally(function() {
-            document.getElementById('overlay').style.display = 'none';
+            vm.isSearching = false;
           });
         })
         .error(function(error) {
@@ -667,7 +669,7 @@ Patrick Crager
             alert(Messages.BA_UNTAPPD_SEARCH_ERROR);
           }
 
-          document.getElementById('overlay').style.display = 'none';
+          vm.isSearching = false;
         });
     }
   }
@@ -851,10 +853,10 @@ Patrick Crager
     var directive = {
       restrict: 'E',
       replace: true,
-      template: '<a href="#" class="pull-right top topscroller">' +
-                  '<span class="glyphicon glyphicon-chevron-up"></span>' +
-                '</a>',
+      template: '<a><span class="glyphicon glyphicon-chevron-up"></span></a>',
       link: function(scope, element, attrs) {
+        element.attr('href', '#');
+        element.addClass('pull-right top topscroller');
         element.on('click', function() {
           $('html, body').animate({scrollTop: 0}, 'slow');
           return false;
@@ -903,50 +905,18 @@ Patrick Crager
 */
 (function() { 'use strict';
 
-  angular.module('beersApp.directives').controller('OverlayController', OverlayController);
+  angular.module('beersApp.directives').directive('loadingOverlay', LoadingOverlay);
 
-  function OverlayController() {
-    // controller as
-    var vm  = this;
-
+  function LoadingOverlay() {
     var directive = {
+      scope: {
+        isShowing: '@'
+      },
       restrict: 'E',
       replace: true,
       template: '<div></div>',
       link: function(scope, element, attrs) {
-        element.attr('id', 'overlay');
         element.addClass('modal-backdrop fade in');
-        element.css('display', 'none');
-      }
-    };
-
-    return directive;
-  }
-
-})();
-
-/*
-ba.directives.Overlay.js
-Provides a full page loading overlay.
-
-Copyright (c) 2015
-
-Patrick Crager
-
-*/
-(function() { 'use strict';
-
-  angular.module('beersApp.directives').directive('overlay', Overlay);
-
-  function Overlay() {
-    var directive = {
-      restrict: 'E',
-      replace: true,
-      template: '<div></div>',
-      link: function(scope, element, attrs) {
-        element.attr('id', 'overlay');
-        element.addClass('modal-backdrop fade in');
-        element.css('display', 'none');
       }
     };
 
