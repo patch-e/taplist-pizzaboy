@@ -9,6 +9,8 @@ Patrick Crager
 */
 (function() { 'use strict';
 
-  angular.module('beersApp.data', []);
+  angular.module('beersApp.data', [
+    'ngCookies'
+  ]);
 
 })();

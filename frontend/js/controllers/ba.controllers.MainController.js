@@ -10,9 +10,9 @@ Patrick Crager
 (function() { 'use strict';
 
   angular.module('beersApp.controllers')
-  .controller('MainController', ['$cookies', 'AppConfig', MainController]);
+  .controller('MainController', ['CookieFactory', 'AppConfig', MainController]);
 
-  function MainController($cookies, AppConfig) {
+  function MainController(CookieFactory, AppConfig) {
     // controller as
     var vm = this;
 
@@ -20,7 +20,7 @@ Patrick Crager
     vm.loginURL = vm.loginURL.replace('{0}', AppConfig.BA_UNTAPPD_CLIENTID);
     vm.loginURL = vm.loginURL.replace('{1}', encodeURI(AppConfig.BA_UNTAPPD_CALLBACK_URL));
     vm.logoutURL = AppConfig.BA_LOGOUT_URL;
-    vm.isAuthenticated = !!(($cookies.get('untappdToken') || '').length);
+    vm.isAuthenticated = CookieFactory.isAuthenticated;
 
     // vm functions
     vm.collapseNav = collapseNav;

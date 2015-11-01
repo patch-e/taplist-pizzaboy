@@ -12,7 +12,6 @@ Patrick Crager
   angular.module('beersApp.controllers', [
     'beersApp.data',
     'beersApp.directives',
-    'ngCookies',
     'ui.bootstrap'
   ]);
 

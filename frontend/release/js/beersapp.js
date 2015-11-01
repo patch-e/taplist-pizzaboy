@@ -473,7 +473,9 @@ Patrick Crager
 */
 (function() { 'use strict';
 
-  angular.module('beersApp.data', []);
+  angular.module('beersApp.data', [
+    'ngCookies'
+  ]);
 
 })();
 
@@ -516,6 +518,30 @@ Patrick Crager
 })();
 
 /*
+ba.data.CookieFactory.js
+Provides cookie related services to BeersApp.
+
+Copyright (c) 2015
+
+Patrick Crager
+
+*/
+(function() { 'use strict';
+
+  angular.module('beersApp.data')
+  .factory('CookieFactory', ['$cookies', CookieFactory]);
+
+  function CookieFactory($cookies) {
+    var factory = {
+      isAuthenticated: !!(($cookies.get('untappdToken') || '').length)
+    };
+
+    return factory;
+  }
+
+})();
+
+/*
 ba.controllers.module.js
 Module injection point for controller modules used by BeersApp.
 
@@ -529,7 +555,6 @@ Patrick Crager
   angular.module('beersApp.controllers', [
     'beersApp.data',
     'beersApp.directives',
-    'ngCookies',
     'ui.bootstrap'
   ]);
 
@@ -688,9 +713,9 @@ Patrick Crager
 (function() { 'use strict';
 
   angular.module('beersApp.controllers')
-  .controller('MainController', ['$cookies', 'AppConfig', MainController]);
+  .controller('MainController', ['CookieFactory', 'AppConfig', MainController]);
 
-  function MainController($cookies, AppConfig) {
+  function MainController(CookieFactory, AppConfig) {
     // controller as
     var vm = this;
 
@@ -698,7 +723,7 @@ Patrick Crager
     vm.loginURL = vm.loginURL.replace('{0}', AppConfig.BA_UNTAPPD_CLIENTID);
     vm.loginURL = vm.loginURL.replace('{1}', encodeURI(AppConfig.BA_UNTAPPD_CALLBACK_URL));
     vm.logoutURL = AppConfig.BA_LOGOUT_URL;
-    vm.isAuthenticated = !!(($cookies.get('untappdToken') || '').length);
+    vm.isAuthenticated = CookieFactory.isAuthenticated;
 
     // vm functions
     vm.collapseNav = collapseNav;
@@ -723,14 +748,14 @@ Patrick Crager
 (function() { 'use strict';
 
   angular.module('beersApp.controllers')
-  .controller('SearchResultController', ['$cookies', '$modalInstance', 'AppConfig', 'beer', SearchResultController]);
+  .controller('SearchResultController', ['CookieFactory', '$modalInstance', 'AppConfig', 'beer', SearchResultController]);
 
-  function SearchResultController($cookies, $modalInstance, AppConfig, beer) {
+  function SearchResultController(CookieFactory, $modalInstance, AppConfig, beer) {
     // controller as
     var vm = this;
 
-    vm.isAuthenticated = !!(($cookies.get('untappdToken') || '').length);
     vm.beer = beer;
+    vm.isAuthenticated = CookieFactory.isAuthenticated;
 
     // vm functions
     vm.close = close;

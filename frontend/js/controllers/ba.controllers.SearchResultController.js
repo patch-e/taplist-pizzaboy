@@ -10,14 +10,14 @@ Patrick Crager
 (function() { 'use strict';
 
   angular.module('beersApp.controllers')
-  .controller('SearchResultController', ['$cookies', '$modalInstance', 'AppConfig', 'beer', SearchResultController]);
+  .controller('SearchResultController', ['CookieFactory', '$modalInstance', 'AppConfig', 'beer', SearchResultController]);
 
-  function SearchResultController($cookies, $modalInstance, AppConfig, beer) {
+  function SearchResultController(CookieFactory, $modalInstance, AppConfig, beer) {
     // controller as
     var vm = this;
 
-    vm.isAuthenticated = !!(($cookies.get('untappdToken') || '').length);
     vm.beer = beer;
+    vm.isAuthenticated = CookieFactory.isAuthenticated;
 
     // vm functions
     vm.close = close;
