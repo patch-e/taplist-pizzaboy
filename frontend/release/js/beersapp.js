@@ -542,6 +542,41 @@ Patrick Crager
 })();
 
 /*
+ba.data.LoadingFactory.js
+Provides loading related services to BeersApp.
+
+Copyright (c) 2015
+
+Patrick Crager
+
+*/
+(function() { 'use strict';
+
+  angular.module('beersApp.data').factory('LoadingFactory', LoadingFactory);
+
+  function LoadingFactory() {
+    var factory = {
+      isLoading: false,
+      isLoaded: false,
+      startLoading: startLoading,
+      stopLoading: stopLoading
+    };
+
+    function startLoading() {
+      factory.isLoading = true;
+    }
+
+    function stopLoading() {
+      factory.isLoading = false;
+      factory.isLoaded = true;
+    }
+
+    return factory;
+  }
+
+})();
+
+/*
 ba.controllers.module.js
 Module injection point for controller modules used by BeersApp.
 
@@ -572,9 +607,9 @@ Patrick Crager
 (function() { 'use strict';
 
   angular.module('beersApp.controllers')
-  .controller('BeerController', ['BeerDataFactory', '$modal', 'Messages', BeerController]);
+  .controller('BeerController', ['BeerDataFactory', 'LoadingFactory', '$modal', 'Messages', BeerController]);
 
-  function BeerController(BeerDataFactory, $modal, Messages) {
+  function BeerController(BeerDataFactory, LoadingFactory, $modal, Messages) {
     // controller as
     var vm = this;
 
@@ -589,7 +624,6 @@ Patrick Crager
     // array that is populated after API call finishes
     vm.beersList = [];
     vm.isSearching = false;
-    vm.isLoading = false;
 
     // vm functions
     vm.prependBeerNumber = prependBeerNumber;
@@ -601,7 +635,7 @@ Patrick Crager
 
     function init() {
       // fetch the beers through the list() service call
-      document.getElementById('attribution').style.display = 'none';
+      LoadingFactory.startLoading();
       BeerDataFactory.list()
         .success(function(data) {
           // sort holds initial sorting values for each list
@@ -614,12 +648,10 @@ Patrick Crager
           vm.beersList = data;
 
           // remove the loading indication and show the main content
-          document.getElementById('loading').style.display = 'none';
-          document.getElementById('main').style.display = 'inherit';
-          document.getElementById('attribution').style.display = 'inherit';
+          LoadingFactory.stopLoading();
         })
         .error(function(error) {
-          document.getElementById('loading').style.display = 'none';
+          LoadingFactory.stopLoading();
           alert(Messages.BA_LIST_ERROR);
         });
     }
@@ -713,9 +745,9 @@ Patrick Crager
 (function() { 'use strict';
 
   angular.module('beersApp.controllers')
-  .controller('MainController', ['CookieFactory', 'AppConfig', MainController]);
+  .controller('MainController', ['CookieFactory', 'LoadingFactory', 'AppConfig', MainController]);
 
-  function MainController(CookieFactory, AppConfig) {
+  function MainController(CookieFactory, LoadingFactory, AppConfig) {
     // controller as
     var vm = this;
 
@@ -727,10 +759,22 @@ Patrick Crager
 
     // vm functions
     vm.collapseNav = collapseNav;
+    vm.isLoading = isLoading;
+    vm.isLoaded = isLoaded;
 
     // collapses the expanded navigation bar
     function collapseNav() {
       $('.collapse.in').collapse('hide');
+    }
+
+    // return the current loading indication
+    function isLoading() {
+      return LoadingFactory.isLoading;
+    }
+
+    // return the status of the initial load
+    function isLoaded() {
+      return LoadingFactory.isLoaded;
     }
   }
 
@@ -793,6 +837,33 @@ Patrick Crager
 (function() { 'use strict';
 
   angular.module('beersApp.directives', []);
+
+})();
+
+/*
+ba.directives.Attribution.js
+Provides formatted attribution text.
+
+Copyright (c) 2015
+
+Patrick Crager
+
+*/
+(function() { 'use strict';
+
+  angular.module('beersApp.directives').directive('attribution', Attribution);
+
+  function Attribution() {
+    var directive = {
+      scope: {
+        isLoading: '@'
+      },
+      restrict: 'EA',
+      template: '<small><em>data provided by <a href="http://alsofhampden.com" target="_blank">alsofhampden.com</a></em></small>'
+    };
+
+    return directive;
+  }
 
 })();
 
@@ -887,6 +958,31 @@ Patrick Crager
           return false;
         });
       }
+    };
+
+    return directive;
+  }
+
+})();
+
+/*
+ba.directives.Navigation.js
+Provides the navigation template.
+
+Copyright (c) 2015
+
+Patrick Crager
+
+*/
+(function() { 'use strict';
+
+  angular.module('beersApp.directives').directive('navigation', Navigation);
+
+  function Navigation() {
+    var directive = {
+      restrict: 'E',
+      replace: true,
+      templateUrl: 'templates/navigation.html'
     };
 
     return directive;

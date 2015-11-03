@@ -10,9 +10,9 @@ Patrick Crager
 (function() { 'use strict';
 
   angular.module('beersApp.controllers')
-  .controller('BeerController', ['BeerDataFactory', '$modal', 'Messages', BeerController]);
+  .controller('BeerController', ['BeerDataFactory', 'LoadingFactory', '$modal', 'Messages', BeerController]);
 
-  function BeerController(BeerDataFactory, $modal, Messages) {
+  function BeerController(BeerDataFactory, LoadingFactory, $modal, Messages) {
     // controller as
     var vm = this;
 
@@ -27,7 +27,6 @@ Patrick Crager
     // array that is populated after API call finishes
     vm.beersList = [];
     vm.isSearching = false;
-    vm.isLoading = false;
 
     // vm functions
     vm.prependBeerNumber = prependBeerNumber;
@@ -39,7 +38,7 @@ Patrick Crager
 
     function init() {
       // fetch the beers through the list() service call
-      document.getElementById('attribution').style.display = 'none';
+      LoadingFactory.startLoading();
       BeerDataFactory.list()
         .success(function(data) {
           // sort holds initial sorting values for each list
@@ -52,12 +51,10 @@ Patrick Crager
           vm.beersList = data;
 
           // remove the loading indication and show the main content
-          document.getElementById('loading').style.display = 'none';
-          document.getElementById('main').style.display = 'inherit';
-          document.getElementById('attribution').style.display = 'inherit';
+          LoadingFactory.stopLoading();
         })
         .error(function(error) {
-          document.getElementById('loading').style.display = 'none';
+          LoadingFactory.stopLoading();
           alert(Messages.BA_LIST_ERROR);
         });
     }
