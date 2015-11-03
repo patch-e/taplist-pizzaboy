@@ -1,0 +1,38 @@
+<nav class="navbar navbar-default navbar-static-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand pull-left" href="./#/table">Beers @ Al's</a>
+            <div class="pull-left">
+                <button class="btn btn-default btn-help navbar-btn" data-toggle="modal" data-target="#help-modal">
+                    <span class="glyphicon glyphicon-question-sign"></span>
+                </button>
+                <button class="btn btn-default btn-about navbar-btn" data-toggle="modal" data-target="#about-modal">
+                    <span class="glyphicon glyphicon-info-sign"></span>
+                </button>
+                <a class="btn btn-default btn-login navbar-btn" href="{{vm.isAuthenticated ? vm.logoutURL : vm.loginURL}}">
+                    <span class="glyphicon glyphicon-lock"></span>
+                </a>
+            </div>
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#menu">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+        <div class="collapse navbar-collapse" id="menu">
+            <div class="nav-btns navbar-right">
+                <div class="btn-group">
+                    <a href="./#/table" class="btn btn-default navbar-btn" data-ng-click="vm.collapseNav()">
+                        <span class="glyphicon glyphicon-align-justify"></span> Table
+                    </a>
+                    <a href="./#/list" class="btn btn-default navbar-btn" data-ng-click="vm.collapseNav()">
+                        <span class="glyphicon glyphicon-list"></span> List
+                    </a>
+                    <a href="./#/block" class="btn btn-default navbar-btn" data-ng-click="vm.collapseNav()">
+                        <span class="glyphicon glyphicon-th"></span> Block
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
