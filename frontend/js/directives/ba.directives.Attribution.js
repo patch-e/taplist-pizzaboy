@@ -9,9 +9,9 @@ Patrick Crager
 */
 (function() { 'use strict';
 
-  angular.module('beersApp.directives').directive('attribution', Attribution);
+  angular.module('beersApp.directives').directive('attribution', attribution);
 
-  function Attribution() {
+  function attribution() {
     var directive = {
       scope: {
         isLoading: '@'

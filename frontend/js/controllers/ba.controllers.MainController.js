@@ -9,18 +9,19 @@ Patrick Crager
 */
 (function() { 'use strict';
 
-  angular.module('beersApp.controllers')
-  .controller('MainController', ['CookieFactory', 'LoadingFactory', 'AppConfig', MainController]);
+  angular.module('beersApp.controllers').controller('MainController', MainController);
 
-  function MainController(CookieFactory, LoadingFactory, AppConfig) {
+  MainController.$inject = ['cookieFactory', 'loadingFactory', 'appConfig'];
+
+  function MainController(cookieFactory, loadingFactory, appConfig) {
     // controller as
     var vm = this;
 
-    vm.loginURL = AppConfig.BA_UNTAPPD_LOGIN_URL;
-    vm.loginURL = vm.loginURL.replace('{0}', AppConfig.BA_UNTAPPD_CLIENTID);
-    vm.loginURL = vm.loginURL.replace('{1}', encodeURI(AppConfig.BA_UNTAPPD_CALLBACK_URL));
-    vm.logoutURL = AppConfig.BA_LOGOUT_URL;
-    vm.isAuthenticated = CookieFactory.isAuthenticated;
+    vm.loginURL = appConfig.BA_UNTAPPD_LOGIN_URL;
+    vm.loginURL = vm.loginURL.replace('{0}', appConfig.BA_UNTAPPD_CLIENTID);
+    vm.loginURL = vm.loginURL.replace('{1}', encodeURI(appConfig.BA_UNTAPPD_CALLBACK_URL));
+    vm.logoutURL = appConfig.BA_LOGOUT_URL;
+    vm.isAuthenticated = cookieFactory.isAuthenticated;
 
     // vm functions
     vm.collapseNav = collapseNav;
@@ -34,12 +35,12 @@ Patrick Crager
 
     // return the current loading indication
     function isLoading() {
-      return LoadingFactory.isLoading;
+      return loadingFactory.isLoading;
     }
 
     // return the status of the initial load
     function isLoaded() {
-      return LoadingFactory.isLoaded;
+      return loadingFactory.isLoaded;
     }
   }
 

@@ -1,5 +1,5 @@
 /*
-ba.data.DataFactory.js
+ba.data.beerDataFactory.js
 Wraps $http to provide data to BeersApp.
 
 Copyright (c) 2015
@@ -9,14 +9,17 @@ Patrick Crager
 */
 (function() { 'use strict';
 
-  angular.module('beersApp.data')
-  .factory('BeerDataFactory', ['$http', BeerDataFactory]);
+  angular.module('beersApp.data').factory('beerDataFactory', beerDataFactory);
 
-  function BeerDataFactory($http) {
+  beerDataFactory.$inject = ['$http'];
+
+  function beerDataFactory($http) {
     var factory = {
       list: list,
       search: search
     };
+
+    return factory;
 
     function list() {
       return $http.get('/nodejs/beer');
@@ -30,8 +33,6 @@ Patrick Crager
         }
       });
     }
-
-    return factory;
   }
 
 })();

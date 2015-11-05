@@ -9,10 +9,11 @@ Patrick Crager
 */
 (function() { 'use strict';
 
-  angular.module('beersApp.controllers')
-  .controller('BeerController', ['BeerDataFactory', 'LoadingFactory', '$modal', 'Messages', BeerController]);
+  angular.module('beersApp.controllers').controller('BeerController', BeerController);
 
-  function BeerController(BeerDataFactory, LoadingFactory, $modal, Messages) {
+  BeerController.$inject = ['beerDataFactory', 'loadingFactory', '$modal', 'messages'];
+
+  function BeerController(beerDataFactory, loadingFactory, $modal, messages) {
     // controller as
     var vm = this;
 
@@ -38,8 +39,8 @@ Patrick Crager
 
     function init() {
       // fetch the beers through the list() service call
-      LoadingFactory.startLoading();
-      BeerDataFactory.list()
+      loadingFactory.startLoading();
+      beerDataFactory.list()
         .success(function(data) {
           // sort holds initial sorting values for each list
           angular.forEach(data, function(beerList, index) {
@@ -51,11 +52,11 @@ Patrick Crager
           vm.beersList = data;
 
           // remove the loading indication and show the main content
-          LoadingFactory.stopLoading();
+          loadingFactory.stopLoading();
         })
         .error(function(error) {
-          LoadingFactory.stopLoading();
-          alert(Messages.BA_LIST_ERROR);
+          loadingFactory.stopLoading();
+          alert(messages.BA_LIST_ERROR);
         });
     }
 
@@ -100,7 +101,7 @@ Patrick Crager
     function search(beer) {
       vm.isSearching = true;
 
-      BeerDataFactory.search(beer.brewery, beer.name)
+      beerDataFactory.search(beer.brewery, beer.name)
         .success(function(data) {
           var modal = $modal.open({
             templateUrl: 'templates/modalSearchResult.html',
@@ -121,12 +122,12 @@ Patrick Crager
           }
 
           if (error.code === 404) {
-            alert(Messages.BA_UNTAPPD_SEARCH_NOT_FOUND);
+            alert(messages.BA_UNTAPPD_SEARCH_NOT_FOUND);
           } else if (errorType && errorType === 'invalid_token') {
-            alert(Messages.BA_UNTAPPD_TOKEN_EXPIRED);
+            alert(messages.BA_UNTAPPD_TOKEN_EXPIRED);
             window.location.replace('/nodejs/beer/logout');
           } else {
-            alert(Messages.BA_UNTAPPD_SEARCH_ERROR);
+            alert(messages.BA_UNTAPPD_SEARCH_ERROR);
           }
 
           vm.isSearching = false;

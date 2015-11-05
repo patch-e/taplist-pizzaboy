@@ -1,6 +1,6 @@
 /*
-ba.directives.Overlay.js
-Provides a full page loading overlay.
+ba.directives.LoadingOverlay.js
+Provides a full screen loading overlay.
 
 Copyright (c) 2015
 
@@ -9,9 +9,9 @@ Patrick Crager
 */
 (function() { 'use strict';
 
-  angular.module('beersApp.directives').directive('loadingOverlay', LoadingOverlay);
+  angular.module('beersApp.directives').directive('loadingOverlay', loadingOverlay);
 
-  function LoadingOverlay() {
+  function loadingOverlay() {
     var directive = {
       scope: {
         isShowing: '@'

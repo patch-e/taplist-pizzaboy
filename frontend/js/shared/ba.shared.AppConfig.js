@@ -1,5 +1,5 @@
 /*
-ba.shared.AppConfig.js
+ba.shared.appConfig.js
 Constant config values used by BeersApp.
 
 Copyright (c) 2015
@@ -9,7 +9,7 @@ Patrick Crager
 */
 (function() { 'use strict';
 
-  angular.module('beersApp.shared').constant('AppConfig', {
+  angular.module('beersApp.shared').constant('appConfig', {
 
     BA_UNTAPPD_APP_SCHEME: 'untappd:///?beer=',
     BA_UNTAPPD_URL_SCHEME: 'http://untappd.com/beer/',

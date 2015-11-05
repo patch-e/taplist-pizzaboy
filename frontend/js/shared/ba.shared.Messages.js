@@ -1,5 +1,5 @@
 /*
-ba.shared.Messages.js
+ba.shared.messages.js
 Constant messages used by BeersApp.
 
 Copyright (c) 2015
@@ -9,7 +9,7 @@ Patrick Crager
 */
 (function() { 'use strict';
 
-  angular.module('beersApp.shared').constant('Messages', {
+  angular.module('beersApp.shared').constant('messages', {
 
     BA_NO_RESULTS: 'No beers match entered filter criteria.',
     BA_LIST_ERROR: 'Something went wrong when getting the beer list!\n\nRefresh and try again.',

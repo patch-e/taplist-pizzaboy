@@ -9,9 +9,9 @@ Patrick Crager
 */
 (function() { 'use strict';
 
-  angular.module('beersApp.directives').directive('footerTimestamp', FooterTimestamp);
+  angular.module('beersApp.directives').directive('footerTimestamp', footerTimestamp);
 
-  function FooterTimestamp() {
+  function footerTimestamp() {
     var directive = {
       restrict: 'E',
       replace: true,

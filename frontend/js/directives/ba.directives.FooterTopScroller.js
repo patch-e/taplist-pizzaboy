@@ -9,9 +9,9 @@ Patrick Crager
 */
 (function() { 'use strict';
 
-  angular.module('beersApp.directives').directive('footerTopscroller', FooterTopscroller);
+  angular.module('beersApp.directives').directive('footerTopscroller', footerTopscroller);
 
-  function FooterTopscroller() {
+  function footerTopscroller() {
     var directive = {
       restrict: 'E',
       replace: true,

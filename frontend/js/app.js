@@ -10,9 +10,15 @@ Patrick Crager
 */
 (function() { 'use strict';
 
-  angular.module('beersApp', ['ngRoute', 'beersApp.shared', 'beersApp.controllers'])
-  .config(['$routeProvider', function($routeProvider) {
+  angular.module('beersApp', [
+    'ngRoute',
+    'beersApp.shared',
+    'beersApp.controllers'
+  ]).config(configure);
 
+  configure.$inject = ['$routeProvider'];
+
+  function configure($routeProvider) {
     $routeProvider
       .when('/table', {
         templateUrl: 'partials/table.html',
@@ -32,7 +38,6 @@ Patrick Crager
       .otherwise({
         redirectTo: '/table'
       });
-
-  }]);
+  }
 
 })();

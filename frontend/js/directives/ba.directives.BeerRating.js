@@ -9,9 +9,9 @@ Patrick Crager
 */
 (function() { 'use strict';
 
-  angular.module('beersApp.directives').directive('beerRating', BeerRating);
+  angular.module('beersApp.directives').directive('beerRating', beerRating);
 
-  function BeerRating() {
+  function beerRating() {
     var directive = {
       restrict: 'A',
       link: function(scope, element, attrs) {

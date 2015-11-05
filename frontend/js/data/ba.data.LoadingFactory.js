@@ -1,5 +1,5 @@
 /*
-ba.data.LoadingFactory.js
+ba.data.loadingFactory.js
 Provides loading related services to BeersApp.
 
 Copyright (c) 2015
@@ -9,15 +9,17 @@ Patrick Crager
 */
 (function() { 'use strict';
 
-  angular.module('beersApp.data').factory('LoadingFactory', LoadingFactory);
+  angular.module('beersApp.data').factory('loadingFactory', loadingFactory);
 
-  function LoadingFactory() {
+  function loadingFactory() {
     var factory = {
       isLoading: false,
       isLoaded: false,
       startLoading: startLoading,
       stopLoading: stopLoading
     };
+
+    return factory;
 
     function startLoading() {
       factory.isLoading = true;
@@ -27,8 +29,6 @@ Patrick Crager
       factory.isLoading = false;
       factory.isLoaded = true;
     }
-
-    return factory;
   }
 
 })();

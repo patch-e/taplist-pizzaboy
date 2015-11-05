@@ -373,9 +373,15 @@ Patrick Crager
 */
 (function() { 'use strict';
 
-  angular.module('beersApp', ['ngRoute', 'beersApp.shared', 'beersApp.controllers'])
-  .config(['$routeProvider', function($routeProvider) {
+  angular.module('beersApp', [
+    'ngRoute',
+    'beersApp.shared',
+    'beersApp.controllers'
+  ]).config(configure);
 
+  configure.$inject = ['$routeProvider'];
+
+  function configure($routeProvider) {
     $routeProvider
       .when('/table', {
         templateUrl: 'partials/table.html',
@@ -395,8 +401,7 @@ Patrick Crager
       .otherwise({
         redirectTo: '/table'
       });
-
-  }]);
+  }
 
 })();
 
@@ -416,7 +421,7 @@ Patrick Crager
 })();
 
 /*
-ba.shared.AppConfig.js
+ba.shared.appConfig.js
 Constant config values used by BeersApp.
 
 Copyright (c) 2015
@@ -426,7 +431,7 @@ Patrick Crager
 */
 (function() { 'use strict';
 
-  angular.module('beersApp.shared').constant('AppConfig', {
+  angular.module('beersApp.shared').constant('appConfig', {
 
     BA_UNTAPPD_APP_SCHEME: 'untappd:///?beer=',
     BA_UNTAPPD_URL_SCHEME: 'http://untappd.com/beer/',
@@ -440,7 +445,7 @@ Patrick Crager
 })();
 
 /*
-ba.shared.Messages.js
+ba.shared.messages.js
 Constant messages used by BeersApp.
 
 Copyright (c) 2015
@@ -450,7 +455,7 @@ Patrick Crager
 */
 (function() { 'use strict';
 
-  angular.module('beersApp.shared').constant('Messages', {
+  angular.module('beersApp.shared').constant('messages', {
 
     BA_NO_RESULTS: 'No beers match entered filter criteria.',
     BA_LIST_ERROR: 'Something went wrong when getting the beer list!\n\nRefresh and try again.',
@@ -480,7 +485,7 @@ Patrick Crager
 })();
 
 /*
-ba.data.DataFactory.js
+ba.data.beerDataFactory.js
 Wraps $http to provide data to BeersApp.
 
 Copyright (c) 2015
@@ -490,14 +495,17 @@ Patrick Crager
 */
 (function() { 'use strict';
 
-  angular.module('beersApp.data')
-  .factory('BeerDataFactory', ['$http', BeerDataFactory]);
+  angular.module('beersApp.data').factory('beerDataFactory', beerDataFactory);
 
-  function BeerDataFactory($http) {
+  beerDataFactory.$inject = ['$http'];
+
+  function beerDataFactory($http) {
     var factory = {
       list: list,
       search: search
     };
+
+    return factory;
 
     function list() {
       return $http.get('/nodejs/beer');
@@ -511,14 +519,12 @@ Patrick Crager
         }
       });
     }
-
-    return factory;
   }
 
 })();
 
 /*
-ba.data.CookieFactory.js
+ba.data.cookieFactory.js
 Provides cookie related services to BeersApp.
 
 Copyright (c) 2015
@@ -528,10 +534,11 @@ Patrick Crager
 */
 (function() { 'use strict';
 
-  angular.module('beersApp.data')
-  .factory('CookieFactory', ['$cookies', CookieFactory]);
+  angular.module('beersApp.data').factory('cookieFactory', cookieFactory);
 
-  function CookieFactory($cookies) {
+  cookieFactory.$inject = ['$cookies'];
+
+  function cookieFactory($cookies) {
     var factory = {
       isAuthenticated: !!(($cookies.get('untappdToken') || '').length)
     };
@@ -542,7 +549,7 @@ Patrick Crager
 })();
 
 /*
-ba.data.LoadingFactory.js
+ba.data.loadingFactory.js
 Provides loading related services to BeersApp.
 
 Copyright (c) 2015
@@ -552,15 +559,17 @@ Patrick Crager
 */
 (function() { 'use strict';
 
-  angular.module('beersApp.data').factory('LoadingFactory', LoadingFactory);
+  angular.module('beersApp.data').factory('loadingFactory', loadingFactory);
 
-  function LoadingFactory() {
+  function loadingFactory() {
     var factory = {
       isLoading: false,
       isLoaded: false,
       startLoading: startLoading,
       stopLoading: stopLoading
     };
+
+    return factory;
 
     function startLoading() {
       factory.isLoading = true;
@@ -570,8 +579,6 @@ Patrick Crager
       factory.isLoading = false;
       factory.isLoaded = true;
     }
-
-    return factory;
   }
 
 })();
@@ -606,10 +613,11 @@ Patrick Crager
 */
 (function() { 'use strict';
 
-  angular.module('beersApp.controllers')
-  .controller('BeerController', ['BeerDataFactory', 'LoadingFactory', '$modal', 'Messages', BeerController]);
+  angular.module('beersApp.controllers').controller('BeerController', BeerController);
 
-  function BeerController(BeerDataFactory, LoadingFactory, $modal, Messages) {
+  BeerController.$inject = ['beerDataFactory', 'loadingFactory', '$modal', 'messages'];
+
+  function BeerController(beerDataFactory, loadingFactory, $modal, messages) {
     // controller as
     var vm = this;
 
@@ -635,8 +643,8 @@ Patrick Crager
 
     function init() {
       // fetch the beers through the list() service call
-      LoadingFactory.startLoading();
-      BeerDataFactory.list()
+      loadingFactory.startLoading();
+      beerDataFactory.list()
         .success(function(data) {
           // sort holds initial sorting values for each list
           angular.forEach(data, function(beerList, index) {
@@ -648,11 +656,11 @@ Patrick Crager
           vm.beersList = data;
 
           // remove the loading indication and show the main content
-          LoadingFactory.stopLoading();
+          loadingFactory.stopLoading();
         })
         .error(function(error) {
-          LoadingFactory.stopLoading();
-          alert(Messages.BA_LIST_ERROR);
+          loadingFactory.stopLoading();
+          alert(messages.BA_LIST_ERROR);
         });
     }
 
@@ -697,7 +705,7 @@ Patrick Crager
     function search(beer) {
       vm.isSearching = true;
 
-      BeerDataFactory.search(beer.brewery, beer.name)
+      beerDataFactory.search(beer.brewery, beer.name)
         .success(function(data) {
           var modal = $modal.open({
             templateUrl: 'templates/modalSearchResult.html',
@@ -718,12 +726,12 @@ Patrick Crager
           }
 
           if (error.code === 404) {
-            alert(Messages.BA_UNTAPPD_SEARCH_NOT_FOUND);
+            alert(messages.BA_UNTAPPD_SEARCH_NOT_FOUND);
           } else if (errorType && errorType === 'invalid_token') {
-            alert(Messages.BA_UNTAPPD_TOKEN_EXPIRED);
+            alert(messages.BA_UNTAPPD_TOKEN_EXPIRED);
             window.location.replace('/nodejs/beer/logout');
           } else {
-            alert(Messages.BA_UNTAPPD_SEARCH_ERROR);
+            alert(messages.BA_UNTAPPD_SEARCH_ERROR);
           }
 
           vm.isSearching = false;
@@ -744,18 +752,19 @@ Patrick Crager
 */
 (function() { 'use strict';
 
-  angular.module('beersApp.controllers')
-  .controller('MainController', ['CookieFactory', 'LoadingFactory', 'AppConfig', MainController]);
+  angular.module('beersApp.controllers').controller('MainController', MainController);
 
-  function MainController(CookieFactory, LoadingFactory, AppConfig) {
+  MainController.$inject = ['cookieFactory', 'loadingFactory', 'appConfig'];
+
+  function MainController(cookieFactory, loadingFactory, appConfig) {
     // controller as
     var vm = this;
 
-    vm.loginURL = AppConfig.BA_UNTAPPD_LOGIN_URL;
-    vm.loginURL = vm.loginURL.replace('{0}', AppConfig.BA_UNTAPPD_CLIENTID);
-    vm.loginURL = vm.loginURL.replace('{1}', encodeURI(AppConfig.BA_UNTAPPD_CALLBACK_URL));
-    vm.logoutURL = AppConfig.BA_LOGOUT_URL;
-    vm.isAuthenticated = CookieFactory.isAuthenticated;
+    vm.loginURL = appConfig.BA_UNTAPPD_LOGIN_URL;
+    vm.loginURL = vm.loginURL.replace('{0}', appConfig.BA_UNTAPPD_CLIENTID);
+    vm.loginURL = vm.loginURL.replace('{1}', encodeURI(appConfig.BA_UNTAPPD_CALLBACK_URL));
+    vm.logoutURL = appConfig.BA_LOGOUT_URL;
+    vm.isAuthenticated = cookieFactory.isAuthenticated;
 
     // vm functions
     vm.collapseNav = collapseNav;
@@ -769,12 +778,12 @@ Patrick Crager
 
     // return the current loading indication
     function isLoading() {
-      return LoadingFactory.isLoading;
+      return loadingFactory.isLoading;
     }
 
     // return the status of the initial load
     function isLoaded() {
-      return LoadingFactory.isLoaded;
+      return loadingFactory.isLoaded;
     }
   }
 
@@ -791,15 +800,16 @@ Patrick Crager
 */
 (function() { 'use strict';
 
-  angular.module('beersApp.controllers')
-  .controller('SearchResultController', ['CookieFactory', '$modalInstance', 'AppConfig', 'beer', SearchResultController]);
+  angular.module('beersApp.controllers').controller('SearchResultController', SearchResultController);
 
-  function SearchResultController(CookieFactory, $modalInstance, AppConfig, beer) {
+  SearchResultController.$inject = ['cookieFactory', '$modalInstance', 'appConfig', 'beer'];
+
+  function SearchResultController(cookieFactory, $modalInstance, appConfig, beer) {
     // controller as
     var vm = this;
 
     vm.beer = beer;
-    vm.isAuthenticated = CookieFactory.isAuthenticated;
+    vm.isAuthenticated = cookieFactory.isAuthenticated;
 
     // vm functions
     vm.close = close;
@@ -816,9 +826,9 @@ Patrick Crager
       var isMobile = /(iPhone|Android|IEMobile)/.test(navigator.userAgent);
 
       if (isMobile) {
-        document.location = AppConfig.BA_UNTAPPD_APP_SCHEME + bid;
+        document.location = appConfig.BA_UNTAPPD_APP_SCHEME + bid;
       } else {
-        window.open(AppConfig.BA_UNTAPPD_URL_SCHEME + bid);
+        window.open(appConfig.BA_UNTAPPD_URL_SCHEME + bid);
       }
     }
   }
@@ -851,9 +861,9 @@ Patrick Crager
 */
 (function() { 'use strict';
 
-  angular.module('beersApp.directives').directive('attribution', Attribution);
+  angular.module('beersApp.directives').directive('attribution', attribution);
 
-  function Attribution() {
+  function attribution() {
     var directive = {
       scope: {
         isLoading: '@'
@@ -878,9 +888,9 @@ Patrick Crager
 */
 (function() { 'use strict';
 
-  angular.module('beersApp.directives').directive('beerRating', BeerRating);
+  angular.module('beersApp.directives').directive('beerRating', beerRating);
 
-  function BeerRating() {
+  function beerRating() {
     var directive = {
       restrict: 'A',
       link: function(scope, element, attrs) {
@@ -917,9 +927,9 @@ Patrick Crager
 */
 (function() { 'use strict';
 
-  angular.module('beersApp.directives').directive('footerTimestamp', FooterTimestamp);
+  angular.module('beersApp.directives').directive('footerTimestamp', footerTimestamp);
 
-  function FooterTimestamp() {
+  function footerTimestamp() {
     var directive = {
       restrict: 'E',
       replace: true,
@@ -943,9 +953,9 @@ Patrick Crager
 */
 (function() { 'use strict';
 
-  angular.module('beersApp.directives').directive('footerTopscroller', FooterTopscroller);
+  angular.module('beersApp.directives').directive('footerTopscroller', footerTopscroller);
 
-  function FooterTopscroller() {
+  function footerTopscroller() {
     var directive = {
       restrict: 'E',
       replace: true,
@@ -966,6 +976,37 @@ Patrick Crager
 })();
 
 /*
+ba.directives.LoadingOverlay.js
+Provides a full screen loading overlay.
+
+Copyright (c) 2015
+
+Patrick Crager
+
+*/
+(function() { 'use strict';
+
+  angular.module('beersApp.directives').directive('loadingOverlay', loadingOverlay);
+
+  function loadingOverlay() {
+    var directive = {
+      scope: {
+        isShowing: '@'
+      },
+      restrict: 'E',
+      replace: true,
+      template: '<div></div>',
+      link: function(scope, element, attrs) {
+        element.addClass('modal-backdrop fade in');
+      }
+    };
+
+    return directive;
+  }
+
+})();
+
+/*
 ba.directives.Navigation.js
 Provides the navigation template.
 
@@ -976,9 +1017,9 @@ Patrick Crager
 */
 (function() { 'use strict';
 
-  angular.module('beersApp.directives').directive('navigation', Navigation);
+  angular.module('beersApp.directives').directive('navigation', navigation);
 
-  function Navigation() {
+  function navigation() {
     var directive = {
       restrict: 'E',
       replace: true,
@@ -1001,44 +1042,14 @@ Patrick Crager
 */
 (function() { 'use strict';
 
-  angular.module('beersApp.directives')
-  .directive('noResults', ['Messages', NoResults]);
+  angular.module('beersApp.directives').directive('noResults', noResults);
 
-  function NoResults(Messages) {
+  noResults.$inject = ['messages'];
+
+  function noResults(messages) {
     var directive = {
       restrict: 'EA',
-      template: Messages.BA_NO_RESULTS
-    };
-
-    return directive;
-  }
-
-})();
-
-/*
-ba.directives.Overlay.js
-Provides a full page loading overlay.
-
-Copyright (c) 2015
-
-Patrick Crager
-
-*/
-(function() { 'use strict';
-
-  angular.module('beersApp.directives').directive('loadingOverlay', LoadingOverlay);
-
-  function LoadingOverlay() {
-    var directive = {
-      scope: {
-        isShowing: '@'
-      },
-      restrict: 'E',
-      replace: true,
-      template: '<div></div>',
-      link: function(scope, element, attrs) {
-        element.addClass('modal-backdrop fade in');
-      }
+      template: messages.BA_NO_RESULTS
     };
 
     return directive;

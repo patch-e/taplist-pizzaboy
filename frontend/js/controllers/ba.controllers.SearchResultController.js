@@ -9,15 +9,16 @@ Patrick Crager
 */
 (function() { 'use strict';
 
-  angular.module('beersApp.controllers')
-  .controller('SearchResultController', ['CookieFactory', '$modalInstance', 'AppConfig', 'beer', SearchResultController]);
+  angular.module('beersApp.controllers').controller('SearchResultController', SearchResultController);
 
-  function SearchResultController(CookieFactory, $modalInstance, AppConfig, beer) {
+  SearchResultController.$inject = ['cookieFactory', '$modalInstance', 'appConfig', 'beer'];
+
+  function SearchResultController(cookieFactory, $modalInstance, appConfig, beer) {
     // controller as
     var vm = this;
 
     vm.beer = beer;
-    vm.isAuthenticated = CookieFactory.isAuthenticated;
+    vm.isAuthenticated = cookieFactory.isAuthenticated;
 
     // vm functions
     vm.close = close;
@@ -34,9 +35,9 @@ Patrick Crager
       var isMobile = /(iPhone|Android|IEMobile)/.test(navigator.userAgent);
 
       if (isMobile) {
-        document.location = AppConfig.BA_UNTAPPD_APP_SCHEME + bid;
+        document.location = appConfig.BA_UNTAPPD_APP_SCHEME + bid;
       } else {
-        window.open(AppConfig.BA_UNTAPPD_URL_SCHEME + bid);
+        window.open(appConfig.BA_UNTAPPD_URL_SCHEME + bid);
       }
     }
   }

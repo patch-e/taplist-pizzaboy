@@ -9,9 +9,9 @@ Patrick Crager
 */
 (function() { 'use strict';
 
-  angular.module('beersApp.directives').directive('navigation', Navigation);
+  angular.module('beersApp.directives').directive('navigation', navigation);
 
-  function Navigation() {
+  function navigation() {
     var directive = {
       restrict: 'E',
       replace: true,

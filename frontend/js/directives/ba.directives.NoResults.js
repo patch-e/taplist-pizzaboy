@@ -9,13 +9,14 @@ Patrick Crager
 */
 (function() { 'use strict';
 
-  angular.module('beersApp.directives')
-  .directive('noResults', ['Messages', NoResults]);
+  angular.module('beersApp.directives').directive('noResults', noResults);
 
-  function NoResults(Messages) {
+  noResults.$inject = ['messages'];
+
+  function noResults(messages) {
     var directive = {
       restrict: 'EA',
-      template: Messages.BA_NO_RESULTS
+      template: messages.BA_NO_RESULTS
     };
 
     return directive;

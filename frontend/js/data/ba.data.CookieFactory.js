@@ -1,5 +1,5 @@
 /*
-ba.data.CookieFactory.js
+ba.data.cookieFactory.js
 Provides cookie related services to BeersApp.
 
 Copyright (c) 2015
@@ -9,10 +9,11 @@ Patrick Crager
 */
 (function() { 'use strict';
 
-  angular.module('beersApp.data')
-  .factory('CookieFactory', ['$cookies', CookieFactory]);
+  angular.module('beersApp.data').factory('cookieFactory', cookieFactory);
 
-  function CookieFactory($cookies) {
+  cookieFactory.$inject = ['$cookies'];
+
+  function cookieFactory($cookies) {
     var factory = {
       isAuthenticated: !!(($cookies.get('untappdToken') || '').length)
     };
