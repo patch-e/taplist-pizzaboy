@@ -40,7 +40,9 @@ module.exports = {
 			replace('MADRA ALTA', 'MADRA ALLTA').
 			replace('BLOSSOM HONEY LAGER', 'BLOSSOM HONEY').
 			replace('BRAAAAINS', 'BRAAAIINS').
-			replace('WEED EATER', 'WEEDEATER');
+			replace('WEED EATER', 'WEEDEATER').
+			replace('BIG EYE', 'GINGER BIG EYE').
+			replace('WEST SHORE IPA "HAMPDEN IPA"', 'HAMPDEN IPA');
 	}
 
 };
