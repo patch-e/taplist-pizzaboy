@@ -12,8 +12,9 @@ module.exports = {
 
 	exceptions: {
 		alsError: 'no response from alsofhampden',
-		queryError: 'missing query string parameter(s)',
 		databaseError: 'could not communicate with database',
+		hostnameError: 'hostname not found',
+		queryError: 'missing query string parameter(s)',
 		untappdError: 'no response from untappd',
 		untappdLoginError: 'could not process untappd login',
 		untappdSearchError: 'could not locate on untappd'
