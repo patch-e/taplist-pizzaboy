@@ -26,6 +26,7 @@ var listOptions = {
 		},
 		loginOptions = {
 			url: 'https://untappd.com/oauth/authorize',
+			timeout: 15000,
 			json: true,
 			qs: {
 				client_id: process.env.untappdClientID,
@@ -35,12 +36,33 @@ var listOptions = {
 				code: null
 			}
 		},
+    taplistLoginOptions = {
+      url: 'https://untappd.com/oauth/authorize',
+			timeout: 15000,
+      json: true,
+      qs: {
+        client_id: process.env.taplistUntappdClientID,
+        client_secret: process.env.taplistUntappdClientSecret,
+        response_type: 'code',
+        redirect_url: 'http://taplist.lititzcraftbeerfest.com/nodejs/beer/login',
+        code: null
+      }
+    },
 		anonSearchOptions = {
 			url: 'https://api.untappd.com/v4/search/beer',
 			json: true,
 			qs: {
 				client_id: process.env.untappdClientID,
 				client_secret: process.env.untappdClientSecret,
+				limit: 1
+			}
+		},
+    taplistAnonSearchOptions = {
+			url: 'https://api.untappd.com/v4/search/beer',
+			json: true,
+			qs: {
+				client_id: process.env.taplistUntappdClientID,
+				client_secret: process.env.taplistUntappdClientSecret,
 				limit: 1
 			}
 		},
@@ -53,7 +75,7 @@ var listOptions = {
 			}
 		};
 
-function untappdSearch(res, beer, token) {
+function untappdSearch(req, res, beer, token) {
 	var result = {},
 	    requestOptions,
 	    db = mongojs('beer', ['collection']);
@@ -61,10 +83,26 @@ function untappdSearch(res, beer, token) {
 	// set access_token if token found in cookie to do authenticated search
 	// otherwise use client id/secret for anon search
 	if (token) {
-		requestOptions = authSearchOptions;
+    requestOptions = authSearchOptions;
 		requestOptions.qs.access_token = token;
 	} else {
-		requestOptions = anonSearchOptions;
+		switch (req.hostname) {
+	    case 'mccrager.com':
+	      requestOptions = anonSearchOptions;
+	      break;
+
+			case 'taplist.lititzcraftbeerfest.com':
+				requestOptions = taplistAnonSearchOptions;
+				break;
+
+	    default:
+				responses.sendError(res, {
+					desc: responses.exceptions.hostnameError,
+					code: 500
+				});
+				return;
+	      break;
+	  }
 	}
 
 	// fetch from untappd, store in db if not authenticated, and write out the response
@@ -132,7 +170,7 @@ function untappdSearch(res, beer, token) {
 	});
 }
 
-function databaseSearch(res, beer) {
+function databaseSearch(req, res, beer) {
 	var result = {},
 	    db = mongojs('beer', ['collection']);
 
@@ -158,7 +196,7 @@ function databaseSearch(res, beer) {
 			result.fetchMethod = 'mongodb';
 			responses.sendSuccess(res, result, true);
 		} else {
-			untappdSearch(res, beer);
+			untappdSearch(req, res, beer);
 		}
 	});
 }
@@ -173,9 +211,10 @@ app.use(cookieParser());
  * Params: code, the unique code value to be sent to untappd to validate the OAuth communication.
  */
 app.get('/nodejs/beer/login', function (req, res) {
-
 	// handle callback and get unique code from untappd
-	var code = req.query.code;
+	var code = req.query.code,
+			requestOptions,
+			redirectPath;
 
 	// if we didn't get a code bail out
 	if (!code) {
@@ -187,19 +226,41 @@ app.get('/nodejs/beer/login', function (req, res) {
 		return;
 	}
 
-	// add the code to the login options
-	loginOptions.qs.code = code;
+	// set hostname specific values
+	switch (req.hostname) {
+		case 'mccrager.com':
+			requestOptions = loginOptions;
+			redirectPath = '/beer/als';
+			break;
+
+		case 'taplist.lititzcraftbeerfest.com':
+			requestOptions = taplistLoginOptions;
+			redirectPath = '/';
+			break;
+
+		default:
+			responses.sendError(res, {
+				desc: responses.exceptions.hostnameError,
+				code: 500
+			});
+			return;
+			break;
+	}
+
+	// add the code to login request options
+	requestOptions.qs.code = code;
 
 	// fire off request to untappd login api with unique code
-	request(loginOptions, function (error, response, json) {
+	request(requestOptions, function (error, response, json) {
 		if (!error && response.statusCode === 200 &&
 			   json.meta.http_code === 200 && json.response.access_token) {
 			// get response and set json cookie with token (expires in 30 days)
 			res.cookie('untappdToken', json.response.access_token, {maxAge: 30*24*60*60*1000});
 			console.log('a user has logged in!' + '\n');
+
 			// redirect to main page
 			responses.sendRedirect(res, {
-				location: '/beer/als'
+				location: redirectPath
 			});
 		} else {
 			responses.sendError(res, {
@@ -209,9 +270,6 @@ app.get('/nodejs/beer/login', function (req, res) {
 				error: error
 			});
 		}
-
-		// unset the unique code
-		loginOptions.qs.code = '';
 	});
 });
 
@@ -223,9 +281,20 @@ app.get('/nodejs/beer/login', function (req, res) {
 app.get('/nodejs/beer/logout', function (req, res) {
 	res.clearCookie('untappdToken');
 	console.log('a user has logged out!' + '\n');
-	responses.sendRedirect(res, {
-		location: '/beer/als'
-	});
+
+  switch (req.hostname) {
+    case 'mccrager.com':
+      responses.sendRedirect(res, {
+        location: '/beer/als'
+      });
+      break;
+
+    default:
+      responses.sendRedirect(res, {
+        location: '/'
+      });
+			break;
+  }
 });
 
 /*
@@ -251,9 +320,9 @@ app.get('/nodejs/beer/search', function (req, res) {
 		// otherwise check local db cache before doing anon untappd search
 		var token = req.cookies.untappdToken;
 		if (token) {
-			untappdSearch(res, beer, token);
+			untappdSearch(req, res, beer, token);
 		} else {
-			databaseSearch(res, beer);
+			databaseSearch(req, res, beer);
 		}
 	} else {
 		responses.sendError(res, {
