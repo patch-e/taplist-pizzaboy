@@ -37,7 +37,7 @@
     </head>
     <body data-ng-class="{'authenticated': vm.isAuthenticated}">
         <div class="jumbotron" data-ng-hide="vm.isLoaded()">
-            <div class="container">
+            <div class="container-fluid">
                 <h1>Beers @ Al's</h1>
                 <div class="progress">
                     <div class="progress-bar progress-bar-striped active"></div>
@@ -47,7 +47,7 @@
 
         <div data-ng-show="vm.isLoaded()">
             <data-navigation></data-navigation>
-            <div class="container">
+            <div class="container-fluid">
                 <div class="row">
                     <data-ng-view></data-ng-view>
                     <p class="col-xs-12 attribution" data-attribution data-ng-hide="vm.isLoading()"></p>
