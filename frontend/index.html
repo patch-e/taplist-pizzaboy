@@ -50,11 +50,12 @@
             <div class="container">
                 <div class="row">
                     <data-ng-view></data-ng-view>
-                    <p class="col-xs-12" data-attribution data-ng-hide="vm.isLoading()"></p>
+                    <p class="col-xs-12 attribution" data-attribution data-ng-hide="vm.isLoading()"></p>
                 </div>
             </div>
         </div>
 
+        <data-footer-topscroller></data-footer-topscroller>
         <data-ng-include src="'templates/modalHelp.html'"></data-ng-include>
         <data-ng-include src="'templates/modalAbout.html'"></data-ng-include>
 

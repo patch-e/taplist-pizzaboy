@@ -23,7 +23,7 @@
                 <tbody>
                     <tr class="beerSearch" data-ng-repeat="beer in filteredBeers = (beerList.beers | filter: searchFilter | orderBy: beerList.sort.column : beerList.sort.descending)" data-ng-click="vm.search(beer)">
                         <td>
-                            <span class="label" data-ng-class="{'label-success': beer.growler, 'label-warning': !beer.growler}">{{vm.prependBeerNumber(beer.number, beerList.title)}}</span>
+                            <span class="badge" data-ng-class="{'badge-success': beer.growler, 'badge-warning': !beer.growler}">{{vm.prependBeerNumber(beer.number, beerList.title)}}</span>
                         </td>
                         <td>
                             <div><b>{{beer.name}}</b></div>
@@ -41,7 +41,6 @@
         </div>
         <div class="panel-footer">
             <data-footer-timestamp>{{beerList.timestamp | date: 'medium'}}</data-footer-timestamp>
-            <data-footer-topscroller></data-footer-topscroller>
         </div>
     </div>
 </div>

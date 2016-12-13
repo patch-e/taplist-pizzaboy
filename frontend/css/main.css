@@ -12,8 +12,11 @@ a:hover {
 	text-align: center;
 }
 
+.progress {
+	height: 16px;
+}
 .progress-bar {
-	background-color: #c60;
+	background-color: #de6b48;
 	width: 100%;
 }
 
@@ -90,7 +93,14 @@ a:hover {
 	opacity: 1;
 }
 
-.label-warning {
+.badge {
+	background-color: #7fa20e;
+}
+
+.badge-success {
+	background-color: #7fa20e;
+}
+.badge-warning {
 	background-color: #ff9933;
 }
 
@@ -174,13 +184,31 @@ a:hover {
 	cursor: pointer;
 }
 
-a.topscroller {
-	color: #333;
-	opacity: 0.4;
+.attribution {
+	padding-bottom: 15px;
 }
 
-a.topscroller:focus,
-a.topscroller:hover {
+a.topscroller {
+	background-color: #7fa20e;
+	border-radius: 3px;
+	bottom: 20px;
+	color: #fff;
+	height: 38px;
+	opacity: 0;
+	padding: 10px 12px;
+	position: fixed;
+	right: 20px;
+	visibility: hidden;
+	width: 38px;
+	z-index: 999;
+	-webkit-transition: all 0.5s ease-in-out;
+					transition: all 0.5s ease-in-out;
+}
+a.topscroller.active {
+	opacity: 0.5;
+	visibility: visible;
+}
+a.topscroller.active:hover {
 	opacity: 1;
 }
 

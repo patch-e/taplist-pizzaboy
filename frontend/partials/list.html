@@ -13,7 +13,7 @@
         <ul class="list-group">
             <li class="list-group-item clearfix beerSearch" data-ng-repeat="beer in filteredBeers = (beerList.beers | filter: searchFilter | orderBy: 'number' : false)" data-ng-click="vm.search(beer)">
                 <div class="pull-left">
-                    <span class="label" data-ng-class="{'label-success': beer.growler, 'label-warning': !beer.growler}">{{vm.prependBeerNumber(beer.number, beerList.title)}}</span>
+                    <span class="badge" data-ng-class="{'badge-success': beer.growler, 'badge-warning': !beer.growler}">{{vm.prependBeerNumber(beer.number, beerList.title)}}</span>
                 </div>
                 <div class="pull-left" style="padding-left: 10px;">
                     <div><b>{{beer.name}}</b></div>
@@ -29,7 +29,6 @@
         </ul>
         <div class="panel-footer">
           <data-footer-timestamp>{{beerList.timestamp | date: 'medium'}}</data-footer-timestamp>
-          <data-footer-topscroller></data-footer-topscroller>
         </div>
     </div>
 </div>

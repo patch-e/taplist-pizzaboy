@@ -2,7 +2,7 @@
 ba.directives.FooterTopScroller.js
 Provides a button that animates scrolling to the top of the page.
 
-Copyright (c) 2015
+Copyright (c) 2016
 
 Patrick Crager
 
@@ -23,6 +23,14 @@ Patrick Crager
           $('html, body').animate({scrollTop: 0}, 'slow');
           return false;
         });
+
+        $(document).on('scroll', function() {
+      		if ($(window).scrollTop() > 200) {
+      			$(element).addClass('active');
+      		} else {
+      			$(element).removeClass('active');
+      		}
+      	});
       }
     };
 
