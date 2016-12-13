@@ -24,7 +24,7 @@ var express = require('express'),
 var listOptions = {
 			url: 'http://alsofhampden.com/beer.php'
 		},
-		loginOptions = {
+		alsLoginOptions = {
 			url: 'https://untappd.com/oauth/authorize',
 			timeout: 15000,
 			json: true,
@@ -48,7 +48,7 @@ var listOptions = {
         code: null
       }
     },
-		anonSearchOptions = {
+		alsAnonSearchOptions = {
 			url: 'https://api.untappd.com/v4/search/beer',
 			json: true,
 			qs: {
@@ -88,7 +88,7 @@ function untappdSearch(req, res, beer, token) {
 	} else {
 		switch (req.hostname) {
 	    case 'mccrager.com':
-	      requestOptions = anonSearchOptions;
+	      requestOptions = alsAnonSearchOptions;
 	      break;
 
 			case 'taplist.lititzcraftbeerfest.com':
@@ -229,7 +229,7 @@ app.get('/nodejs/beer/login', function (req, res) {
 	// set hostname specific values
 	switch (req.hostname) {
 		case 'mccrager.com':
-			requestOptions = loginOptions;
+			requestOptions = alsLoginOptions;
 			redirectPath = '/beer/als';
 			break;
 
