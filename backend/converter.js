@@ -34,6 +34,8 @@ module.exports = {
 			.replace('8OZ', '')
 			.replace('LEGENDAIRY-PEACHES', 'LEGENDAIRY - PEACHES')
 			.replace('LEGENDAIRY-PINEAPPLES', 'LEGENDAIRY - PINEAPPLES')
+			.replace('LEGENDAIRY-STRAWBERRY', 'LEGENDAIRY - STRAWBERRY')
+			.replace('LEMONDAIRY IPA- LEMON', 'LEMON DAIRY')
 			.replace('HOG IN HEAT! HOT!', 'HOG IN HEAT')
 			.replace('DREAM-ROOT BEER FLOAT', 'DREAM ROOT BEER')
 			.replace('JAI-ALAI', 'JAI ALAI')
