@@ -47,7 +47,6 @@ module.exports = {
 			.replace('BLOSSOM HONEY LAGER', 'BLOSSOM HONEY')
 			.replace('BRAAAAINS', 'BRAAAIINS')
 			.replace('WEED EATER', 'WEEDEATER')
-			.replace('WEED EATER', 'WEEDEATER')
 			;
 	}
 
