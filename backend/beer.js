@@ -357,6 +357,12 @@ app.get('/nodejs/beer', function (req, res) {
 						// array to add beers in this table to
 						beers = [];
 
+				// don't add wine or can list at this time
+				if (title === 'WINE LIST' ||
+				    title === 'CANS AVAILABLE') {
+							return true;
+				}
+
 				// loop over the beer rows in this table
 				$beerTable.find('tbody > tr').each(function(rowIndex, beerRow) {
 					var $beerRow = $(beerRow),
