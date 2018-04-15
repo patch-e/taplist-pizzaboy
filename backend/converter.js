@@ -22,6 +22,7 @@ module.exports = {
 			;
 
 		beer.name = beer.name
+			.replace('Intervals - Mandarina Bavaria', 'Intervals Mandarina Bavaria')
 			// remove any bracketed special text in the name, [NITRO], [FIRKIN], [SOUR] etc.
 			.replace(/ *\[[^)]*\] */g, '')
 			// remove special hyphen'd text sometimes added to the end as a special notice, ex. BEERNAME -LAST KEG!!
