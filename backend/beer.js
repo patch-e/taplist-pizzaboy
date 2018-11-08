@@ -357,9 +357,10 @@ app.get('/nodejs/beer', function (req, res) {
 						// array to add beers in this table to
 						beers = [];
 
-				// don't add wine or can list at this time
+				// don't add wine, can, or keg list at this time
 				if (title === 'WINE LIST' ||
-				    title === 'CANS AVAILABLE') {
+				    title === 'CANS AVAILABLE' ||
+						title === 'KEGS AVAILABLE') {
 							return true;
 				}
 
