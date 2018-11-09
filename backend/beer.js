@@ -360,7 +360,7 @@ app.get('/nodejs/beer', function (req, res) {
 				// don't add wine, can, or keg list at this time
 				if (title === 'WINE LIST' ||
 				    title === 'CANS AVAILABLE' ||
-						title === 'KEGS AVAILABLE') {
+					title === 'KEGS AVAILABLE') {
 							return true;
 				}
 
