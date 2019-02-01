@@ -29,3 +29,5 @@ node_modules
 *.sublime-workspace
 
 web.config
+
+.DS_Store
