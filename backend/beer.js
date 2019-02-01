@@ -32,7 +32,7 @@ var listOptions = {
 				client_id: process.env.untappdClientID,
 				client_secret: process.env.untappdClientSecret,
 				response_type: 'code',
-				redirect_url: 'http://mccrager.com/nodejs/beer/login',
+				redirect_url: 'https://mccrager.com/nodejs/beer/login',
 				code: null
 			}
 		},
@@ -87,22 +87,21 @@ function untappdSearch(req, res, beer, token) {
 		requestOptions.qs.access_token = token;
 	} else {
 		switch (req.hostname) {
-	    case 'mccrager.com':
-	      requestOptions = alsAnonSearchOptions;
-	      break;
+		case 'mccrager.com':
+			requestOptions = alsAnonSearchOptions;
+			break;
 
-			case 'taplist.lititzcraftbeerfest.com':
-				requestOptions = taplistAnonSearchOptions;
-				break;
+		case 'taplist.lititzcraftbeerfest.com':
+			requestOptions = taplistAnonSearchOptions;
+			break;
 
 	    default:
-				responses.sendError(res, {
-					desc: responses.exceptions.hostnameError,
-					code: 500
-				});
-				return;
-	      break;
-	  }
+			responses.sendError(res, {
+				desc: responses.exceptions.hostnameError,
+				code: 500
+			});
+			return;
+		}
 	}
 
 	// fetch from untappd, store in db if not authenticated, and write out the response

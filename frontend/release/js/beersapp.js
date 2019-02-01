@@ -437,7 +437,7 @@ Patrick Crager
     BA_UNTAPPD_URL_SCHEME: 'http://untappd.com/beer/',
     BA_UNTAPPD_CLIENTID: 'B2DA1064B03A353A75E9B035879ECA2CA3E9C3E6',
     BA_UNTAPPD_LOGIN_URL: 'https://untappd.com/oauth/authenticate/?client_id={0}&response_type=code&redirect_url={1}',
-    BA_UNTAPPD_CALLBACK_URL: 'http://mccrager.com/nodejs/beer/login',
+    BA_UNTAPPD_CALLBACK_URL: 'https://mccrager.com/nodejs/beer/login',
     BA_LOGOUT_URL: '/nodejs/beer/logout'
 
   });
@@ -984,37 +984,6 @@ Patrick Crager
 })();
 
 /*
-ba.directives.LoadingOverlay.js
-Provides a full screen loading overlay.
-
-Copyright (c) 2015
-
-Patrick Crager
-
-*/
-(function() { 'use strict';
-
-  angular.module('beersApp.directives').directive('loadingOverlay', loadingOverlay);
-
-  function loadingOverlay() {
-    var directive = {
-      scope: {
-        isShowing: '@'
-      },
-      restrict: 'E',
-      replace: true,
-      template: '<div></div>',
-      link: function(scope, element, attrs) {
-        element.addClass('modal-backdrop fade in');
-      }
-    };
-
-    return directive;
-  }
-
-})();
-
-/*
 ba.directives.Navigation.js
 Provides the navigation template.
 
@@ -1058,6 +1027,37 @@ Patrick Crager
     var directive = {
       restrict: 'EA',
       template: messages.BA_NO_RESULTS
+    };
+
+    return directive;
+  }
+
+})();
+
+/*
+ba.directives.LoadingOverlay.js
+Provides a full screen loading overlay.
+
+Copyright (c) 2015
+
+Patrick Crager
+
+*/
+(function() { 'use strict';
+
+  angular.module('beersApp.directives').directive('loadingOverlay', loadingOverlay);
+
+  function loadingOverlay() {
+    var directive = {
+      scope: {
+        isShowing: '@'
+      },
+      restrict: 'E',
+      replace: true,
+      template: '<div></div>',
+      link: function(scope, element, attrs) {
+        element.addClass('modal-backdrop fade in');
+      }
     };
 
     return directive;
