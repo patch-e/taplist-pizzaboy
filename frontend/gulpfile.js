@@ -78,9 +78,9 @@ gulp.task('copyfonts', function() {
 
 // watch task
 gulp.task('watch', function() {
-    gulp.watch('js/**/*.js', ['lint', 'scripts']);
-    gulp.watch('css/**/*.css', ['css']);
+    gulp.watch('js/**/*.js', gulp.series('lint', 'scripts'));
+    gulp.watch('css/**/*.css', gulp.series('css'));
 });
 
 // default task
-gulp.task('default', ['lint', 'scripts', 'css', 'copyfonts', 'watch']);
+gulp.task('default', gulp.series('lint', 'scripts', 'css', 'copyfonts', 'watch'));
