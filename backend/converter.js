@@ -16,7 +16,9 @@ module.exports = {
 			// common with collab beers that untappd tends to screw up with when searching on
 			.replace(/(\/|&).+$/g, '')
 			// additional brewery fixes on a case-by-case basis
-			.replace('Fetish* Brewing', 'Fetish Artisanal Ales')
+			.replace('Fetish Brewing', 'Fetish Artisanal Ales')
+			.replace('Fermentery Form & Blendery', 'Fermentery Form')
+			.replace('Foreign Objects Beer Co.', 'Foreign Objects')
 			.replace('Sir Charles Hard Cider', 'Original 13 Ciderworks')
 			;
 
@@ -24,7 +26,7 @@ module.exports = {
 			// remove any bracketed special text in the name, [NITRO], [FIRKIN], [SOUR] etc.
 			.replace(/ *\[[^)]*\] */g, '')
 			// remove special hyphen'd text sometimes added to the end as a special notice, ex. BEERNAME -LAST KEG!!
-			.replace(/ (-).+$/g, '')
+			// .replace(/ (-).+$/g, '')
 			// additional name fixes on a case-by-case basis
 			.replace('8OZ', '')
 			.replace('Weizen', '"Weizen"')
