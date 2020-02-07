@@ -1,7 +1,6 @@
 /*
 beer.js
-Provides JSON data that represents a list of beers on tap, in firkins,
-and in special bottles for sale at Al's of Hampden in Enola, PA
+Provides JSON data and Untappd integration for taplists.
 
 Copyright (c) 2014
 
@@ -11,69 +10,93 @@ Patrick Crager
 
 // required modules
 var express = require('express'),
-		cookieParser = require('cookie-parser'),
-		request = require('request'),
-		cheerio = require('cheerio'),
-		console = require('clim')('beer'),
-		mongojs = require('mongojs'),
-		utils = require('./utils'),
-		responses = require('./responses'),
-		converter = require('./converter');
+	cookieParser = require('cookie-parser'),
+	request = require('request'),
+	cheerio = require('cheerio'),
+	console = require('clim')('beer'),
+	mongojs = require('mongojs'),
+	utils = require('./utils'),
+	responses = require('./responses'),
+	converter = require('./converter');
 
 // request options
-var listOptions = {
-			url: 'http://alsofhampden.com/beer.php'
-		},
-		alsLoginOptions = {
-			url: 'https://untappd.com/oauth/authorize',
-			timeout: 15000,
-			json: true,
-			qs: {
-				client_id: process.env.untappdClientID,
-				client_secret: process.env.untappdClientSecret,
-				response_type: 'code',
-				redirect_url: 'https://mccrager.com/nodejs/beer/login',
-				code: null
-			}
-		},
-    taplistLoginOptions = {
-      url: 'https://untappd.com/oauth/authorize',
-			timeout: 15000,
-      json: true,
-      qs: {
-        client_id: process.env.taplistUntappdClientID,
-        client_secret: process.env.taplistUntappdClientSecret,
-        response_type: 'code',
-        redirect_url: 'http://taplist.lititzcraftbeerfest.com/nodejs/beer/login',
-        code: null
-      }
+var pizzaboyListOptions = {
+		url: 'http://alsofhampden.com/beer.php'
+	},
+	pizzaboyLoginOptions = {
+		url: 'https://untappd.com/oauth/authorize',
+		timeout: 15000,
+		json: true,
+		qs: {
+			client_id: process.env.pizzaboyUntappdClientID,
+			client_secret: process.env.pizzaboyUntappdClientSecret,
+			response_type: 'code',
+			redirect_url: 'https://pizzaboy.taplists.com/nodejs/beer/login',
+			code: null
+		}
+	},
+	pizzaboyAnonSearchOptions = {
+		url: 'https://api.untappd.com/v4/search/beer',
+		json: true,
+		qs: {
+			client_id: process.env.pizzaboyUntappdClientID,
+			client_secret: process.env.pizzaboyUntappdClientSecret,
+			limit: 1
+		}
+	};
+
+var lititzLoginOptions = {
+      	url: 'https://untappd.com/oauth/authorize',
+		timeout: 15000,
+		json: true,
+		qs: {
+			client_id: process.env.lititzUntappdClientID,
+			client_secret: process.env.lititzUntappdClientSecret,
+			response_type: 'code',
+			redirect_url: 'http://taplist.lititzcraftbeerfest.com/nodejs/beer/login',
+			code: null
+		}
     },
-		alsAnonSearchOptions = {
-			url: 'https://api.untappd.com/v4/search/beer',
-			json: true,
-			qs: {
-				client_id: process.env.untappdClientID,
-				client_secret: process.env.untappdClientSecret,
-				limit: 1
-			}
-		},
-    taplistAnonSearchOptions = {
-			url: 'https://api.untappd.com/v4/search/beer',
-			json: true,
-			qs: {
-				client_id: process.env.taplistUntappdClientID,
-				client_secret: process.env.taplistUntappdClientSecret,
-				limit: 1
-			}
-		},
-		authSearchOptions = {
-			url: 'https://api.untappd.com/v4/search/beer',
-			json: true,
-			qs: {
-				access_token: null,
-				limit: 1
-			}
-		};
+    lititzAnonSearchOptions = {
+		url: 'https://api.untappd.com/v4/search/beer',
+		json: true,
+		qs: {
+			client_id: process.env.lititzUntappdClientID,
+			client_secret: process.env.lititzUntappdClientSecret,
+			limit: 1
+		}
+	};
+
+var prototypeLoginOptions = {
+		url: 'https://untappd.com/oauth/authorize',
+		timeout: 15000,
+		json: true,
+		qs: {
+			client_id: process.env.prototypeUntappdClientID,
+			client_secret: process.env.prototypeUntappdClientSecret,
+			response_type: 'code',
+			redirect_url: 'https://prototype.taplists.com/nodejs/beer/login',
+			code: null
+		}
+  	},
+	prototypeAnonSearchOptions = {
+		url: 'https://api.untappd.com/v4/search/beer',
+		json: true,
+		qs: {
+			client_id: process.env.prototypeUntappdClientID,
+			client_secret: process.env.prototypeUntappdClientSecret,
+			limit: 1
+		}
+	};
+
+var authSearchOptions = {
+		url: 'https://api.untappd.com/v4/search/beer',
+		json: true,
+		qs: {
+			access_token: null,
+			limit: 1
+		}
+	};
 
 function untappdSearch(req, res, beer, token) {
 	var result = {},
@@ -83,24 +106,29 @@ function untappdSearch(req, res, beer, token) {
 	// set access_token if token found in cookie to do authenticated search
 	// otherwise use client id/secret for anon search
 	if (token) {
-    requestOptions = authSearchOptions;
+    	requestOptions = authSearchOptions;
 		requestOptions.qs.access_token = token;
 	} else {
+		// set hostname specific values
 		switch (req.hostname) {
-		case 'mccrager.com':
-			requestOptions = alsAnonSearchOptions;
-			break;
+			case 'pizzaboy.taplists.com':
+				requestOptions = pizzaboyAnonSearchOptions;
+				break;
 
-		case 'taplist.lititzcraftbeerfest.com':
-			requestOptions = taplistAnonSearchOptions;
-			break;
+			case 'taplist.lititzcraftbeerfest.com':
+				requestOptions = lititzAnonSearchOptions;
+				break;
 
-	    default:
-			responses.sendError(res, {
-				desc: responses.exceptions.hostnameError,
-				code: 500
-			});
-			return;
+			case 'prototype.taplists.com':
+				requestOptions = prototypeAnonSearchOptions;
+				break;
+
+			default:
+				responses.sendError(res, {
+					desc: responses.exceptions.hostnameError,
+					code: 500
+				});
+				return;
 		}
 	}
 
@@ -227,13 +255,18 @@ app.get('/nodejs/beer/login', function (req, res) {
 
 	// set hostname specific values
 	switch (req.hostname) {
-		case 'mccrager.com':
-			requestOptions = alsLoginOptions;
-			redirectPath = '/beer/als';
+		case 'pizzaboy.taplists.com':
+			requestOptions = pizzaboyLoginOptions;
+			redirectPath = '/';
 			break;
 
 		case 'taplist.lititzcraftbeerfest.com':
-			requestOptions = taplistLoginOptions;
+			requestOptions = lititzLoginOptions;
+			redirectPath = '/';
+			break;
+
+		case 'prototype.taplists.com':
+			requestOptions = prototypeLoginOptions;
 			redirectPath = '/';
 			break;
 
@@ -243,7 +276,6 @@ app.get('/nodejs/beer/login', function (req, res) {
 				code: 500
 			});
 			return;
-			break;
 	}
 
 	// add the code to login request options
@@ -254,7 +286,8 @@ app.get('/nodejs/beer/login', function (req, res) {
 		if (!error && response.statusCode === 200 &&
 			   json.meta.http_code === 200 && json.response.access_token) {
 			// get response and set json cookie with token (expires in 30 days)
-			res.cookie('untappdToken', json.response.access_token, {maxAge: 30*24*60*60*1000});
+			res.cookie('untappdToken',
+				json.response.access_token, {maxAge: 30*24*60*60*1000, secure: 'true'});
 			console.log('a user has logged in!' + '\n');
 
 			// redirect to main page
@@ -281,19 +314,9 @@ app.get('/nodejs/beer/logout', function (req, res) {
 	res.clearCookie('untappdToken');
 	console.log('a user has logged out!' + '\n');
 
-  switch (req.hostname) {
-    case 'mccrager.com':
-      responses.sendRedirect(res, {
-        location: '/beer/als'
-      });
-      break;
-
-    default:
-      responses.sendRedirect(res, {
-        location: '/'
-      });
-			break;
-  }
+	responses.sendRedirect(res, {
+		location: '/'
+	});
 });
 
 /*
@@ -309,6 +332,7 @@ app.get('/nodejs/beer/search', function (req, res) {
 			brewery: decodeURIComponent(req.query.brewery),
 			name: decodeURIComponent(req.query.name)
 		};
+
 		// apply conversions to the beer input
 		converter.handle(beer);
 		beer.brewery = utils.trim(beer.brewery);
@@ -339,43 +363,42 @@ app.get('/nodejs/beer/search', function (req, res) {
 app.get('/nodejs/beer', function (req, res) {
 	var results = [];
 
-	request(listOptions, function (error, response, html) {
+	request(pizzaboyListOptions, function (error, response, html) {
 		if (!error && response.statusCode === 200) {
 			var $ = cheerio.load(html);
-
 			var titles = $('#feature .row h2');
 
 			// loop over the tables that represent beer lists
 			$('#feature .row table').each(function(tableIndex, beerTable) {
 
 				var $beerTable = $(beerTable),
-						// result object to be added to the results array
-						result = {},
-						// get the title for this beerTable
-						title = $(titles[tableIndex]).text(),
-						// array to add beers in this table to
-						beers = [];
+					// result object to be added to the results array
+					result = {},
+					// get the title for this beerTable
+					title = $(titles[tableIndex]).text(),
+					// array to add beers in this table to
+					beers = [];
 
 				// don't add wine, can, or keg list at this time
 				if (title === 'WINE LIST' ||
 				    title === 'CANS AVAILABLE' ||
 					title === 'KEGS AVAILABLE') {
-							return true;
+						return true;
 				}
 
 				// loop over the beer rows in this table
 				$beerTable.find('tbody > tr').each(function(rowIndex, beerRow) {
 					var $beerRow = $(beerRow),
-							beer = utils.createBeer(rowIndex),
-							cellCount = $beerRow.find('td').length,
-							// hack to handle varying cell amounts for draft beer vs. all others
-							cellIndexModifier = (cellCount === 4 ? 1 : 0);
+						beer = utils.createBeer(rowIndex),
+						cellCount = $beerRow.find('td').length,
+						// hack to handle varying cell amounts for draft beer vs. all others
+						cellIndexModifier = (cellCount === 4 ? 1 : 0);
 
 					// loop over the beer cells in this row
 					$beerRow.find('td').each(function(cellIndex, beerCell) {
 						var $beerCell = $(beerCell),
-								cellValue = utils.trim($beerCell.text());
-								cellIndex = $beerCell.index() + cellIndexModifier;
+							cellValue = utils.trim($beerCell.text());
+							cellIndex = $beerCell.index() + cellIndexModifier;
 
 						// populates the passed in beer object by mapping cell text to beer properties
 						utils.mapBeerValues(cellIndex, cellValue, beer);
