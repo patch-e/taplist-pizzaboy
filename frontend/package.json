@@ -1,18 +1,19 @@
 {
-  "name": "beers-at-als-frontend",
+  "name": "taplist-pizzaboy",
   "version": "2.1.1",
   "description": "Providing a mobile-friendly beer list at Al's of Hampden!",
   "author": "Patrick Crager",
-  "homepage": "https://github.com/patch-e/beers-at-als",
-  "bugs": "https://github.com/patch-e/beers-at-als/issues",
+  "homepage": "https://github.com/patch-e/taplist-pizzaboy",
+  "bugs": "https://github.com/patch-e/taplist-pizzaboy/issues",
   "keywords": [
     "beer",
-    "tap list",
-    "untappd"
+    "taplist",
+    "untappd",
+    "pizzaboy"
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/patch-e/beers-at-als.git"
+    "url": "https://github.com/patch-e/taplist-pizzaboy.git"
   },
   "devDependencies": {
     "gulp": "^4.0.0",
