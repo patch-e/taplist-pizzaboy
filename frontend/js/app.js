@@ -20,6 +20,11 @@ Patrick Crager
 
   function configure($routeProvider) {
     $routeProvider
+      .when('/', {
+        templateUrl: 'partials/table.html',
+        controller: 'BeerController',
+        controllerAs: 'vm'
+      })
       .when('/table', {
         templateUrl: 'partials/table.html',
         controller: 'BeerController',
